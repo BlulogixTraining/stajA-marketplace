@@ -4,7 +4,6 @@ import App from "./App.jsx";
 import "./index.css";
 import About from "./pages/About.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import NotFoundPage from "./pages/NotfoundPage.jsx";
 import UserProfile from "./pages/UserProfile.jsx";
 import SellerProfile from "./pages/SellerProfile.jsx";
 import Products from "./pages/Products.jsx";
@@ -59,6 +58,11 @@ const router = createBrowserRouter([
       { index: true, element: <App /> },
       { path: "products", element: <Products /> },
       { path: "products/:productId", element: <Product /> },
+      { path: "about", element: <About /> },
+      { path: "userProfile", element: <UserProfile /> },
+      { path: "sellerProfile", element: <SellerProfile /> },
+      { path: "signup", element: <SignUp /> },
+      { path: "login", element: <Login /> },
     ],
   },
 ]);
