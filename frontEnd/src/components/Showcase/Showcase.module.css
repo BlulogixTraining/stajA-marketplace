@@ -1,0 +1,10 @@
+.title {
+  font-size: 5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+@media (max-width: 768px) {
+  .title {
+    font-size: 3rem;
+  }
+}
