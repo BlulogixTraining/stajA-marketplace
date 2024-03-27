@@ -6,7 +6,6 @@ const Layout = () => {
   return (
     <div>
       <TobNav />
-      <HeroSlider />
       <Outlet />
     </div>
   );
