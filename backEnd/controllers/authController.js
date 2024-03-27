@@ -1,8 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
 
-
-
 exports.createUser = async (req, res) => {
   try {
     const user = await User.create(req.body);
@@ -27,23 +25,28 @@ exports.loginUser = async (req, res) => {
     if (user) {
       const same = await bcrypt.compare(password, user.password);
       if (same) {
-        //User session
-        req.session.userID = user._id;
-        res.status(200).redirect("/users/dashboard");
+        res.status(200).json({
+          status: "success",
+          message: "You are logged in!",
+          user,
+        });
       } else {
-        // If the password is not correct
-        req.flash("error", "Your Password Is Not Correct");
-        res.status(400).redirect("/login");
+        res.status(401).json({
+          status: "fail",
+          message: "Incorrect email or password.",
+        });
       }
     } else {
-      // If the user is not found
-      req.flash("error", "User not found. Please register.");
-      res.status(400).redirect("/login");
+      res.status(404).json({
+        status: "fail",
+        message: "User not found.",
+      });
     }
   } catch (error) {
-    res.status(400).json({
-      status: "fail",
-      error,
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error.",
     });
   }
 };
