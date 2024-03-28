@@ -2,11 +2,14 @@
 {
     padding: 30px;
     margin: 30px;
-    margin-left: 300px;
     border: 1px solid lightgray;
     width: 300px;
     height: auto;
     border-radius: 20px;
+}
+.applybutton{
+    background-color: black;
+    color: white;
 }
 h2 p{
     font-size: 20px;

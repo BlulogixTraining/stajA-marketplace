@@ -9,7 +9,7 @@ const Products = () => {
   ];
   return (
     <>
-      <div className="d-flex">
+      <div className="d-block d-lg-flex">
         <Filters />
         <h1>Products</h1>
 
