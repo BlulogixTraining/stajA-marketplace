@@ -5,6 +5,18 @@
 }
 @media (max-width: 768px) {
   .title {
-    font-size: 3rem;
+    font-size: 2rem;
   }
+}
+.btn_viewAll {
+  margin-top: 1rem;
+  width: 20%;
+  border: 1px solid #000000;
+  -webkit-border-radius: 25% !important;
+  -moz-border-radius: 25% !important;
+  -ms-border-radius: 25% !important;
+  -o-border-radius: 25% !important;
+}
+.btn_viewAll a {
+  color: #000000;
 }
