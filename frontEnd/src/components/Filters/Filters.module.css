@@ -1,0 +1,65 @@
+.filterMainSquare
+{
+    padding: 30px;
+    margin: 30px;
+    margin-left: 300px;
+    border: 1px solid lightgray;
+    width: 300px;
+    height: auto;
+    border-radius: 20px;
+}
+h2 p{
+    font-size: 20px;
+}
+.price h2
+{
+    padding-bottom: 20px;
+}
+.applybutton
+{
+    border-radius: 30px;
+    width: 200px;
+    margin: 10px;
+}
+.size button{
+    margin: 2px;
+}
+.colors button{
+    margin: 7px;
+    height: 40px;
+    width: 40px;
+    border-radius: 100px;
+    
+}
+.colors .red{
+    background-color: red;
+    color: red;
+}
+.colors .blue{
+    background-color: blue;
+    color: blue;
+}
+.colors .green{
+    background-color: green;
+    color: green;
+}
+.colors .purple{
+    background-color: purple;
+    color: purple;
+}
+.colors .yellow{
+    background-color: rgb(204, 204, 86);
+    color: rgb(204, 204, 86);
+}
+.colors .cyan{
+    background-color: cyan;
+    color: cyan;
+}
+.colors .black{
+    background-color: black;
+    color: black;
+}
+.colors .gray{
+    background-color: gray;
+    color: gray;
+}

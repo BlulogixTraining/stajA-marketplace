@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
+import Filters from "../components/Filters/Filters";
 
 const Products = () => {
   const products = [
@@ -8,7 +9,8 @@ const Products = () => {
   ];
   return (
     <>
-      <div>
+      <div className="d-flex">
+        <Filters />
         <h1>Products</h1>
 
         {products.map((product) => (
