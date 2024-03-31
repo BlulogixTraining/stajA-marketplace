@@ -1,6 +1,7 @@
 import { Outlet } from "react-router";
 import TobNav from "./Navbar/Navbar";
 import Ad from "./Navbar/Ad";
+import Footer from "./Footer/Footer";
 
 const Layout = () => {
   return (
@@ -8,6 +9,7 @@ const Layout = () => {
       <Ad />
       <TobNav />
       <Outlet />
+      <Footer />
     </div>
   );
 };
