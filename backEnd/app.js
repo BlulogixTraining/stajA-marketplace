@@ -2,6 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const userRoute = require("./routes/userRoute");
+const categoryRoute = require("./routes/categoryRoute");
+const productRoute = require("./routes/productRoute");
+
 const app = express();
 
 //DB connect
@@ -25,6 +28,9 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", userRoute);
+app.use("/categories", categoryRoute);
+app.use("/products", productRoute);
+
 
 const port = 3000;
 app.listen(port, () => {

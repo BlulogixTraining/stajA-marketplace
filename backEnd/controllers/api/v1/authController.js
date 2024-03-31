@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const User = require("../models/User");
+const User = require("../../../models/User");
 
 exports.createUser = async (req, res) => {
   try {
@@ -47,6 +47,40 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({
       status: "error",
       message: "Internal server error.",
+    });
+  }
+};
+
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+
+    res.status(201).json({
+      status: "success",
+      users,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      error,
+    });
+  }
+};
+
+
+exports.deleteUser = async (req, res) => {
+  try {
+     await User.findByIdAndDelete(req.params.id);
+
+    res.status(201).json({
+      status: "User has been deleted!",
+      
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      error,
     });
   }
 };
