@@ -1,61 +1,4 @@
-// import classes from './Filters.module.css';
-// import Range from "../Range/Range"
-
-// const Filters =() => {
-//     return(
-//     <>
-//         <div className={classes.filterMainSquare}>
-//             <h2>Filters</h2>
-//             <hr></hr>
-//             <div className={classes.dressings}>
-//                 <p>T-Shirts</p>
-//                 <p>Shorts</p>
-//                 <p>Shirts</p>
-//                 <p>Hoodie</p>
-//                 <p>Jeans</p>
-//             </div>
-//             <hr></hr>
-//             <div className={classes.price}>
-//                 <h2>Price</h2>
-//                 <Range />
-//             </div>
-//             <hr></hr>
-//             <div className={classes.colors}>
-//                 <h2>Colors</h2>
-//                 <button className={classes.red}>.</button>
-//                 <button className={classes.blue}>.</button>
-//                 <button className={classes.green}>.</button>
-//                 <button className={classes.purple}>.</button>
-//                 <button className={classes.yellow}>.</button>
-//                 <button className={classes.cyan}>.</button>
-//                 <button className={classes.black}>.</button>
-//                 <button className={classes.gray}>.</button>
-//             </div>
-//             <hr></hr>
-//             <div className={classes.size}>
-//                 <h2>Size</h2>
-//                 <button>X-Small</button>
-//                 <button>Small</button>
-//                 <button>Medium</button>
-//                 <button>Large</button>
-//                 <button>X-Large</button>
-//             </div>
-//             <hr></hr>
-//             <div className={classes.style}>
-//                 <h2>Dress Style</h2>
-//                 <p>Casual</p>
-//                 <p>Formal</p>
-//                 <p>Party</p>
-//                 <p>Gym</p>
-//             </div>
-//             <button className={classes.applybutton}>Apply Filter</button>
-//         </div>
-//     </>
-//     )
-// }
-
-// export default Filters
-import React, { useState } from 'react';
+import { useState } from 'react';
 import classes from './Filters.module.css';
 import Range from '../Range/Range';
 import { Link } from "react-router-dom";
@@ -168,7 +111,6 @@ const Filters = () => {
                                 <Link to={`/products?size=X-Large`}>
                                     <button>X-Large</button>
                                 </Link>
-
                         </>
                     )}
                 </div>
@@ -178,7 +120,7 @@ const Filters = () => {
                     {showStyle && (
                         <>
                             <div>
-                                <Link to={`/products?type=casual`} style={{color: 'inherit', fontSize: '16px', fontFamily: 'inherit', fontWeight: 'normal', lineHeight: '1.5'}}>
+                                <Link to={`/products?type=casual`} style={{color: 'inherit', fontSize: '16px', fontFamily: 'inherit', fontWeight: 'normal', lineHeight: '1.5', marginTop: '15px'}}>
                                     <p>Casual</p>
                                 </Link>
                             </div>
