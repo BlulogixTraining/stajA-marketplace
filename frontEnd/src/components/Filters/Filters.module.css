@@ -14,8 +14,23 @@
   background-color: black;
   color: white;
 }
-h2 p{
-    font-size: 20px;
+.dressings p{
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+.price h3{
+    cursor: pointer;
+}
+.colors h3{
+    display: inline-block;
+    cursor: pointer;
+}
+.size h3{
+    display: inline-block;
+    cursor: pointer;
+}
+.style h3{
+    cursor: pointer;
 }
 .price h2 {
   padding-bottom: 20px;
@@ -28,12 +43,33 @@ h2 p{
 .size button {
   margin: 2px;
 }
+.size p{
+    display: inline-block;
+    font-size: 22px;
+}
+.price p{
+    display: inline-block;
+    font-size: 22px;
+}
+.style a{
+    display: inline-block;
+    font-size: 22px;
+}
+.colors p{
+    display: inline-block;
+    font-size: 22px;
+}
 .colors button{
-    margin: 7px;
+    margin: 6px;
     height: 40px;
     width: 40px;
     border-radius: 100px;
-    
+}
+.colors button {
+  margin: 7px;
+  height: 40px;
+  width: 40px;
+  border-radius: 100px;
 }
 .colors .red {
   background-color: red;
