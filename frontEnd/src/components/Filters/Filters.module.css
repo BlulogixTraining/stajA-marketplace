@@ -1,0 +1,112 @@
+.filterMainSquare {
+  padding: 30px;
+  margin: 30px;
+  border: 1px solid lightgray;
+  width: 300px;
+  height: auto;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+.applybutton {
+  background-color: black;
+  color: white;
+}
+.dressings p{
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+.price h3{
+    cursor: pointer;
+}
+.colors h3{
+    display: inline-block;
+    cursor: pointer;
+}
+.size h3{
+    display: inline-block;
+    cursor: pointer;
+}
+.style h3{
+    cursor: pointer;
+}
+.price h2 {
+  padding-bottom: 20px;
+}
+.applybutton {
+  border-radius: 30px;
+  width: 200px;
+  margin: 10px;
+}
+.size button {
+  margin: 2px;
+}
+.size p{
+    display: inline-block;
+    font-size: 22px;
+}
+.price p{
+    display: inline-block;
+    font-size: 22px;
+}
+.style a{
+    display: inline-block;
+    font-size: 22px;
+}
+.colors p{
+    display: inline-block;
+    font-size: 22px;
+}
+.colors button{
+    margin: 6px;
+    height: 40px;
+    width: 40px;
+    border-radius: 100px;
+}
+.colors button {
+  margin: 7px;
+  height: 40px;
+  width: 40px;
+  border-radius: 100px;
+}
+.colors .red {
+  background-color: red;
+  color: red;
+}
+.colors .blue {
+  background-color: blue;
+  color: blue;
+}
+.colors .green {
+  background-color: green;
+  color: green;
+}
+.colors .purple {
+  background-color: purple;
+  color: purple;
+}
+.colors .yellow {
+  background-color: rgb(204, 204, 86);
+  color: rgb(204, 204, 86);
+}
+.colors .cyan {
+  background-color: cyan;
+  color: cyan;
+}
+.colors .black {
+  background-color: black;
+  color: black;
+}
+.colors .gray {
+  background-color: gray;
+  color: gray;
+}
+
+@media (max-width: 768px) {
+  .filterMainSquare {
+    width: 100%;
+    margin: 0;
+  }
+}

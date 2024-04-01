@@ -1,0 +1,22 @@
+.slider1 {
+  background-color: black;
+
+  /* padding: 2em; */
+  padding-top: 1.5em;
+
+  padding-bottom: 1.5em;
+}
+
+.slick-track {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+.slider_box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.slider_box img {
+  cursor: pointer;
+}
