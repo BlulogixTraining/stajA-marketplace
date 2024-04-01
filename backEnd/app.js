@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const methodOverride = require("method-override");
 const userRoute = require("./routes/userRoute");
 const categoryRoute = require("./routes/categoryRoute");
@@ -28,6 +29,8 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
+    // used with the Express.js framework for session storage. 
+    store: MongoStore.create({ mongoUrl: 'mongodb://localhost/marketplace' })
   })
 );
 
