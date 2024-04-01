@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const session = require("express-session");
 const methodOverride = require("method-override");
 const userRoute = require("./routes/userRoute");
 const categoryRoute = require("./routes/categoryRoute");
@@ -21,16 +22,20 @@ app.use(
     methods: ["POST", "GET"],
   })
 );
+//session
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 //Routes
-app.get("/", (req, res) => {
-  res.status(200).send("Hello world");
-});
 
 app.use("/users", userRoute);
 app.use("/categories", categoryRoute);
 app.use("/products", productRoute);
-
 
 const port = 3000;
 app.listen(port, () => {

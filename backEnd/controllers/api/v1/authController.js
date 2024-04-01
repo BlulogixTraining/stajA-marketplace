@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 const User = require("../../../models/User");
 
 exports.createUser = async (req, res) => {
@@ -25,10 +26,16 @@ exports.loginUser = async (req, res) => {
     if (user) {
       const same = await bcrypt.compare(password, user.password);
       if (same) {
+        req.session.userID = user._id;
+        const token = jwt.sign({ userId: user._id }, 'your-secret-key', {
+          expiresIn: '1h',
+          });
+
         res.status(200).json({
           status: "success",
           message: "You are logged in!",
           user,
+          token
         });
       } else {
         res.status(401).json({
@@ -51,7 +58,6 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
@@ -59,6 +65,24 @@ exports.getAllUsers = async (req, res) => {
     res.status(201).json({
       status: "success",
       users,
+      
+    });
+    console.log(req.session.userID);
+
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      error,
+    });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+
+    res.status(201).json({
+      status: "User has been deleted!",
     });
   } catch (error) {
     res.status(400).json({
@@ -68,19 +92,10 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-
-exports.deleteUser = async (req, res) => {
-  try {
-     await User.findByIdAndDelete(req.params.id);
-
-    res.status(201).json({
-      status: "User has been deleted!",
-      
+exports.logoutUser = (req, res) => {
+  req.session.destroy(() => {
+    res.json({
+      status: "You are logged out!",
     });
-  } catch (error) {
-    res.status(400).json({
-      status: "fail",
-      error,
-    });
-  }
+  });
 };
