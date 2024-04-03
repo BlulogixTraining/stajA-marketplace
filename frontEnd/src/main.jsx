@@ -11,44 +11,7 @@ import SignUp from "./pages/SignUp/SignUp.jsx";
 import Login from "./pages/login/Login.jsx";
 import Product from "./pages/Product.jsx";
 import Layout from "./components/Layout.jsx";
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <App />,
-//     errorElement: <NotFoundPage />,
-//   },
-//   { path: "/about", element: <About /> },
-//   {
-//     path: "/contact",
-//     element: <h1>Contact</h1>,
-//   },
-//   {
-//     path: "/userProfile",
-//     element: <UserProfile />,
-//   },
-
-//   {
-//     path: "/sellerProfile",
-//     element: <SellerProfile />,
-//   },
-//   { path: "/signup", element: <SignUp /> },
-//   { path: "/login", element: <Login /> },
-//   {
-//     path: "/products",
-//     element: <Products />,
-
-//     children: [
-//       {
-//         path: "/products/:productId",
-//         element: <Product />,
-//       },
-//     ],
-//   },
-//   {
-//     path: "/products/:productId",
-//     element: <Product />,
-//   },
-// ]);
+import Cart from "./pages/Cart/Cart.jsx";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +26,7 @@ const router = createBrowserRouter([
       { path: "sellerProfile", element: <SellerProfile /> },
       { path: "signup", element: <SignUp /> },
       { path: "login", element: <Login /> },
+      { path: "cart", element: <Cart /> },
     ],
   },
 ]);
