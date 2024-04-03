@@ -38,7 +38,7 @@ const TobNav = () => {
                 </Col>
               </Row>
             </Form>
-            <Nav.Link href="#deets">
+            <Nav.Link href="/cart">
               <BsCartDash className={classes.shop} />
             </Nav.Link>
             <Nav.Link eventKey={2} href="/login">
