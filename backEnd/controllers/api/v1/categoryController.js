@@ -1,19 +1,26 @@
 const fs = require("fs");
+const path = require('path');
 const Category = require("../../../models/Category");
 
 exports.createCategory = async (req, res) => {
-  const uploadDir = __dirname + "/public/images/";
+  const uploadDir = path.join(__dirname, "../../../public/images/");
 
-  // Check if directory exists, if not, create it
+  
   if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
   }
 
-  // Move the file to the upload path
   const sampleFile = req.files.image;
-  const uploadPath = uploadDir + sampleFile.name;
+  const uploadPath = path.join(uploadDir, sampleFile.name);
 
   sampleFile.mv(uploadPath, async (err) => {
+    if (err) {
+      return res.status(500).json({
+        status: "fail",
+        error: err.message
+      });
+    }
+
     try {
       const category = await Category.create({
         ...req.body,
@@ -32,7 +39,6 @@ exports.createCategory = async (req, res) => {
     }
   });
 };
-
 exports.getAllCategory = async (req, res) => {
   try {
     const categories = await Category.find();

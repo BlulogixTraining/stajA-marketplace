@@ -15,16 +15,3 @@ const CategorySchema = new Schema({
 
 const Category = mongoose.model("Category", CategorySchema);
 module.exports = Category;
-
-
-/*
-category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category",
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
-});
-*/
