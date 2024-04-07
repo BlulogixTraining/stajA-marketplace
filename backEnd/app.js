@@ -11,6 +11,11 @@ const productRoute = require("./routes/productRoute");
 const app = express();
 
 //DB connect
+/*
+mongoose.connect("mongodb+srv://bashiralrayes6:ccLC5TMV5uELUam@marketplace.lo09ewj.mongodb.net/?retryWrites=true&w=majority&appName=marketplace").then(() => {
+  console.log("DB connected successfully");
+});
+*/
 mongoose.connect("mongodb+srv://bashiralrayes6:ccLC5TMV5uELUam@marketplace.lo09ewj.mongodb.net/?retryWrites=true&w=majority&appName=marketplace").then(() => {
   console.log("DB connected successfully");
 });
