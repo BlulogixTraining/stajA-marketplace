@@ -11,7 +11,7 @@ const productRoute = require("./routes/productRoute");
 const app = express();
 
 //DB connect
-mongoose.connect("mongodb://localhost/marketplace").then(() => {
+mongoose.connect("mongodb+srv://bashiralrayes6:ccLC5TMV5uELUam@marketplace.lo09ewj.mongodb.net/?retryWrites=true&w=majority&appName=marketplace").then(() => {
   console.log("DB connected successfully");
 });
 
@@ -31,7 +31,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     // used with the Express.js framework for session storage.
-    store: MongoStore.create({ mongoUrl: "mongodb://localhost/marketplace" }),
+    store: MongoStore.create({ mongoUrl: "mongodb+srv://bashiralrayes6:ccLC5TMV5uELUam@marketplace.lo09ewj.mongodb.net/?retryWrites=true&w=majority&appName=marketplace" }),
   })
 );
 app.use(fileUpload());
