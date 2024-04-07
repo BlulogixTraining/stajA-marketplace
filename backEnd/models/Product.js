@@ -9,35 +9,25 @@ const ProductSchema = new Schema({
   },
   description: {
     type: String,
+    required: true,
   },
 
   price: {
     type: Number,
+    required: true,
   },
-  description: {
+  image: {
     type: String,
   },
+  
   category_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
   },
 
-  image: {
-    type: String,
-  },
+  
 });
 
 const Product = mongoose.model("Product", ProductSchema);
 module.exports = Product;
 
-/*
-category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category",
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
-});
-*/
