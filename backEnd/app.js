@@ -13,6 +13,11 @@ const app = express();
 app.use(cors({ origin: "http://localhost:5173" }));
 
 //DB connect
+/*
+mongoose.connect("mongodb+srv://bashiralrayes6:ccLC5TMV5uELUam@marketplace.lo09ewj.mongodb.net/?retryWrites=true&w=majority&appName=marketplace").then(() => {
+  console.log("DB connected successfully");
+});
+*/
 mongoose
   .connect(
     "mongodb+srv://bashiralrayes6:ccLC5TMV5uELUam@marketplace.lo09ewj.mongodb.net/?retryWrites=true&w=majority&appName=marketplace"
