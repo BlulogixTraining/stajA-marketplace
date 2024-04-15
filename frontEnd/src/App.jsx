@@ -10,7 +10,15 @@ import shirt from "../src/assets/shirt.jpg";
 import Yellow from "../src/assets/Yellow.png";
 import GridCase from "./components/GridCase/GridCase";
 import Testmonial from "./components/Testmonials/Testmonials";
+
 function App() {
+  // const fetchProducts = async () => {
+  //   const response = await fetch("'");
+  //   const data = await response.json();
+  //   console.log(data);
+  // } ;
+
+  // fetchProducts();
   return (
     <>
       <Hero />

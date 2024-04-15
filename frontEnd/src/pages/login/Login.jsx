@@ -1,26 +1,80 @@
 import { Link } from "react-router-dom";
-import classes from "./Login.module.css";
-
 import { useForm } from "react-hook-form";
+import { useContext, useEffect, useState } from "react";
+import classes from "./Login.module.css";
+import { AuthContext } from "../../context/AuthProvider";
+import axios from "../../api/axios";
+import { useNavigate } from "react-router-dom";
+import ModelSuccess from "../../components/ui/ModelSuccess";
+const url = "http://localhost:3000/users/login";
 const Login = () => {
+  const { setAuth } = useContext(AuthContext);
+  const [errMsg, setErrMsg] = useState("");
+  const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
+  const [modalShow, setModalShow] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm({
     defaultValues: {
-      username: "User Name",
-      password: "AAAAA",
+      email: "sultan123@gmail.com",
+      password: "123asd1122",
     },
   });
+  useEffect(() => {}, []);
+  const onSubmit = async (data) => {
+    const { email, password } = data;
+    try {
+      const response = await axios.post(url, JSON.stringify(data), {
+        headers: {
+          "Content-Type": "application/json",
+          withCredentials: true,
+        },
+      });
 
-  const onSubmit = (data) => {
-    console.log("Form data:", data);
+      if (response.status === 200 || response.status === 201) {
+        const token = response.data.token;
+        console.log(`token`, token);
+        setAuth({ email, password, token });
+        localStorage.setItem("authToken", token);
+        setSuccess(true);
+      }
+    } catch (err) {
+      if (!err.response) {
+        setErrMsg("No Server Response");
+      } else if (err.response.status === 400) {
+        setErrMsg("Missing Username or Password");
+      } else if (err.response.status === 401) {
+        setErrMsg("Unauthorized");
+      } else {
+        setErrMsg("Login Failed");
+      }
+    }
   };
-  const name = watch("username");
+  useEffect(() => {
+    if (success) {
+      console.log(90);
+      setModalShow(true);
+
+      // navigate("/");
+    }
+  }, [success]);
+
   return (
     <div className={`${classes.contanier_height} container`}>
+      {" "}
+      {success && (
+        <ModelSuccess
+          show={modalShow}
+          onHide={() => {
+            setModalShow(false);
+            navigate("/");
+          }}
+        />
+      )}
       <div className="d-flex flex-column flex-md-row align-items-center justify-content-center h-100">
         <div className="col-12 col-md-3 ">
           <h1>Hello again</h1>
@@ -30,18 +84,17 @@ const Login = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="d-flex flex-column gap-2 "
           >
+            {errMsg && <p className="text-danger">{errMsg}</p>}
             <input
               type="text"
               className="form-control "
-              {...register("username", {
+              {...register("email", {
                 required: "This is required",
-                onBlur: (e) => console.log(e),
+                // onBlur: (e) => console.log(e),
               })}
             />
             {/* <p className="text-success ms-3">{name}</p> */}
-            {errors.username && (
-              <p className="text-danger">Username is required</p>
-            )}
+            {errors.email && <p className="text-danger">email is required</p>}
             <input
               {...register("password", {
                 required: "This is required",
@@ -60,7 +113,7 @@ const Login = () => {
             <input type="submit" className={classes.glass_button} />
             <Link to="/signup" className="text-center">
               {" "}
-              Don't have an account? Sign up
+              Donsst have an account? Sign up
             </Link>
           </form>
         </div>
