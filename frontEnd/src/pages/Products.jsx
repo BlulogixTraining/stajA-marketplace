@@ -1,7 +1,7 @@
 import Yellow from "../assets/Yellow.png";
-// import { NavLink } from "react-router-dom";
 import Filters from "../components/Filters/Filters";
 import Card from "../components/Card/Card";
+
 const Products = () => {
   const products = [
     { id: 1, name: "Product 1", price: 100, discount: 50 },
@@ -14,6 +14,7 @@ const Products = () => {
     { id: 2, name: "Product 2", price: 100, discount: 50 },
     { id: 3, name: "Product 3", price: 100, discount: 50 },
   ];
+
   return (
     <>
       <div className="d-block d-lg-flex container ">
