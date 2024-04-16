@@ -7,8 +7,13 @@ const fileUpload = require("express-fileupload");
 const userRoute = require("./routes/userRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const productRoute = require("./routes/productRoute");
+const cors = require("cors");
 
 const app = express();
+app.use(cors({ origin: "*" }));
+
+//load the environment variables
+require("dotenv").config();
 
 //DB connect
 /*
@@ -16,9 +21,13 @@ mongoose.connect("mongodb+srv://bashiralrayes6:ccLC5TMV5uELUam@marketplace.lo09e
   console.log("DB connected successfully");
 });
 */
-mongoose.connect("mongodb+srv://bashiralrayes6:ccLC5TMV5uELUam@marketplace.lo09ewj.mongodb.net/?retryWrites=true&w=majority&appName=marketplace").then(() => {
-  console.log("DB connected successfully");
-});
+mongoose
+  .connect(
+    "mongodb+srv://bashiralrayes6:ccLC5TMV5uELUam@marketplace.lo09ewj.mongodb.net/?retryWrites=true&w=majority&appName=marketplace"
+  )
+  .then(() => {
+    console.log("DB connected successfully");
+  });
 
 //middlewares
 app.use(express.json()); // for parsing application/json
@@ -36,12 +45,13 @@ app.use(
     resave: false,
     saveUninitialized: true,
     // used with the Express.js framework for session storage.
-    store: MongoStore.create({ mongoUrl: "mongodb+srv://bashiralrayes6:ccLC5TMV5uELUam@marketplace.lo09ewj.mongodb.net/?retryWrites=true&w=majority&appName=marketplace" }),
+    store: MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://bashiralrayes6:ccLC5TMV5uELUam@marketplace.lo09ewj.mongodb.net/?retryWrites=true&w=majority&appName=marketplace",
+    }),
   })
 );
 app.use(fileUpload());
-
-
 
 //Routes
 

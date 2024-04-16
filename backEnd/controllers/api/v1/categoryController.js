@@ -10,8 +10,8 @@ exports.createCategory = async (req, res) => {
     fs.mkdirSync(uploadDir, { recursive: true });
   }
 
-  const sampleFile = req.files.image;
-  const uploadPath = path.join(uploadDir, sampleFile.name);
+  let sampleFile = req.files.image;
+  let uploadPath = path.join(uploadDir, sampleFile.name);
 
   sampleFile.mv(uploadPath, async (err) => {
     if (err) {
