@@ -10,10 +10,7 @@ const productRoute = require("./routes/productRoute");
 const cors = require("cors");
 
 const app = express();
-app.use(cors({ origin: "*" }));
-
-//load the environment variables
-require("dotenv").config();
+app.use(cors({ origin: "http://localhost:5173" }));
 
 //DB connect
 /*

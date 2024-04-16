@@ -12,7 +12,7 @@ import Login from "./pages/login/Login.jsx";
 import Product from "./pages/Product.jsx";
 import Layout from "./components/Layout.jsx";
 import Cart from "./pages/Cart/Cart.jsx";
-
+import { AuthProvider } from "./context/AuthProvider.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,8 +30,11 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );
