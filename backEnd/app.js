@@ -11,16 +11,11 @@ const cors = require("cors");
 
 const app = express();
 app.use(cors({ origin: "*" }));
+//app.use(cors({ origin: "*" }));
 
 //load the environment variables
 require("dotenv").config();
 
-//DB connect
-/*
-mongoose.connect("mongodb+srv://bashiralrayes6:ccLC5TMV5uELUam@marketplace.lo09ewj.mongodb.net/?retryWrites=true&w=majority&appName=marketplace").then(() => {
-  console.log("DB connected successfully");
-});
-*/
 mongoose
   .connect(
     "mongodb+srv://bashiralrayes6:ccLC5TMV5uELUam@marketplace.lo09ewj.mongodb.net/?retryWrites=true&w=majority&appName=marketplace"
