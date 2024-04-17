@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const Product = require("../../../models/Product");
+const Category = require("../../../models/Category");
 exports.createProduct = async (req, res) => {
   const uploadDir = path.join(__dirname, "../../../public/images/");
 
@@ -40,7 +41,16 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const categorySlug = req.query.categories;
+    const category = await Category.findOne({ slug: categorySlug });
+
+    let filter = {};
+    
+    if (categorySlug) {
+      filter = { category_id: category._id };
+    }
+
+    const products = await Product.find(filter);
 
     res.status(201).json({
       status: "Success",
