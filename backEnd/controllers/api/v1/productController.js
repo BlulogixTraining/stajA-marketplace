@@ -52,9 +52,28 @@ exports.getAllProducts = async (req, res) => {
 
     const products = await Product.find(filter);
 
-    res.status(201).json({
+    res.status(200).json({
       status: "Success",
       products,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      error,
+    });
+  }
+};
+
+
+exports.getProductDetails = async (req, res) => {
+  try {
+    
+
+    const product = await Product.findOne({slug: req.params.slug});
+
+    res.status(200).json({
+      status: "Success",
+      product,
     });
   } catch (error) {
     res.status(400).json({

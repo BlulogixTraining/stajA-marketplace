@@ -43,7 +43,7 @@ exports.getAllCategory = async (req, res) => {
   try {
     const categories = await Category.find();
 
-    res.status(201).json({
+    res.status(200).json({
       status: "Success",
       categories,
     });
