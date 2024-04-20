@@ -26,6 +26,12 @@ const ProductSchema = new Schema({
     unique: true,
   },
 
+  stock: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+
   category_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
