@@ -23,6 +23,13 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+
+  addresses: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Address",
+    },
+  ],
 });
 
 UserSchema.pre("save", function (next) {

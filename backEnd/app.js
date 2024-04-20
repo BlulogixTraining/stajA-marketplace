@@ -7,6 +7,8 @@ const fileUpload = require("express-fileupload");
 const userRoute = require("./routes/userRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const productRoute = require("./routes/productRoute");
+const dashboardRoute = require("./routes/dashboardRoute");
+
 const cors = require("cors");
 
 const app = express();
@@ -50,6 +52,7 @@ app.use(fileUpload());
 //Routes
 
 app.use("/users", userRoute);
+app.use("/dashoard", dashboardRoute);
 app.use("/categories", categoryRoute);
 app.use("/products", productRoute);
 
