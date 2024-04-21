@@ -12,7 +12,9 @@ const dashboardRoute = require("./routes/dashboardRoute");
 const cors = require("cors");
 
 const app = express();
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(express.static("public"));
+app.use(cors({ origin: "*" }));
+//app.use(cors({ origin: "*" }));
 
 //load the environment variables
 require("dotenv").config();
