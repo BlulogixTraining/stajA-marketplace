@@ -12,6 +12,7 @@ const dashboardRoute = require("./routes/dashboardRoute");
 const cors = require("cors");
 
 const app = express();
+app.use(express.static("public"));
 app.use(cors({ origin: "*" }));
 //app.use(cors({ origin: "*" }));
 
