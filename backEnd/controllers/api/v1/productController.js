@@ -45,7 +45,7 @@ exports.getAllProducts = async (req, res) => {
     const category = await Category.findOne({ slug: categorySlug });
 
     let filter = {};
-    
+
     if (categorySlug) {
       filter = { category_id: category._id };
     }
@@ -64,12 +64,9 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-
 exports.getProductDetails = async (req, res) => {
   try {
-    
-
-    const product = await Product.findOne({slug: req.params.slug});
+    const product = await Product.findOne({ slug: req.params.slug });
 
     res.status(200).json({
       status: "Success",

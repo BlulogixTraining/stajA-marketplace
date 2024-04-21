@@ -22,3 +22,12 @@ export default axios.create({
 //     return res.data;
 //   });
 // };
+
+export const getCategories = async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/categories");
+    return response.data.categories;
+  } catch (error) {
+    console.error(error);
+  }
+};
