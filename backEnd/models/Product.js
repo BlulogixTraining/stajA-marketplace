@@ -19,7 +19,7 @@ const ProductSchema = new Schema({
   },
   discount: {
     type: Number,
-    default: 10, 
+    default: 10,
   },
   image: {
     type: String,
@@ -39,6 +39,10 @@ const ProductSchema = new Schema({
   category_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 
