@@ -43,6 +43,7 @@ exports.getAllProducts = async (req, res) => {
   try {
 
     const page = req.query.page || 1;
+    
     const productPerPage = 3;
     const totalproducts = await Product.find().countDocuments();
 
@@ -56,7 +57,7 @@ exports.getAllProducts = async (req, res) => {
     }
 
     const products = await Product.find(filter)
-    .sort('createdAt')
+    //.sort('createdAt')
     .skip((page-1) * productPerPage)
     .limit(productPerPage);
 
