@@ -16,6 +16,10 @@ const CategorySchema = new Schema({
     type: String,
     unique: true,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 CategorySchema.pre("validate", function (next) {

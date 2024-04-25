@@ -28,6 +28,10 @@ const AddressSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Address = mongoose.model("Address", AddressSchema);

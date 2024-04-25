@@ -41,6 +41,11 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
   try {
+
+    const page = req.query.page || 1;
+    const productPerPage = 3;
+    const totalproducts = await Product.find().countDocuments();
+
     const categorySlug = req.query.categories;
     const category = await Category.findOne({ slug: categorySlug });
 
@@ -50,11 +55,16 @@ exports.getAllProducts = async (req, res) => {
       filter = { category_id: category._id };
     }
 
-    const products = await Product.find(filter);
+    const products = await Product.find(filter)
+    .sort('createdAt')
+    .skip((page-1) * productPerPage)
+    .limit(productPerPage);
 
     res.status(200).json({
       status: "Success",
-      products,
+      products:products,
+      current:page,
+      pages: Math.ceil(totalproducts / productPerPage)
     });
   } catch (error) {
     res.status(400).json({

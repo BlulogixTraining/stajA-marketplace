@@ -30,6 +30,10 @@ const UserSchema = new Schema({
       ref: "Address",
     },
   ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 UserSchema.pre("save", function (next) {
