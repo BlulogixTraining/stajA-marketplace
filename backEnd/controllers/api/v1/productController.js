@@ -56,7 +56,7 @@ exports.getAllProducts = async (req, res) => {
     }
 
     const products = await Product.find(filter)
-    .sort('createdAt')
+    //.sort('createdAt')
     .skip((page-1) * productPerPage)
     .limit(productPerPage);
 
