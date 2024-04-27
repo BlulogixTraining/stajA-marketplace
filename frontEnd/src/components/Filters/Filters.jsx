@@ -1,53 +1,56 @@
-import Select from "react-select";
+import { useEffect, useState } from "react";
+import classes from "./Filters.module.css";
+import { useForm } from "react-hook-form";
 
-const options = [
-  { value: "sofa", label: "Sofa" },
-  { value: "chair", label: "Chair" },
-  { value: "watch", label: "Watch" },
-  { value: "mobile", label: "Mobile" },
-  { value: "wireless", label: "Wireless" },
-];
+import axios from "../../api/axios";
 
-const customStyles = {
-  control: (provided) => ({
-    ...provided,
-    backgroundColor: "#0f3460",
-    color: "white",
-    borderRadius: "5px",
-    border: "none",
-    boxShadow: "none",
-    width: "200px",
-    height: "40px",
-  }),
-  option: (provided, state) => ({
-    ...provided,
-    backgroundColor: state.isSelected ? "#0f3460" : "white",
-    color: state.isSelected ? "white" : "#0f3460",
-    "&:hover": {
-      backgroundColor: "#0f3460",
-      color: "white",
-    },
-  }),
-  singleValue: (provided) => ({
-    ...provided,
-    color: "white",
-  }),
-};
+const Filters = ({ onSelectCategory }) => {
+  const [categories, setCategories] = useState([]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-const FilterSelect = ({ setFilterList }) => {
-  const handleChange = (selectedOption) => {
-    setFilterList(
-      products.filter((item) => item.category === selectedOption.value)
-    );
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/categories");
+        setCategories(response.data.categories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+  const onSubmit = (data) => {
+    onSelectCategory(data.category);
+    console.log(data.category);
   };
+
   return (
-    <Select
-      options={options}
-      defaultValue={{ value: "", label: "Filter By Category" }}
-      styles={customStyles}
-      onChange={handleChange}
-    />
+    <div className={classes.filterMainSquare}>
+      <form onSubmit={handleSubmit(onSubmit)} className={classes.form_check}>
+        <h3>Category:</h3>
+
+        {categories.map((category) => (
+          <label key={category._id} className="px-2">
+            <input
+              type="checkbox"
+              className="form-check-input fw-bold  fs-5 px-2 mx-1"
+              {...register("category")}
+              value={category.name}
+            />
+            {category.name}{" "}
+          </label>
+        ))}
+        <button type="submit" className="mt-5 bg-body-secondary ">
+          Submit
+        </button>
+      </form>
+    </div>
   );
 };
 
-export default FilterSelect;
+export default Filters;
