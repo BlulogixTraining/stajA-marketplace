@@ -1,6 +1,6 @@
 const express = require("express");
 const categoryController = require("../controllers/api/v1/categoryController");
-const verifyToken = require('../middleware/api/v1/authMiddleware');
+const verifyToken = require('../middleware/api/v1/verifytoken');
 const router = express.Router();
 
 router.route("/").get(categoryController.getAllCategory);

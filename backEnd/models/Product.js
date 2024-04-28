@@ -21,9 +21,11 @@ const ProductSchema = new Schema({
     type: Number,
     default: 10,
   },
-  image: {
-    type: String,
-  },
+  image: [
+    {
+      type: String,
+    },
+  ],
 
   slug: {
     type: String,
@@ -33,12 +35,12 @@ const ProductSchema = new Schema({
   stock: {
     type: Number,
     default: 0,
-    required: true,
   },
 
   category_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
+    required: true,
   },
   createdAt: {
     type: Date,

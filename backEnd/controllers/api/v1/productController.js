@@ -1,7 +1,10 @@
 const fs = require("fs");
+const faker = require("faker");
+const mongoose = require("mongoose");
 const path = require("path");
 const Product = require("../../../models/Product");
 const Category = require("../../../models/Category");
+
 exports.createProduct = async (req, res) => {
   const uploadDir = path.join(__dirname, "../../../public/images/");
 
@@ -9,39 +12,38 @@ exports.createProduct = async (req, res) => {
     fs.mkdirSync(uploadDir, { recursive: true });
   }
 
-  const sampleFile = req.files.image;
-  const uploadPath = path.join(uploadDir, sampleFile.name);
+  const files = req.files.images;
 
-  sampleFile.mv(uploadPath, async (err) => {
-    if (err) {
-      return res.status(500).json({
-        status: "fail",
-        error: err.message,
-      });
+  try {
+    const imagePaths = [];
+
+    for (const file of files) {
+      const uploadPath = path.join(uploadDir, file.name);
+
+      await file.mv(uploadPath);
+
+      imagePaths.push("/images/" + file.name);
     }
 
-    try {
-      const product = await Product.create({
-        ...req.body,
-        image: "/images/" + sampleFile.name,
-      });
+    const product = await Product.create({
+      ...req.body,
+      image: imagePaths,
+    });
 
-      res.status(201).json({
-        status: "Product has been created successfully!",
-        product,
-      });
-    } catch (error) {
-      res.status(400).json({
-        status: "fail",
-        error,
-      });
-    }
-  });
+    res.status(201).json({
+      status: "Product has been created successfully!",
+      product,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      error: error.message,
+    });
+  }
 };
 
 exports.getAllProducts = async (req, res) => {
   try {
-
     const page = req.query.page || 1;
     
     const productPerPage = 3;
@@ -57,15 +59,15 @@ exports.getAllProducts = async (req, res) => {
     }
 
     const products = await Product.find(filter)
-    //.sort('createdAt')
-    .skip((page-1) * productPerPage)
-    .limit(productPerPage);
+      .sort("createdAt")
+      .skip((page - 1) * productPerPage)
+      .limit(productPerPage);
 
     res.status(200).json({
       status: "Success",
-      products:products,
-      current:page,
-      pages: Math.ceil(totalproducts / productPerPage)
+      products: products,
+      current: page,
+      pages: Math.ceil(totalproducts / productPerPage),
     });
   } catch (error) {
     res.status(400).json({
@@ -90,3 +92,62 @@ exports.getProductDetails = async (req, res) => {
     });
   }
 };
+/*
+
+// Function to generate fake products
+const generateFakeProducts = (count) => {
+  const categoryIds = [
+    "662e444e881229801e3448b0",
+    "662e445c881229801e3448b2",
+    "662e4465881229801e3448b4",
+    "662e447b881229801e3448b6",
+    "662e449f881229801e3448b8"
+  ];
+
+  let fakeProducts = [];
+  for (let i = 0; i < count; i++) {
+    const randomCategoryIdIndex = faker.datatype.number({ min: 0, max: categoryIds.length - 1 });
+
+    // Generate image URLs
+    const imageUrls = [];
+    for (let j = 1; j <= 3; j++) {
+      const imageUrl = `/images/image (${faker.datatype.number({ min: 1, max: 45 })}).jpg`;
+      imageUrls.push(imageUrl);
+    }
+
+    const fakeProduct = {
+      name: faker.commerce.productName(),
+      description: faker.lorem.paragraph(),
+      price: faker.commerce.price(),
+      discount: faker.datatype.number(), // Adjust the discount range as needed
+      image: imageUrls, // Assign array of image URLs
+      stock: faker.datatype.number(), // Adjust the stock range as needed
+      category_id: categoryIds[randomCategoryIdIndex], // Assign a random category ID
+    };
+    fakeProducts.push(fakeProduct);
+  }
+  return fakeProducts;
+};
+
+
+
+
+// Generate and save fake products
+const saveFakeProducts = async (count) => {
+  try {
+    const fakeProducts = generateFakeProducts(count);
+    const savedProducts = await Product.create(fakeProducts);
+    console.log(`${savedProducts.length} fake products created successfully.`);
+  } catch (error) {
+    console.error('Error generating fake products:', error);
+  }
+};
+
+// Specify the number of fake products you want to generate
+const numberOfFakeProducts = 15; // Change this number as needed
+
+// Call the function to generate and save fake products
+saveFakeProducts(numberOfFakeProducts);
+
+
+*/

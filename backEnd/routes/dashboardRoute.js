@@ -1,5 +1,5 @@
 const express = require("express");
-const verifyToken = require('../middleware/api/v1/authMiddleware');
+const verifyToken = require('../middleware/api/v1/verifytoken');
 
 const dashboardController = require("../controllers/api/v1/dashboardController");
 

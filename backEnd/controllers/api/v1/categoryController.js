@@ -1,7 +1,8 @@
 const fs = require("fs");
-const path = require('path');
+const path = require("path");
 const Category = require("../../../models/Category");
 
+/*
 exports.createCategory = async (req, res) => {
   const uploadDir = path.join(__dirname, "../../../public/images/");
 
@@ -24,7 +25,7 @@ exports.createCategory = async (req, res) => {
     try {
       const category = await Category.create({
         ...req.body,
-        image: "/images/" + sampleFile.name,
+        //image: "/images/" + sampleFile.name,
       });
 
       res.status(201).json({
@@ -38,6 +39,22 @@ exports.createCategory = async (req, res) => {
       });
     }
   });
+};
+*/
+exports.createCategory = async (req, res) => {
+  try {
+    const category = await Category.create(req.body);
+
+    res.status(201).json({
+      status: "Categoty has been created successfuly!",
+      category,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      error,
+    });
+  }
 };
 exports.getAllCategory = async (req, res) => {
   try {
