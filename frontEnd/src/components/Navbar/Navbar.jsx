@@ -11,18 +11,6 @@ import { getCategories } from "../../api/axios";
 import { Link } from "react-router-dom";
 
 const TobNav = () => {
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    const categories = async () => {
-      try {
-        const response = await getCategories();
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    categories();
-  }, []);
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container">

@@ -1,16 +1,24 @@
 import classes from "./Showcase.module.css";
 import Card from "../Card/Card";
+const url = "https://staja-marketplace.onrender.com";
 
-const Showcase = ({ title, img, price, discount, headtitle }) => {
+const Showcase = ({ products, Showtitle }) => {
+  if (!products) {
+    return <h1>Loading...</h1>;
+  }
   return (
     <div className="container text-center mt-5  ">
-      <h1 className={classes.title}>{headtitle}</h1>
-
+      <h1 className={classes.title}>{Showtitle}</h1>
       <div className="row justify-content-center gap-5 gap-lg-3 mt-5">
-        <Card img={img} title={title} price={price} discount={discount} />{" "}
-        <Card img={img} title={title} price={price} discount={discount} />{" "}
-        <Card img={img} title={title} price={price} discount={discount} />{" "}
-        <Card img={img} title={title} price={price} discount={discount} />{" "}
+        {products.map((product) => (
+          <Card
+            key={product._id}
+            name={product.name}
+            img={`${url}${product.image}`}
+            price={product.price}
+            discount={product.discount}
+          />
+        ))}
       </div>
       <button
         type="button"

@@ -6,8 +6,6 @@ import "slick-carousel/slick/slick-theme.css";
 import Hero from "./components/Hero/Hero";
 import HeroSlider from "./components/Slider/HeroSlider";
 import Showcase from "./components/Showcase/Showcase";
-import shirt from "../src/assets/shirt.jpg";
-import Yellow from "../src/assets/Yellow.png";
 import GridCase from "./components/GridCase/GridCase";
 import Testmonial from "./components/Testmonials/Testmonials";
 import { useEffect, useState } from "react";
@@ -21,45 +19,29 @@ function App() {
     const fetchFeaturedProducts = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get("http://localhost:3000/products");
-
-        setFeaturedProducts(response.data.products.slice(0, 3));
+        const response = await axios.get(
+          "https://staja-marketplace.onrender.com/products"
+        );
+        setFeaturedProducts(response.data.products);
+        // console.log(response.data.products);
         setIsLoading(false);
       } catch (error) {
         setError(error);
       }
     };
-
     fetchFeaturedProducts();
   }, []);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  const slicedProducts = featuredProducts.slice(0, 4);
 
-  let showcaseProps = {
-    title: "",
-    img: "",
-    price: 0,
-    discount: 0,
-  };
-
-  if (featuredProducts.length > 0) {
-    const firstProduct = featuredProducts[0];
-    showcaseProps = {
-      title: firstProduct.name,
-      img: Yellow,
-      price: firstProduct.price,
-      discount: firstProduct.price,
-    };
-  }
+  console.log("slicedProducts", slicedProducts);
   return (
     <>
       <Hero />
       <HeroSlider />
-      <Showcase headtitle="New" {...showcaseProps} />
+      <Showcase Showtitle="New Arrivals" products={slicedProducts} />
 
-      <Showcase headtitle="Hot" {...showcaseProps} />
+      <Showcase Showtitle="Hot Products" products={slicedProducts} />
       <GridCase />
       <Testmonial />
     </>
