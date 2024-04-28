@@ -4,6 +4,9 @@ const url = "https://staja-marketplace.onrender.com";
 // import Yellow from "../assets/yellow.png";
 import classes from "./proudctDetail.module.css";
 import Slider from "react-slick";
+import RatingStarts from "../components/ui/RatingStarts";
+
+import ProductColor from "../components/ui/ProudctColor";
 const Product = () => {
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
@@ -96,6 +99,7 @@ const Product = () => {
         <div className="col-md-6">
           <div className={classes.product_detail}>
             <h2>{product?.product.name}</h2>
+            <RatingStarts/>
             <div className={classes.detail_price}>
               <h4 className={classes.orignal_price}>
                 ${product?.product.price}
@@ -106,6 +110,7 @@ const Product = () => {
               <p>%50</p>
             </div>
             <p>{product?.product.description}</p>
+            <ProductColor/>
             <h5>Stock: {product?.product.stock}</h5>
           </div>
         </div>
