@@ -21,6 +21,7 @@
     "express": "^4.19.2",
     "express-fileupload": "^1.5.0",
     "express-session": "^1.18.0",
+    "faker": "^5.5.3",
     "jsonwebtoken": "^9.0.2",
     "method-override": "^3.0.0",
     "mongoose": "^8.2.3",

@@ -1,4 +1,6 @@
 const fs = require("fs");
+const faker = require("faker");
+const mongoose = require("mongoose");
 const path = require("path");
 const Product = require("../../../models/Product");
 const Category = require("../../../models/Category");
@@ -90,3 +92,62 @@ exports.getProductDetails = async (req, res) => {
     });
   }
 };
+/*
+
+// Function to generate fake products
+const generateFakeProducts = (count) => {
+  const categoryIds = [
+    "662e444e881229801e3448b0",
+    "662e445c881229801e3448b2",
+    "662e4465881229801e3448b4",
+    "662e447b881229801e3448b6",
+    "662e449f881229801e3448b8"
+  ];
+
+  let fakeProducts = [];
+  for (let i = 0; i < count; i++) {
+    const randomCategoryIdIndex = faker.datatype.number({ min: 0, max: categoryIds.length - 1 });
+
+    // Generate image URLs
+    const imageUrls = [];
+    for (let j = 1; j <= 3; j++) {
+      const imageUrl = `/images/image (${faker.datatype.number({ min: 1, max: 45 })}).jpg`;
+      imageUrls.push(imageUrl);
+    }
+
+    const fakeProduct = {
+      name: faker.commerce.productName(),
+      description: faker.lorem.paragraph(),
+      price: faker.commerce.price(),
+      discount: faker.datatype.number(), // Adjust the discount range as needed
+      image: imageUrls, // Assign array of image URLs
+      stock: faker.datatype.number(), // Adjust the stock range as needed
+      category_id: categoryIds[randomCategoryIdIndex], // Assign a random category ID
+    };
+    fakeProducts.push(fakeProduct);
+  }
+  return fakeProducts;
+};
+
+
+
+
+// Generate and save fake products
+const saveFakeProducts = async (count) => {
+  try {
+    const fakeProducts = generateFakeProducts(count);
+    const savedProducts = await Product.create(fakeProducts);
+    console.log(`${savedProducts.length} fake products created successfully.`);
+  } catch (error) {
+    console.error('Error generating fake products:', error);
+  }
+};
+
+// Specify the number of fake products you want to generate
+const numberOfFakeProducts = 15; // Change this number as needed
+
+// Call the function to generate and save fake products
+saveFakeProducts(numberOfFakeProducts);
+
+
+*/
