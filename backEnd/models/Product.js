@@ -35,12 +35,12 @@ const ProductSchema = new Schema({
   stock: {
     type: Number,
     default: 0,
-    required: true,
   },
 
   category_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
+    required: true,
   },
   createdAt: {
     type: Date,
