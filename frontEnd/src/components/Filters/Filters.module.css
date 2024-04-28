@@ -1,6 +1,7 @@
 .filterMainSquare {
   position: sticky;
-
+  display: flex;
+  flex-direction: column;
   padding: 30px;
   margin: 30px;
   border: 1px solid lightgray;

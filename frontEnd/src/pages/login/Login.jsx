@@ -6,7 +6,7 @@ import { AuthContext } from "../../context/AuthProvider";
 import axios from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import ModelSuccess from "../../components/ui/ModelSuccess";
-const url = "http://localhost:3000/users/login";
+const url = "https://staja-marketplace.onrender.com/users/login";
 const Login = () => {
   const { setAuth } = useContext(AuthContext);
   const [errMsg, setErrMsg] = useState("");
@@ -20,7 +20,7 @@ const Login = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: "sultan123@gmail.com",
+      email: "bashiralrayes6@gmail.com",
       password: "123asd1122",
     },
   });

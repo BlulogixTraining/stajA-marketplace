@@ -1,21 +1,16 @@
 import { useEffect, useState } from "react";
 import classes from "./Filters.module.css";
-import { useForm } from "react-hook-form";
+const url = "https://staja-marketplace.onrender.com";
 
 import axios from "../../api/axios";
 
-const Filters = ({ onSelectCategory }) => {
+const Filters = ({ onSelectedValuesChange }) => {
   const [categories, setCategories] = useState([]);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/categories");
+        const response = await axios.get(`${url}/categories`);
         setCategories(response.data.categories);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -24,31 +19,38 @@ const Filters = ({ onSelectCategory }) => {
 
     fetchCategories();
   }, []);
-  const onSubmit = (data) => {
-    onSelectCategory(data.category);
-    console.log(data.category);
+  const [selectedValues, setSelectedValues] = useState([]);
+
+  // Handler to update selected values
+  const onFilterChange1 = (e) => {
+    const value = e.target.value;
+    if (e.target.checked) {
+      setSelectedValues([...selectedValues, value]);
+    } else {
+      setSelectedValues(selectedValues.filter((val) => val !== value));
+    }
   };
+
+  useEffect(() => {
+    onSelectedValuesChange(selectedValues);
+  }, [selectedValues, onSelectedValuesChange]);
 
   return (
     <div className={classes.filterMainSquare}>
-      <form onSubmit={handleSubmit(onSubmit)} className={classes.form_check}>
-        <h3>Category:</h3>
-
-        {categories.map((category) => (
-          <label key={category._id} className="px-2">
-            <input
-              type="checkbox"
-              className="form-check-input fw-bold  fs-5 px-2 mx-1"
-              {...register("category")}
-              value={category.name}
-            />
-            {category.name}{" "}
-          </label>
-        ))}
-        <button type="submit" className="mt-5 bg-body-secondary ">
-          Submit
-        </button>
-      </form>
+      <h3>Category:</h3>
+      {categories.map((category) => (
+        <label key={category._id} className="px-2">
+          <input
+            id={category._id}
+            type="checkbox"
+            className="form-check-input fw-bold  fs-5 px-2 mx-1"
+            value={category.slug}
+            onChange={onFilterChange1}
+            checked={selectedValues.includes(category.slug)}
+          />
+          {category.name}
+        </label>
+      ))}
     </div>
   );
 };
