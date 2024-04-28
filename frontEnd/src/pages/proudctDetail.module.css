@@ -49,7 +49,7 @@
 .detail_price {
   display: flex;
   margin-top: 1em;
-  gap: 10px;
+  gap: 20px;
 }
 .detail_price .orignal_price {
   font-size: 1.5rem;

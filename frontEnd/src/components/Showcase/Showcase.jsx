@@ -14,7 +14,7 @@ const Showcase = ({ products, Showtitle }) => {
           <Card
             key={product._id}
             name={product.name}
-            img={`${url}${product.image}`}
+            img={`${url}${product.image[0]}`}
             price={product.price}
             discount={product.discount}
           />
