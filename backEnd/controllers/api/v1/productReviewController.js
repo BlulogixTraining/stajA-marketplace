@@ -1,4 +1,5 @@
 const ProductReview = require("../../../models/ProductReview");
+const User = require("../../../models/User");
 
 exports.createReview = async (req, res) => {
   try {
@@ -20,7 +21,7 @@ exports.createReview = async (req, res) => {
 };
 exports.getAllReviews = async (req, res) => {
   try {
-    const reviews = await ProductReview.find();
+    const reviews = await ProductReview.find().populate("user_id", "name");
 
     res.status(200).json({
       status: "Success",
