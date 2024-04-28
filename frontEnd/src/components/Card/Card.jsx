@@ -1,5 +1,5 @@
 import classes from "./Card.module.css";
-const Card = ({ img, title, price, discount }) => {
+const Card = ({ img, name, price, discount }) => {
   return (
     <div
       className="product"
@@ -12,7 +12,7 @@ const Card = ({ img, title, price, discount }) => {
         <img src={img} alt="productImage" className="img-fluid" />
       </div>
       <div className={classes.details}>
-        <h5>{title}</h5>
+        <h5>{name}</h5>
         <div className={classes.prices}>
           <span>{`$${price}`}</span>
           <span className={classes.discount}> {`$${discount}`}</span>
