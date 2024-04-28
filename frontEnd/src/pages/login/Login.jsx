@@ -7,8 +7,9 @@ import axios from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import ModelSuccess from "../../components/ui/ModelSuccess";
 const url = "https://staja-marketplace.onrender.com/users/login";
+
 const Login = () => {
-  const { setAuth } = useContext(AuthContext);
+  const { auth, setAuth } = useContext(AuthContext);
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ const Login = () => {
       if (response.status === 200 || response.status === 201) {
         const token = response.data.token;
         console.log(`token`, token);
-        setAuth({ email, password, token });
+        setAuth({ isAuthenticated: true, token });
         localStorage.setItem("authToken", token);
         setSuccess(true);
       }

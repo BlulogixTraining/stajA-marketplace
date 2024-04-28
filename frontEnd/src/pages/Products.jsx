@@ -36,7 +36,7 @@ const Products = () => {
 
     fetchProducts();
   }, [selectedValues]);
-
+  // console.log(products[0].image);
   return (
     <>
       <div className="d-block d-lg-flex container-fuild">
@@ -55,7 +55,7 @@ const Products = () => {
                 <Link to={`/products/${product.slug}`} className="text-black">
                   <Card
                     name={product.name}
-                    img={`${url}${product.image}`}
+                    img={`${url}${product.image[0]}`}
                     price={product.price}
                     discount={product.discount}
                   />{" "}
