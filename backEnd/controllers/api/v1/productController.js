@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const Product = require("../../../models/Product");
 const Category = require("../../../models/Category");
+
 exports.createProduct = async (req, res) => {
   const uploadDir = path.join(__dirname, "../../../public/images/");
 
@@ -9,35 +10,47 @@ exports.createProduct = async (req, res) => {
     fs.mkdirSync(uploadDir, { recursive: true });
   }
 
-  const sampleFile = req.files.image;
-  const uploadPath = path.join(uploadDir, sampleFile.name);
+  const files = req.files && req.files.images; // Check if req.files exists and if images field is present
 
-  sampleFile.mv(uploadPath, async (err) => {
-    if (err) {
-      return res.status(500).json({
-        status: "fail",
-        error: err.message,
-      });
+  // Check if files is an array or not
+  if (!Array.isArray(files)) {
+    return res.status(400).json({
+      status: "fail",
+      error: "No files uploaded or files are not in the expected format",
+    });
+  }
+
+  try {
+    const imagePaths = [];
+
+    // Iterate through each uploaded file
+    for (const file of files) {
+      const uploadPath = path.join(uploadDir, file.name);
+
+      await file.mv(uploadPath); // Move file to destination
+
+      // Store the image path in an array
+      imagePaths.push("/images/" + file.name);
     }
 
-    try {
-      const product = await Product.create({
-        ...req.body,
-        image: "/images/" + sampleFile.name,
-      });
+    const product = await Product.create({
+      ...req.body,
+      image: imagePaths, // Assuming 'images' is the field in your product model to store multiple images
+    });
 
-      res.status(201).json({
-        status: "Product has been created successfully!",
-        product,
-      });
-    } catch (error) {
-      res.status(400).json({
-        status: "fail",
-        error,
-      });
-    }
-  });
+    res.status(201).json({
+      status: "Product has been created successfully!",
+      product,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      error: error.message,
+    });
+  }
 };
+
+
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -56,7 +69,7 @@ exports.getAllProducts = async (req, res) => {
     }
 
     const products = await Product.find(filter)
-    //.sort('createdAt')
+    .sort('createdAt')
     .skip((page-1) * productPerPage)
     .limit(productPerPage);
 
