@@ -8,6 +8,7 @@ const userRoute = require("./routes/userRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const productRoute = require("./routes/productRoute");
 const dashboardRoute = require("./routes/dashboardRoute");
+const ProductReviewRoute = require("./routes/productReviewRoute");
 
 const cors = require("cors");
 
@@ -57,6 +58,7 @@ app.use("/users", userRoute);
 app.use("/dashoard", dashboardRoute);
 app.use("/categories", categoryRoute);
 app.use("/products", productRoute);
+app.use("/reviews", ProductReviewRoute);
 
 const port = 3000;
 app.listen(port, () => {
