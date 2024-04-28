@@ -10,32 +10,22 @@ exports.createProduct = async (req, res) => {
     fs.mkdirSync(uploadDir, { recursive: true });
   }
 
-  const files = req.files && req.files.images; // Check if req.files exists and if images field is present
-
-  // Check if files is an array or not
-  if (!Array.isArray(files)) {
-    return res.status(400).json({
-      status: "fail",
-      error: "No files uploaded or files are not in the expected format",
-    });
-  }
+  const files = req.files.images;
 
   try {
     const imagePaths = [];
 
-    // Iterate through each uploaded file
     for (const file of files) {
       const uploadPath = path.join(uploadDir, file.name);
 
-      await file.mv(uploadPath); // Move file to destination
+      await file.mv(uploadPath);
 
-      // Store the image path in an array
       imagePaths.push("/images/" + file.name);
     }
 
     const product = await Product.create({
       ...req.body,
-      image: imagePaths, // Assuming 'images' is the field in your product model to store multiple images
+      image: imagePaths,
     });
 
     res.status(201).json({
@@ -50,11 +40,8 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-
-
 exports.getAllProducts = async (req, res) => {
   try {
-
     const page = req.query.page || 1;
     const productPerPage = 3;
     const totalproducts = await Product.find().countDocuments();
@@ -69,15 +56,15 @@ exports.getAllProducts = async (req, res) => {
     }
 
     const products = await Product.find(filter)
-    .sort('createdAt')
-    .skip((page-1) * productPerPage)
-    .limit(productPerPage);
+      .sort("createdAt")
+      .skip((page - 1) * productPerPage)
+      .limit(productPerPage);
 
     res.status(200).json({
       status: "Success",
-      products:products,
-      current:page,
-      pages: Math.ceil(totalproducts / productPerPage)
+      products: products,
+      current: page,
+      pages: Math.ceil(totalproducts / productPerPage),
     });
   } catch (error) {
     res.status(400).json({
