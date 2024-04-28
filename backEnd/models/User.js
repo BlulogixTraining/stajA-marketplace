@@ -24,6 +24,12 @@ const UserSchema = new Schema({
     required: true,
   },
 
+  rol: {
+    type: String,
+    enum: ["admin", "seller", "customer "],
+    default: "customer",
+  },
+
   addresses: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -34,6 +40,7 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  
 });
 
 UserSchema.pre("save", function (next) {

@@ -21,9 +21,11 @@ const ProductSchema = new Schema({
     type: Number,
     default: 10,
   },
-  image: {
-    type: String,
-  },
+  image: [
+    {
+      type: String,
+    },
+  ],
 
   slug: {
     type: String,
