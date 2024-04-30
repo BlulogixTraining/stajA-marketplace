@@ -23,11 +23,18 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-
+  image: {
+    type: String,
+  },
+/*
   rol: {
     type: String,
     enum: ["admin", "seller", "customer "],
     default: "customer",
+  },
+  */
+  phone: {
+    type: Number,
   },
 
   addresses: [
@@ -40,7 +47,6 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  
 });
 
 UserSchema.pre("save", function (next) {

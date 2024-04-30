@@ -1,25 +1,49 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
+const path = require("path");
 const User = require("../../../models/User");
 
-exports.createUser = async (req, res) => {
-  try {
-    const user = await User.create(req.body);
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
 
-    res.status(201).json({
-      status: "success",
-      user,
-      token,
-    });
-  } catch (error) {
-    res.status(400).json({
-      status: "fail",
-      error,
-    });
+exports.createUser = async (req, res) => {
+  const uploadDir = path.join(__dirname, "../../../public/images/");
+
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
   }
+
+  let sampleFile = req.files.image;
+  let uploadPath = path.join(uploadDir, sampleFile.name);
+
+  sampleFile.mv(uploadPath, async (err) => {
+    if (err) {
+      return res.status(500).json({
+        status: "fail",
+        error: err.message,
+      });
+    }
+
+    try {
+      const user = await User.create({
+        ...req.body,
+        image: "/images/" + sampleFile.name,
+      });
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+
+      res.status(201).json({
+        status: "Category has been created successfully!",
+        user,
+        token,
+      });
+    } catch (error) {
+      res.status(400).json({
+        status: "fail",
+        error,
+      });
+    }
+  });
 };
 
 exports.loginUser = async (req, res) => {
