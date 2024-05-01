@@ -81,7 +81,7 @@ exports.getAllProducts = async (req, res) => {
 exports.getProductDetails = async (req, res) => {
   try {
     const product = await Product.findOne({ slug: req.params.slug });
-    const reviews = await ProductReview.findOne({
+    const reviews = await ProductReview.find({
       product_id: product._id,
     });
 
