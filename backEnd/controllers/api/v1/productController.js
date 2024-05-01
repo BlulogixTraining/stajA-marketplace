@@ -83,7 +83,7 @@ exports.getProductDetails = async (req, res) => {
     const product = await Product.findOne({ slug: req.params.slug });
     const reviews = await ProductReview.find({
       product_id: product._id,
-    });
+    }).populate("user_id", "name");
 
     res.status(200).json({
       status: "Success",
