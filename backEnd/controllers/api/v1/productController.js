@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const Product = require("../../../models/Product");
 const Category = require("../../../models/Category");
+const ProductReview = require("../../../models/ProductReview");
 
 exports.createProduct = async (req, res) => {
   const uploadDir = path.join(__dirname, "../../../public/images/");
@@ -45,7 +46,7 @@ exports.createProduct = async (req, res) => {
 exports.getAllProducts = async (req, res) => {
   try {
     const page = req.query.page || 1;
-    
+
     const productPerPage = 5;
     const totalproducts = await Product.find().countDocuments();
 
@@ -80,10 +81,14 @@ exports.getAllProducts = async (req, res) => {
 exports.getProductDetails = async (req, res) => {
   try {
     const product = await Product.findOne({ slug: req.params.slug });
+    const reviews = await ProductReview.findOne({
+      product_id: product._id,
+    });
 
     res.status(200).json({
       status: "Success",
       product,
+      reviews,
     });
   } catch (error) {
     res.status(400).json({
