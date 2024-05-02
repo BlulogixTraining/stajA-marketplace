@@ -7,7 +7,6 @@ import classes from "./Navbar.module.css";
 import { BsCartDash } from "react-icons/bs";
 import { FaUser } from "react-icons/fa6";
 import { useEffect, useState } from "react";
-import { getCategories } from "../../api/axios";
 import { Link } from "react-router-dom";
 
 const TobNav = () => {

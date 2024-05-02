@@ -7,9 +7,8 @@ import axios from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import ModelSuccess from "../../components/ui/ModelSuccess";
 const url = "https://staja-marketplace.onrender.com/users/login";
-
 const Login = () => {
-  const { auth, setAuth } = useContext(AuthContext);
+  const { setAuthData } = useContext(AuthContext);
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
@@ -25,25 +24,32 @@ const Login = () => {
       password: "123asd1122",
     },
   });
-  useEffect(() => {}, []);
   const onSubmit = async (data) => {
-    const { email, password } = data;
+    // const { email, password } = data;
     try {
-      const response = await axios.post(url, JSON.stringify(data), {
-        headers: {
-          "Content-Type": "application/json",
-          withCredentials: true,
-        },
-      });
-
+      const response = await axios.post(url, JSON.stringify(data));
       if (response.status === 200 || response.status === 201) {
+        // const token = response.data.token;
+        // const userID = response.data.user._id;
+
+        // console.log("id", response.data.user._id);
+        // console.log(`token`, token);
+        // setAuthData({ token, userID });
+        // localStorage.setItem("authToken", token);
+        // localStorage.setItem("authToken", userID);
         const token = response.data.token;
-        console.log(`token`, token);
-        setAuth({ isAuthenticated: true, token });
+        const userID = response.data.user._id;
+
+        console.log("id", userID);
+        console.log("token", token);
+
+        setAuthData({ token, userID });
         localStorage.setItem("authToken", token);
+        localStorage.setItem("userID", userID); //
         setSuccess(true);
       }
     } catch (err) {
+      console.log(err);
       if (!err.response) {
         setErrMsg("No Server Response");
       } else if (err.response.status === 400) {

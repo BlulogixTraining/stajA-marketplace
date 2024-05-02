@@ -37,20 +37,38 @@ const Filters = ({ onSelectedValuesChange }) => {
 
   return (
     <div className={classes.filterMainSquare}>
-      <h3>Category:</h3>
-      {categories.map((category) => (
-        <label key={category._id} className="px-2">
-          <input
-            id={category._id}
-            type="checkbox"
-            className="form-check-input fw-bold  fs-5 px-2 mx-1"
-            value={category.slug}
-            onChange={onFilterChange1}
-            checked={selectedValues.includes(category.slug)}
-          />
-          {category.name}
-        </label>
-      ))}
+      <div className="d-flex flex-column mb-3">
+        <h3 className={classes.cat_title}>Category:</h3>
+        {categories.map((category) => (
+          <label key={category._id} className="px-2">
+            <input
+              id={category._id}
+              type="checkbox"
+              className="form-check-input fw-bold  fs-5 px-2 mx-1"
+              value={category.slug}
+              onChange={onFilterChange1}
+              checked={selectedValues.includes(category.slug)}
+            />
+            {category.name}
+          </label>
+        ))}
+      </div>
+      <div className="d-flex flex-column">
+        <h3 className={classes.cat_title}>Category:</h3>
+        {categories.map((category) => (
+          <label key={category._id} className="px-2">
+            <input
+              id={category._id}
+              type="checkbox"
+              className="form-check-input fw-bold  fs-5 px-2 mx-1"
+              value={category.slug}
+              onChange={onFilterChange1}
+              checked={selectedValues.includes(category.slug)}
+            />
+            {category.name}
+          </label>
+        ))}
+      </div>
     </div>
   );
 };

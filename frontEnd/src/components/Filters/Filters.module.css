@@ -2,16 +2,24 @@
   position: sticky;
   display: flex;
   flex-direction: column;
-  padding: 30px;
-  margin: 30px;
+  padding-left: 25px;
+  padding-top: 21px;
+  padding-bottom: 21px;
   border: 1px solid lightgray;
-  width: 300px;
-  height: 300px;
+  /* max-width: 400px; */
+  /* height: 70vh; */
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
+}
+.cat_title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-family: Satoshi;
+  font-weight: bold;
 }
 .form_check {
   display: flex !important;
@@ -114,7 +122,8 @@
 
 @media (max-width: 768px) {
   .filterMainSquare {
-    width: 100%;
-    margin: 0;
+    width: 94%;
+    margin: auto;
+    padding: 10px;
   }
 }
