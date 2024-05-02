@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const cookieParser = require("cookie-parser");
 const MongoStore = require("connect-mongo");
 const methodOverride = require("method-override");
 const fileUpload = require("express-fileupload");
@@ -31,7 +32,7 @@ mongoose
 //middlewares
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-
+app.use(cookieParser());
 app.use(
   methodOverride("_method", {
     methods: ["POST", "GET"],
