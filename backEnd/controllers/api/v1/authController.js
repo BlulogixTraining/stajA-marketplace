@@ -4,7 +4,6 @@ const fs = require("fs");
 const path = require("path");
 const User = require("../../../models/User");
 
-
 exports.createUser = async (req, res) => {
   const uploadDir = path.join(__dirname, "../../../public/images/");
 
@@ -28,14 +27,11 @@ exports.createUser = async (req, res) => {
         ...req.body,
         image: "/images/" + sampleFile.name,
       });
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "1h",
-      });
 
       res.status(201).json({
         status: "Category has been created successfully!",
         user,
-        token,
+        token: createToken(user._id),
       });
     } catch (error) {
       res.status(400).json({
@@ -54,16 +50,16 @@ exports.loginUser = async (req, res) => {
     if (user) {
       const same = await bcrypt.compare(password, user.password);
       if (same) {
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-          expiresIn: "1h",
+        const token = createToken(user._id);
+        res.cookie("jwt", token, {
+          httpOnly: true,
+          maxAge: 1000 * 60 * 60 * 24,
         });
-        req.session.userID = user._id;
-
         res.status(200).json({
           status: "success",
           message: "You are logged in!",
           user,
-          token,
+          token: token,
         });
       } else {
         res.status(401).json({
@@ -94,7 +90,7 @@ exports.getAllUsers = async (req, res) => {
       status: "success",
       users,
     });
-    console.log(req.session.userID);
+    console.log(req.user);
   } catch (error) {
     res.status(400).json({
       status: "fail",
@@ -123,5 +119,11 @@ exports.logoutUser = (req, res) => {
     res.json({
       status: "You are logged out!",
     });
+  });
+};
+
+const createToken = (userId) => {
+  return jwt.sign({ userId }, process.env.JWT_SECRET, {
+    expiresIn: "1d",
   });
 };
