@@ -18,7 +18,13 @@
   height: 250px;
   overflow: hidden;
   margin-bottom: 1em;
+  border-radius: 20px;
+  /* background-color: aqua; */
   cursor: pointer;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
 }
 .imageBox img {
   width: 100%;

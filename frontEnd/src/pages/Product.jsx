@@ -6,13 +6,20 @@ import classes from "./proudctDetail.module.css";
 import Slider from "react-slick";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
+
+import RatingStarts from "../components/ui/RatingStarts";
+import CustomButton from "../components/ui/CustomButton";
 const Product = () => {
-  const { auth } = useContext(AuthContext);
-  const isAuthenticated = auth.isAuthenticated;
-  console.log("isAuthenticated", isAuthenticated);
-  console.log("isAuthenticated", auth.token);
+  // const { auth } = useContext(AuthContext);
+  // const isAuthenticated = auth.isAuthenticated;
+  // console.log("isAuthenticated", isAuthenticated);
+  // console.log("isAuthenticated", auth.token);
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
+
+  //store the reviews
+  const [reviews, setReviews] = useState([]);
+
   let sliderRef1 = useRef(null);
   let sliderRef2 = useRef(null);
   useEffect(() => {
@@ -27,13 +34,14 @@ const Product = () => {
       try {
         setIsLoading(true);
         const response = await fetch(`${url}/products/${productId}`);
-        console.log(response);
         if (!response.ok) {
           throw new Error("Failed to fetch product");
         }
         const data = await response.json();
         setProduct(data);
         setIsLoading(false);
+
+        setReviews(data.reviews);
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -41,6 +49,9 @@ const Product = () => {
 
     fetchProductById();
   }, [productId]);
+  const handleButtonClick = () => {
+    console.log("Add to cart");
+  };
 
   return (
     <>
@@ -78,9 +89,10 @@ const Product = () => {
             </div>
           </div>
 
-          <div className="col-md-6">
+          <div className="col-12 col-md-6">
             <div className={classes.product_detail}>
               <h2>{product?.product.name}</h2>
+              <RatingStarts />
               <div className={classes.detail_price}>
                 <h4 className={classes.orignal_price}>
                   ${product?.product.price}
@@ -93,12 +105,33 @@ const Product = () => {
               <p>{product?.product.description}</p>
               <h5>Stock: {product?.product.stock}</h5>
             </div>
+            <div className={classes.add_to_cart}>
+              <h5 className="pt-4">Choose Size</h5>
+
+              <div className={`${classes.size} d-flex gap-2 mt-3 `}>
+                <CustomButton
+                  title="Large"
+                  color="#F0F0F0"
+                  onClick={handleButtonClick}
+                  style={{
+                    borderRadius: "50%",
+                    padding: "15px 20px ",
+                  }}
+                />
+                <CustomButton
+                  title="X-Large"
+                  color="#F0F0F0"
+                  onClick={handleButtonClick}
+                  style={{ borderRadius: "50%" }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <section className="container mt-3 justify-content-center ">
-        <ProductDetailNav />
+        <ProductDetailNav reviews={reviews} />
       </section>
     </>
   );

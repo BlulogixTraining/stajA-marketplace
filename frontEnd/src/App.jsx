@@ -1,5 +1,4 @@
 import "./App.css";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -23,7 +22,6 @@ function App() {
           "https://staja-marketplace.onrender.com/products"
         );
         setFeaturedProducts(response.data.products);
-        // console.log(response.data.products);
         setIsLoading(false);
       } catch (error) {
         setError(error);
