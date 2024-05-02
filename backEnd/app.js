@@ -8,8 +8,8 @@ const fileUpload = require("express-fileupload");
 const userRoute = require("./routes/userRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const productRoute = require("./routes/productRoute");
-const dashboardRoute = require("./routes/dashboardRoute");
 const ProductReviewRoute = require("./routes/productReviewRoute");
+const checkUser = require("./middleware/api/v1/checkuser");
 
 const cors = require("cors");
 
@@ -21,13 +21,9 @@ app.use(cors({ origin: "*" }));
 //load the environment variables
 require("dotenv").config();
 
-mongoose
-  .connect(
-    "mongodb+srv://bashiralrayes6:ccLC5TMV5uELUam@marketplace.lo09ewj.mongodb.net/?retryWrites=true&w=majority&appName=marketplace"
-  )
-  .then(() => {
-    console.log("DB connected successfully");
-  });
+mongoose.connect(process.env.MONGODB_URI).then(() => {
+  console.log("DB connected successfully");
+});
 
 //middlewares
 app.use(express.json()); // for parsing application/json
@@ -46,17 +42,16 @@ app.use(
     saveUninitialized: true,
     // used with the Express.js framework for session storage.
     store: MongoStore.create({
-      mongoUrl:
-        "mongodb+srv://bashiralrayes6:ccLC5TMV5uELUam@marketplace.lo09ewj.mongodb.net/?retryWrites=true&w=majority&appName=marketplace",
+      mongoUrl: process.env.MONGODB_URI,
     }),
   })
 );
 app.use(fileUpload());
 
 //Routes
-
+app.use("*", checkUser);
 app.use("/users", userRoute);
-app.use("/dashoard", dashboardRoute);
+//app.use("/dashoard", dashboardRoute);
 app.use("/categories", categoryRoute);
 app.use("/products", productRoute);
 app.use("/reviews", ProductReviewRoute);
