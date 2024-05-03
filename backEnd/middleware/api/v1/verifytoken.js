@@ -1,26 +1,12 @@
 const jwt = require("jsonwebtoken");
-const User = require("../../../models/User");
 
-/*
-function verifyToken(req, res, next) {
-  const token = req.header("authorization");
-  if (!token) return res.status(401).json({ error: "Access denied" });
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.userId = decoded.userId;
-    next();
-  } catch (error) {
-    res.status(401).json({ error: "Invalid token" });
-  }
-}
-*/
 const verifyToken = async (req, res, next) => {
   try {
     /*
     const token =
       req.header("authorization") && req.header("authorization").split(" ")[1];
 */
-    const token = req.cookies.jwt && req.header("authorization") && req.header("authorization").split(" ")[1];
+    const token = req.cookies.jwt && req.header("authorization");
 
     if (token) {
       jwt.verify(token, process.env.JWT_SECRET, (err) => {
@@ -34,7 +20,7 @@ const verifyToken = async (req, res, next) => {
           next();
         }
       });
-    }else {
+    } else {
       res.status(401).json({
         succeeded: false,
         error: "No token available",

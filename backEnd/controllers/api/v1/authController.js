@@ -27,11 +27,11 @@ exports.createUser = async (req, res) => {
         ...req.body,
         image: "/images/" + sampleFile.name,
       });
-
+      const token = createToken(user._id);
       res.status(201).json({
         status: "Category has been created successfully!",
         user,
-        token: createToken(user._id),
+        token: token,
       });
     } catch (error) {
       res.status(400).json({
