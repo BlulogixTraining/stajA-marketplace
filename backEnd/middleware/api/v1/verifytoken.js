@@ -6,7 +6,7 @@ const verifyToken = async (req, res, next) => {
     const token =
       req.header("authorization") && req.header("authorization").split(" ")[1];
 */
-    const token = req.cookies.jwt;
+    const token = req.cookies.jwt && req.header("authorization");
 
     if (token) {
       jwt.verify(token, process.env.JWT_SECRET, (err) => {
@@ -21,7 +21,7 @@ const verifyToken = async (req, res, next) => {
         }
       });
     } else {
-      res.status(401).json({
+      return res.status(401).json({
         succeeded: false,
         error: "No token available",
       });

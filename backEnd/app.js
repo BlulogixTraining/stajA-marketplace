@@ -9,6 +9,7 @@ const userRoute = require("./routes/userRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const productRoute = require("./routes/productRoute");
 const ProductReviewRoute = require("./routes/productReviewRoute");
+const dashboardRoute = require("./routes/dashboardRoute");
 const checkUser = require("./middleware/api/v1/checkuser");
 
 const cors = require("cors");
@@ -51,7 +52,7 @@ app.use(fileUpload());
 //Routes
 app.use("*", checkUser);
 app.use("/users", userRoute);
-//app.use("/dashoard", dashboardRoute);
+app.use("/dashoard", dashboardRoute);
 app.use("/categories", categoryRoute);
 app.use("/products", productRoute);
 app.use("/reviews", ProductReviewRoute);

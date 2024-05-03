@@ -45,43 +45,46 @@ exports.createUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+
     const user = await User.findOne({ email });
 
+    let same = false;
+
     if (user) {
-      const same = await bcrypt.compare(password, user.password);
-      if (same) {
-        const token = createToken(user._id);
-        res.cookie("jwt", token, {
-          httpOnly: true,
-          maxAge: 1000 * 60 * 60 * 24,
-        });
-        res.status(200).json({
-          status: "success",
-          message: "You are logged in!",
-          user,
-          token: token,
-        });
-      } else {
-        res.status(401).json({
-          status: "fail",
-          message: "Incorrect email or password.",
-        });
-      }
+      same = await bcrypt.compare(password, user.password);
     } else {
-      res.status(404).json({
-        status: "fail",
-        message: "User not found.",
+      return res.status(401).json({
+        succeded: false,
+        error: "Incorrect email or password",
+      });
+    }
+
+    if (same) {
+      const token = createToken(user._id);
+      res.cookie("jwt", token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24,
+      });
+
+      res.status(200).json({
+        status: "Success",
+        message: "You are logged in!",
+        user,
+        token: token,
+      });
+    } else {
+      res.status(401).json({
+        succeded: false,
+        error: "Incorrect email or password",
       });
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({
-      status: "error",
-      message: "Internal server error.",
+      succeded: false,
+      error,
     });
   }
 };
-
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
