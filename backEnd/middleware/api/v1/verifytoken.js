@@ -6,13 +6,13 @@ const verifyToken = async (req, res, next) => {
     const token =
       req.header("authorization") && req.header("authorization").split(" ")[1];
 */
-    const token = req.cookies.jwt && req.header("authorization");
+    const token = req.cookies.jwt;
 
     if (token) {
       jwt.verify(token, process.env.JWT_SECRET, (err) => {
         if (err) {
           console.log(err.message);
-          return res.status(401).json({
+          res.status(401).json({
             succeeded: false,
             error: "No token available",
           });
@@ -26,24 +26,25 @@ const verifyToken = async (req, res, next) => {
         error: "No token available",
       });
     }
-    /*
-    if (!token)
-      return res.status(401).json({
-        succeeded: false,
-        error: "No token available",
-      });
-
-    req.user = await User.findById(
-      jwt.verify(token, process.env.JWT_SECRET).userId
-    );
-    next();
-    */
   } catch (error) {
     res.status(401).json({
       succeeded: false,
-      error: "No authorized",
+      error: "Not authorized",
     });
   }
 };
 
 module.exports = verifyToken;
+
+/*
+if (!token)
+  return res.status(401).json({
+    succeeded: false,
+    error: "No token available",
+  });
+
+req.user = await User.findById(
+  jwt.verify(token, process.env.JWT_SECRET).userId
+);
+next();
+*/
