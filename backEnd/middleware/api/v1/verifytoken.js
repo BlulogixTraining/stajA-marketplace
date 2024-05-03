@@ -6,7 +6,7 @@ const verifyToken = async (req, res, next) => {
     const token =
       req.header("authorization") && req.header("authorization").split(" ")[1];
 */
-    const token = req.cookies.jwt && req.header("authorization");
+    const token = req.cookies.jwt || req.header("Authorization");
 
     if (token) {
       jwt.verify(token, process.env.JWT_SECRET, (err) => {
