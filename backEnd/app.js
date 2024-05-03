@@ -12,11 +12,11 @@ const ProductReviewRoute = require("./routes/productReviewRoute");
 const dashboardRoute = require("./routes/dashboardRoute");
 const checkUser = require("./middleware/api/v1/checkuser");
 
-const cors = require("cors");
+//const cors = require("cors");
 
 const app = express();
 app.use(express.static("public"));
-app.use(cors({ origin: "*" }));
+//app.use(cors({ origin: "*" }));
 //app.use(cors({ origin: "*" }));
 
 //load the environment variables
@@ -50,6 +50,12 @@ app.use(
 app.use(fileUpload());
 
 //Routes
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.use("*", checkUser);
 app.use("/users", userRoute);
 app.use("/dashoard", dashboardRoute);
