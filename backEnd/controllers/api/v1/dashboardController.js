@@ -3,13 +3,11 @@ const Address = require("../../../models/Address");
 
 exports.getDashboard = async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.session.userID }).populate(
-      "addresses"
-    );
+    const user = await User.findById({ _id: res.locals.user._id });
     
 
     res.status(200).json({
-      status: "success",
+      status: "Success",
       user,
       
     });
@@ -25,9 +23,9 @@ exports.createAddress = async (req, res) => {
   try {
     const address = await Address.create({
       ...req.body,
-      user_id: req.session.userID,
+      user_id: res.locals.user._id,
     });
-    await User.findByIdAndUpdate(req.session.userID, {
+    await User.findByIdAndUpdate(res.locals.user._id, {
       $push: { addresses: address._id },
     });
 
