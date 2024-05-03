@@ -10,23 +10,21 @@ const categoryRoute = require("./routes/categoryRoute");
 const productRoute = require("./routes/productRoute");
 const ProductReviewRoute = require("./routes/productReviewRoute");
 const dashboardRoute = require("./routes/dashboardRoute");
-const checkUser = require("./middleware/api/v1/checkuser");
 
-//const cors = require("cors");
+const cors = require("cors");
 
 const app = express();
 app.use(express.static("public"));
-//app.use(cors({ origin: "*" }));
-//app.use(cors({ origin: "*" }));
+app.use(cors({ origin: "*" }));
 
-//load the environment variables
+//Load the environment variables
 require("dotenv").config();
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log("DB connected successfully");
 });
 
-//middlewares
+//Middlewares
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(cookieParser());
@@ -41,7 +39,7 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
-    // used with the Express.js framework for session storage.
+    // Used with the Express.js framework for session storage.
     store: MongoStore.create({
       mongoUrl: process.env.MONGODB_URI,
     }),
@@ -50,15 +48,9 @@ app.use(
 app.use(fileUpload());
 
 //Routes
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-app.use("*", checkUser);
+
 app.use("/users", userRoute);
-app.use("/dashoard", dashboardRoute);
+app.use("/userprofile", dashboardRoute);
 app.use("/categories", categoryRoute);
 app.use("/products", productRoute);
 app.use("/reviews", ProductReviewRoute);

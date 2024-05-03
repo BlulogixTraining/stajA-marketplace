@@ -3,13 +3,11 @@ const Address = require("../../../models/Address");
 
 exports.getDashboard = async (req, res) => {
   try {
-    const user = await User.findById({ _id: res.locals.user._id });
-    
+    const user = await User.findById({ _id: req.userId });
 
     res.status(200).json({
       status: "Success",
       user,
-      
     });
   } catch (error) {
     res.status(400).json({
@@ -23,9 +21,9 @@ exports.createAddress = async (req, res) => {
   try {
     const address = await Address.create({
       ...req.body,
-      user_id: res.locals.user._id,
+      user_id: req.userId,
     });
-    await User.findByIdAndUpdate(res.locals.user._id, {
+    await User.findByIdAndUpdate(req.userId, {
       $push: { addresses: address._id },
     });
 

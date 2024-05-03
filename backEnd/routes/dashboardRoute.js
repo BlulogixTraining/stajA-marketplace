@@ -5,7 +5,7 @@ const dashboardController = require("../controllers/api/v1/dashboardController")
 
 const router = express.Router();
 
-router.route("/").get(dashboardController.getDashboard);
+router.route("/").get(verifyToken,dashboardController.getDashboard);
 router.route("/address").post(verifyToken,dashboardController.createAddress);
 
 
