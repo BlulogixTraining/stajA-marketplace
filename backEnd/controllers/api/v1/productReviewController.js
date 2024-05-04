@@ -1,11 +1,15 @@
 const ProductReview = require("../../../models/ProductReview");
+const Product = require("../../../models/Product");
 const User = require("../../../models/User");
 
 exports.createReview = async (req, res) => {
   try {
+    const product = await Product.findOne({ _id: req.params.id });
     const review = await ProductReview.create({
-      ...req.body,
-      user_id: req.session.userID,
+      review: req.body.review,
+      rating: req.body.rating,
+      product_id: product._id,
+      user_id: req.userId,
     });
 
     res.status(201).json({

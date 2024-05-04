@@ -4,6 +4,6 @@ const verifyToken = require("../middleware/api/v1/verifytoken");
 const router = express.Router();
 
 router.route("/").get(productReviewController.getAllReviews);
-router.route("/").post(verifyToken, productReviewController.createReview);
+router.route("/:id").post(verifyToken, productReviewController.createReview);
 
 module.exports = router;
