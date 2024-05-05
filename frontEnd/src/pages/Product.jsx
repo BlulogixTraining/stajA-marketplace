@@ -4,22 +4,15 @@ import ProductDetailNav from "../components/ProDetailNav/ProDetailNav";
 const url = "https://staja-marketplace.onrender.com";
 import classes from "./proudctDetail.module.css";
 import Slider from "react-slick";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthProvider";
 
 import RatingStarts from "../components/ui/RatingStarts";
 import CustomButton from "../components/ui/CustomButton";
 const Product = () => {
-  // const { auth } = useContext(AuthContext);
-  // const isAuthenticated = auth.isAuthenticated;
-  // console.log("isAuthenticated", isAuthenticated);
-  // console.log("isAuthenticated", auth.token);
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
 
   //store the reviews
   const [reviews, setReviews] = useState([]);
-
   let sliderRef1 = useRef(null);
   let sliderRef2 = useRef(null);
   useEffect(() => {
@@ -40,7 +33,7 @@ const Product = () => {
         const data = await response.json();
         setProduct(data);
         setIsLoading(false);
-
+        console.log(data.reviews);
         setReviews(data.reviews);
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -92,7 +85,7 @@ const Product = () => {
           <div className="col-12 col-md-6">
             <div className={classes.product_detail}>
               <h2>{product?.product.name}</h2>
-              <RatingStarts />
+              <RatingStarts star={reviews.rating} />
               <div className={classes.detail_price}>
                 <h4 className={classes.orignal_price}>
                   ${product?.product.price}

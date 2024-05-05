@@ -2,11 +2,14 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useContext, useEffect, useState } from "react";
 import classes from "./Login.module.css";
+
 import { AuthContext } from "../../context/AuthProvider";
 import axios from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import ModelSuccess from "../../components/ui/ModelSuccess";
 const url = "https://staja-marketplace.onrender.com/users/login";
+import Cookies from "js-cookie";
+
 const Login = () => {
   const { setAuthData } = useContext(AuthContext);
   const [errMsg, setErrMsg] = useState("");
@@ -46,6 +49,8 @@ const Login = () => {
         setAuthData({ token, userID });
         localStorage.setItem("authToken", token);
         localStorage.setItem("userID", userID); //
+        Cookies.set("jwt", token);
+
         setSuccess(true);
       }
     } catch (err) {

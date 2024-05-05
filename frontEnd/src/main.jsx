@@ -3,7 +3,7 @@ import App from "./App.jsx";
 import "./index.css";
 import About from "./pages/About.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import UserProfile from "./pages/UserProfile.jsx";
+import UserProfile from "./pages/UserProfile/UserProfile.jsx";
 import SellerProfile from "./pages/SellerProfile.jsx";
 import Products from "./pages/Products.jsx";
 import SignUp from "./pages/SignUp/SignUp.jsx";

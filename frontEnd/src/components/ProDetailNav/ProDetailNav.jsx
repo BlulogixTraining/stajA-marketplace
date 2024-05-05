@@ -28,7 +28,7 @@ const ProDetailNav = ({ reviews }) => {
 
           <Button Name="Write review" width="33px"></Button>
         </div>
-        <div className="d-flex flex-wrap justify-content-between gap-1 mt-3">
+        <div className="d-flex flex-wrap  mt-3">
           <ProductReview reviews={reviews} />
         </div>
       </Tab>
