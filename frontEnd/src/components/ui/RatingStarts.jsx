@@ -16,7 +16,7 @@ const RatingStarts = ({ star }) => {
               type="radio"
               name="rating"
               value={currentRating}
-              onClick={() => setRating(currentRating)}
+              // onClick={() => setRating(currentRating)}
             />
             <FaStar
               className={classes.star}
