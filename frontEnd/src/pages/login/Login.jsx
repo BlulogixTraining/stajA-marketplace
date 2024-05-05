@@ -8,7 +8,6 @@ import axios from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import ModelSuccess from "../../components/ui/ModelSuccess";
 const url = "https://staja-marketplace.onrender.com/users/login";
-import Cookies from "js-cookie";
 
 const Login = () => {
   const { setAuthData } = useContext(AuthContext);
@@ -32,14 +31,6 @@ const Login = () => {
     try {
       const response = await axios.post(url, JSON.stringify(data));
       if (response.status === 200 || response.status === 201) {
-        // const token = response.data.token;
-        // const userID = response.data.user._id;
-
-        // console.log("id", response.data.user._id);
-        // console.log(`token`, token);
-        // setAuthData({ token, userID });
-        // localStorage.setItem("authToken", token);
-        // localStorage.setItem("authToken", userID);
         const token = response.data.token;
         const userID = response.data.user._id;
 
@@ -49,7 +40,6 @@ const Login = () => {
         setAuthData({ token, userID });
         localStorage.setItem("authToken", token);
         localStorage.setItem("userID", userID); //
-        Cookies.set("jwt", token);
 
         setSuccess(true);
       }

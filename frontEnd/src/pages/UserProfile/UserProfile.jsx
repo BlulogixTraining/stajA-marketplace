@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import classes from "./userProfile.module.css";
 const url = "https://staja-marketplace.onrender.com";
-import Cookies from "js-cookie";
 import axios from "../../api/axios";
 
 const UserProfile = () => {
