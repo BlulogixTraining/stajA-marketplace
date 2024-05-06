@@ -44,7 +44,7 @@ exports.addToCart = async (req, res) => {
 
 exports.getAllProductsExistsInCart = async (req, res) => {
   try {
-    const user = await User.findById(req.session.userID).populate("cart");
+    const user = await User.findById(req.userId).populate("cart");
 
     if (!user) {
       return res
