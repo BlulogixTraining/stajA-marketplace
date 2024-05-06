@@ -3,7 +3,7 @@ const Address = require("../../../models/Address");
 
 exports.getDashboard = async (req, res) => {
   try {
-    const user = await User.findById({ _id: req.userId });
+    const user = await User.findById({ _id: req.userId }).populate("addresses");
 
     res.status(200).json({
       status: "Success",
@@ -11,7 +11,7 @@ exports.getDashboard = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
-      status: "fail",
+      status: "Fail",
       error,
     });
   }
@@ -28,12 +28,12 @@ exports.createAddress = async (req, res) => {
     });
 
     res.status(201).json({
-      status: "success",
+      status: "Success",
       address,
     });
   } catch (error) {
     res.status(400).json({
-      status: "fail",
+      status: "Fail",
       error,
     });
   }
