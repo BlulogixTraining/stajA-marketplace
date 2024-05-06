@@ -8,8 +8,11 @@ import { BsCartDash } from "react-icons/bs";
 import { FaUser } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 
 const TobNav = () => {
+  const isAuthenticated = useIsAuthenticated();
+  console.log("isAuthenticated", isAuthenticated);
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container">
@@ -73,9 +76,16 @@ const TobNav = () => {
             <Link to="/cart">
               <BsCartDash className={classes.shop} />
             </Link>
-            <Link to="/login">
-              <FaUser className={classes.profile} />
-            </Link>
+            {isAuthenticated && (
+              <Link to="/userProfile">
+                <FaUser className={classes.profile} />
+              </Link>
+            )}
+            {!isAuthenticated && (
+              <Link to="/login">
+                <FaUser className={classes.profile} />
+              </Link>
+            )}
           </li>
         </div>
       </div>

@@ -11,8 +11,10 @@ import Login from "./pages/login/Login.jsx";
 import Product from "./pages/Product.jsx";
 import Layout from "./components/Layout.jsx";
 import Cart from "./pages/Cart/Cart.jsx";
-import { AuthProvider } from "./context/AuthProvider.jsx";
-
+// import { AuthProvider } from "./context/AuthProvider.jsx";
+import createStore from "react-auth-kit/createStore";
+// import { AuthProvider } from "react-auth-kit";
+import AuthProvider from "react-auth-kit";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,9 +32,17 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
+const store = createStore({
+  authName: "_auth",
+  authType: "cookie",
+  cookieDomain: window.location.hostname,
+  cookieSecure: false,
+});
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
-  <AuthProvider>
+  <AuthProvider store={store}>
     <RouterProvider router={router} />
   </AuthProvider>
   // </React.StrictMode>

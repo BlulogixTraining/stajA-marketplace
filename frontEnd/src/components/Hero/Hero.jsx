@@ -21,6 +21,7 @@ const Hero = () => {
           style.
         </p>
         <Button className="" Name={"Shop Now"}></Button>
+
         <div className="d-md-flex gap-3 pt-4">
           <TextHero Number={"2000+"} Text={"International Brands"} />
           <TextHero Number={"2000+"} Text={"High-Quality Products"} />
