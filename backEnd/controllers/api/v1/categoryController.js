@@ -51,7 +51,7 @@ exports.createCategory = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
-      status: "fail",
+      status: "Fail",
       error,
     });
   }
@@ -66,7 +66,7 @@ exports.getAllCategory = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
-      status: "fail",
+      status: "Fail",
       error,
     });
   }

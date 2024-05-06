@@ -17,7 +17,7 @@ exports.createUser = async (req, res) => {
   sampleFile.mv(uploadPath, async (err) => {
     if (err) {
       return res.status(500).json({
-        status: "fail",
+        status: "Fail",
         error: err.message,
       });
     }
@@ -29,13 +29,13 @@ exports.createUser = async (req, res) => {
       });
       const token = createToken(user._id);
       res.status(201).json({
-        status: "Category has been created successfully!",
+        status: "User has been created successfully!",
         user,
         token: token,
       });
     } catch (error) {
       res.status(400).json({
-        status: "fail",
+        status: "Fail",
         error,
       });
     }
@@ -61,6 +61,7 @@ exports.loginUser = async (req, res) => {
 
     if (same) {
       const token = createToken(user._id);
+      req.session.userID = user._id;
 
       res.status(200).json({
         status: "Success",
@@ -86,13 +87,12 @@ exports.getAllUsers = async (req, res) => {
     const users = await User.find();
 
     res.status(200).json({
-      status: "success",
+      status: "Success",
       users,
     });
-    console.log(req.user);
   } catch (error) {
     res.status(400).json({
-      status: "fail",
+      status: "Fail",
       error,
     });
   }
@@ -107,7 +107,7 @@ exports.deleteUser = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
-      status: "fail",
+      status: "Fail",
       error,
     });
   }
