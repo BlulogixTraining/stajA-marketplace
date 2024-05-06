@@ -8,7 +8,7 @@ import axios from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import ModelSuccess from "../../components/ui/ModelSuccess";
 const url = "https://staja-marketplace.onrender.com/users/login";
-import Cookies from "js-cookie";
+
 
 const Login = () => {
   const { setAuthData } = useContext(AuthContext);
@@ -49,7 +49,7 @@ const Login = () => {
         setAuthData({ token, userID });
         localStorage.setItem("authToken", token);
         localStorage.setItem("userID", userID); //
-        Cookies.set("jwt", token);
+    
 
         setSuccess(true);
       }
