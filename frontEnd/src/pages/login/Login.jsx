@@ -8,14 +8,14 @@ import axios from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import ModelSuccess from "../../components/ui/ModelSuccess";
 const url = "https://staja-marketplace.onrender.com/users/login";
-import Cookies from "js-cookie";
 
 const Login = () => {
-  const { setAuthData } = useContext(AuthContext);
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
   const [modalShow, setModalShow] = useState(false);
+
+  const signIn = useSignIn();
 
   const {
     register,
@@ -28,28 +28,31 @@ const Login = () => {
     },
   });
   const onSubmit = async (data) => {
-    // const { email, password } = data;
     try {
       const response = await axios.post(url, JSON.stringify(data));
       if (response.status === 200 || response.status === 201) {
-        // const token = response.data.token;
-        // const userID = response.data.user._id;
-
-        // console.log("id", response.data.user._id);
-        // console.log(`token`, token);
-        // setAuthData({ token, userID });
-        // localStorage.setItem("authToken", token);
-        // localStorage.setItem("authToken", userID);
         const token = response.data.token;
         const userID = response.data.user._id;
+        const name = response.data.user.name;
+
+        const email = response.data.user.email;
 
         console.log("id", userID);
         console.log("token", token);
 
-        setAuthData({ token, userID });
+        signIn({
+          auth: {
+            token: token,
+          },
+          userState: {
+            email: email,
+            name: name,
+          },
+          expires: 60 * 60 * 24 * 30,
+        });
+        // setAuthData({ token, userID });
         localStorage.setItem("authToken", token);
         localStorage.setItem("userID", userID); //
-        Cookies.set("jwt", token);
 
         setSuccess(true);
       }
@@ -83,7 +86,7 @@ const Login = () => {
           show={modalShow}
           onHide={() => {
             setModalShow(false);
-            navigate("/");
+            // navigate("/");
           }}
         />
       )}
