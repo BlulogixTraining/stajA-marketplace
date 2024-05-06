@@ -1,5 +1,5 @@
 import axios from "axios";
-const userToken = localStorage.getItem("authToken");
+const userToken = localStorage.getItem("authToken") || null;
 
 const headers = {
   "Content-Type": "application/json",
@@ -11,14 +11,3 @@ export default axios.create({
   baseURL: "https://staja-marketplace.onrender.com",
   headers: headers,
 });
-
-export const getCategories = async () => {
-  try {
-    const response = await axios.get(
-      "https://staja-marketplace.onrender.com/categories"
-    );
-    return response.data.categories;
-  } catch (error) {
-    console.error(error);
-  }
-};

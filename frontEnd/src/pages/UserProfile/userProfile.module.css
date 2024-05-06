@@ -1,0 +1,37 @@
+.header span {
+  font-weight: 500;
+  text-decoration: underline;
+  color: #d90b0b;
+}
+.header > * {
+  font-family: Satoshi;
+  font-weight: bold;
+}
+.profile_img {
+  width: 80px;
+  height: 80px;
+}
+.hero_profile {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+form label {
+  font-weight: 500;
+  color: #110f0f;
+}
+form input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  background-color: blanchedalmond;
+  border-bottom: 1px solid #381515;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #f10000;
+}
+form input:focus {
+  outline: none;
+}

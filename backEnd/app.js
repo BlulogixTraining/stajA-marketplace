@@ -10,6 +10,8 @@ const categoryRoute = require("./routes/categoryRoute");
 const productRoute = require("./routes/productRoute");
 const ProductReviewRoute = require("./routes/productReviewRoute");
 const dashboardRoute = require("./routes/dashboardRoute");
+const cartRoute = require("./routes/cartRoute");
+
 
 const cors = require("cors");
 
@@ -54,6 +56,8 @@ app.use("/userprofile", dashboardRoute);
 app.use("/categories", categoryRoute);
 app.use("/products", productRoute);
 app.use("/reviews", ProductReviewRoute);
+app.use("/cart", cartRoute);
+
 
 const port = 3000;
 app.listen(port, () => {

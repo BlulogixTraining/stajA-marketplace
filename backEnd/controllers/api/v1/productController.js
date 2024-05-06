@@ -37,7 +37,7 @@ exports.createProduct = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      status: "fail",
+      status: "Fail",
       error: error.message,
     });
   }
@@ -72,7 +72,7 @@ exports.getAllProducts = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
-      status: "fail",
+      status: "Fail",
       error,
     });
   }
@@ -92,7 +92,7 @@ exports.getProductDetails = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
-      status: "fail",
+      status: "Fail",
       error,
     });
   }
