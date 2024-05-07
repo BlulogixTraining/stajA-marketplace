@@ -6,6 +6,7 @@ import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import useSignOut from "react-auth-kit/hooks/useSignOut";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import Breadcrumbs from "../../components/ui/Breadcrumb";
 
 const UserProfile = () => {
   const { register, handleSubmit } = useForm({});
@@ -54,7 +55,9 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile">
-      <div className={`${classes.userHeader}`}>
+      {" "}
+      <div className={`${classes.userHeader} container`}>
+        <Breadcrumbs />
         <div className="card shadow-sm container mt-5 p-0 ">
           <div className={`${classes.header} card-header  py-3`}>
             <h4>
