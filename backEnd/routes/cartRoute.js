@@ -5,6 +5,7 @@ const verifyToken = require("../middleware/api/v1/verifytoken");
 const router = express.Router();
 
 router.route("/add").post(verifyToken, cartController.addToCart);
+router.route("/remove").post(verifyToken, cartController.removeFromCart);
 router.route("/get").get(verifyToken,cartController.getAllProductsExistsInCart);
 
 module.exports = router;

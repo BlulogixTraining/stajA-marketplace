@@ -1,7 +1,7 @@
 const User = require("../../../models/User");
 const Product = require("../../../models/Product");
 
-exports.addToCart = async (req, res) => {
+exports.addToFavorite = async (req, res) => {
   try {
     const user = await User.findById(req.userId);
 
@@ -19,30 +19,29 @@ exports.addToCart = async (req, res) => {
         .json({ status: "Fail", message: "Product not found" });
     }
 
-    if (user.cart.includes(product._id)) {
+    if (user.favorite.includes(product._id)) {
       return res
         .status(400)
-        .json({ status: "Fail", message: "Product already in cart" });
+        .json({ status: "Fail", message: "Product already in favorite" });
     }
 
-    user.cart.push(product._id);
+    await user.favorite.push(product._id);
     await user.save();
 
     res.status(201).json({
       status: "Success",
-      message: "The product has been added to the cart successfully!",
+      message: "The product has been added to the favorite successfully!",
       product,
     });
   } catch (error) {
     res.status(500).json({
       status: "Error",
-      message: "An error occurred while adding the product to the cart",
+      message: "An error occurred while adding the product to the favorite",
       error: error.message,
     });
   }
 };
-
-exports.removeFromCart = async (req, res) => {
+exports.removeFromFavorite = async (req, res) => {
   try {
     const user = await User.findById(req.userId);
 
@@ -60,26 +59,26 @@ exports.removeFromCart = async (req, res) => {
         .json({ status: "Fail", message: "Product not found" });
     }
 
-    await user.cart.pull(product._id);
+    await user.favorite.pull(product._id);
     await user.save();
 
     res.status(201).json({
       status: "Success",
-      message: "The product has been removed from the cart successfully!",
+      message: "The product has been removed from the favorite successfully!",
       product,
     });
   } catch (error) {
     res.status(500).json({
       status: "Error",
-      message: "An error occurred while removing the product from the cart",
+      message: "An error occurred while removing the product from the favorite",
       error: error.message,
     });
   }
 };
 
-exports.getAllProductsExistsInCart = async (req, res) => {
+exports.getAllProductsExistsInFavorite = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).populate("cart");
+    const user = await User.findById(req.userId).populate("favorite");
 
     if (!user) {
       return res
@@ -87,11 +86,11 @@ exports.getAllProductsExistsInCart = async (req, res) => {
         .json({ status: "fail", message: "User not found" });
     }
 
-    const productsInCart = user.cart;
+    const productsInFavorite = user.favorite;
 
     res.status(200).json({
       status: "Success",
-      cart: productsInCart,
+      favorite: productsInFavorite,
     });
   } catch (error) {
     res.status(500).json({
