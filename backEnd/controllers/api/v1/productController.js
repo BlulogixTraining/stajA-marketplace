@@ -85,9 +85,17 @@ exports.getProductDetails = async (req, res) => {
       product_id: product._id,
     }).populate("user_id", "name");
 
+    let totalRating = 0;
+    reviews.forEach((review) => {
+      totalRating += review.rating;
+    });
+    
+    const averagerating = reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
+
     res.status(200).json({
       status: "Success",
       product,
+      averagerating,
       reviews,
     });
   } catch (error) {
