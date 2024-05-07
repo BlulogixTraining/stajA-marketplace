@@ -7,6 +7,7 @@ import Slider from "react-slick";
 
 import RatingStarts from "../components/ui/RatingStarts";
 import CustomButton from "../components/ui/CustomButton";
+import Breadcrumbs from "../components/ui/Breadcrumb";
 const Product = () => {
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
@@ -49,6 +50,7 @@ const Product = () => {
   return (
     <>
       <div className="container mb-4">
+        <Breadcrumbs />
         <h4 className="text-center mt-5">Product Detail</h4>
         <div className="row ">
           <div className="col-md-6  mt-5 ">

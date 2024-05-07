@@ -3,6 +3,7 @@ import Summary from "../../components/ShopCart/Summary";
 import ShopCart from "../../components/ShopCart/ShopCart";
 import { useEffect, useState } from "react";
 import axios from "../../api/axios";
+import Breadcrumbs from "../../components/ui/Breadcrumb";
 
 const url = "https://staja-marketplace.onrender.com";
 const Cart = () => {
@@ -23,9 +24,10 @@ const Cart = () => {
   }, []);
 
   return (
-    <div className="container py-3">
+    <div className="container py-3 ">
+      <Breadcrumbs />
       <h1 className={classes.cart_title}>Your Cart</h1>
-      <div className="row d-flex justify-content-between mt-5">
+      <div className="row d-flex justify-content-between mt-3">
         <div className="col d-flex flex-column gap-2  ">
           <ShopCart CartProdcut={cart} />
         </div>

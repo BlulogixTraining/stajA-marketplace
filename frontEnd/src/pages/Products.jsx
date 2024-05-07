@@ -3,10 +3,14 @@ import Card from "../components/Card/Card";
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
 import { Link } from "react-router-dom";
+import Breadcrumbs from "../components/ui/Breadcrumb";
+import Pagination from "../components/ui/Pagination";
 const url = "https://staja-marketplace.onrender.com";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -14,6 +18,7 @@ const Products = () => {
 
   const handleSelectedValuesChange = (values) => {
     setSelectedValues(values);
+    setCurrentPage(1);
   };
 
   useEffect(() => {
@@ -27,20 +32,28 @@ const Products = () => {
           });
           productsUrl += `?${categories.toString()}`;
         }
-        const response = await axios.get(productsUrl);
+        const response = await axios.get(`${productsUrl}?page=${currentPage}`);
         setProducts(response.data.products);
+        setTotalPages(response.data.pages);
+        console.log("response.data.products");
         setIsLoading(false);
       } catch (error) {
         setError(error);
+        setIsLoading(false);
       }
     };
 
     fetchProducts();
-  }, [selectedValues]);
+  }, [selectedValues, currentPage]);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
   return (
     <>
       <div className="d-block d-sm-flex container-fuild">
         <div className="container">
+          <Breadcrumbs />
+
           <h2 className="my-4 fw-bold ">Products</h2>
           <div className="row">
             <div className="col col-md-3">
@@ -64,6 +77,11 @@ const Products = () => {
               ))}
             </div>
           </div>
+          <Pagination
+            current={currentPage}
+            pages={totalPages}
+            onPageChange={handlePageChange}
+          />
         </div>
       </div>
     </>
