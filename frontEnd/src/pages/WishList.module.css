@@ -1,0 +1,13 @@
+.wishlist_card {
+  position: relative;
+}
+
+.wishlist_card .favorite {
+  position: absolute;
+  top: 2%;
+  right: 10%;
+  cursor: pointer;
+  color: red;
+  font-size: 1em;
+  z-index: 9999;
+}

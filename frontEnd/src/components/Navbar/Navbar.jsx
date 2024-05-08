@@ -42,8 +42,8 @@ const TobNav = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" href="#">
-                Link
+              <Link className="nav-link" to="/wishlist">
+                wishlist
               </Link>
             </li>{" "}
             <li className="nav-item">
