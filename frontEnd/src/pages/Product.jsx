@@ -23,6 +23,7 @@ const Product = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [rating, setRating] = useState(0);
   useEffect(() => {
     const fetchProductById = async () => {
       try {
@@ -34,8 +35,9 @@ const Product = () => {
         const data = await response.json();
         setProduct(data);
         setIsLoading(false);
-        console.log(data.reviews);
+        setRating(data.averagerating);
         setReviews(data.reviews);
+        console.log(data.averagerating);
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -46,14 +48,12 @@ const Product = () => {
   const handleButtonClick = () => {
     console.log("Add to cart");
   };
-
   return (
     <>
       <div className="container mb-4">
         <Breadcrumbs />
-        <h4 className="text-center mt-5">Product Detail</h4>
-        <div className="row ">
-          <div className="col-md-6  mt-5 ">
+        <div className="row  align-content-start gap-1 pt-2">
+          <div className="col-md-5  ">
             <div className={`${classes.slider_container} slider-container `}>
               <Slider asNavFor={nav2} ref={(slider) => (sliderRef1 = slider)}>
                 {product?.product.image.map((imageUrl, index) => (
@@ -87,7 +87,7 @@ const Product = () => {
           <div className="col-12 col-md-6">
             <div className={classes.product_detail}>
               <h2>{product?.product.name}</h2>
-              <RatingStarts star={reviews.rating} />
+              <RatingStarts star={product?.averagerating} />
               <div className={classes.detail_price}>
                 <h4 className={classes.orignal_price}>
                   ${product?.product.price}

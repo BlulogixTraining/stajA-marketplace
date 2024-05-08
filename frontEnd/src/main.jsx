@@ -15,6 +15,8 @@ import Cart from "./pages/Cart/Cart.jsx";
 import createStore from "react-auth-kit/createStore";
 // import { AuthProvider } from "react-auth-kit";
 import AuthProvider from "react-auth-kit";
+import WishList from "./pages/WishList.jsx";
+import RequireAuth from "@auth-kit/react-router/RequireAuth";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,11 +26,34 @@ const router = createBrowserRouter([
       { path: "products", element: <Products /> },
       { path: "products/:productId", element: <Product /> },
       { path: "about", element: <About /> },
-      { path: "userProfile", element: <UserProfile /> },
-      { path: "sellerProfile", element: <SellerProfile /> },
+      {
+        path: "userProfile",
+        element: (
+          <RequireAuth fallbackPath="/login">
+            <UserProfile />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: "sellerProfile",
+        element: (
+          <RequireAuth fallbackPath="/login">
+            <SellerProfile />
+          </RequireAuth>
+        ),
+      },
+
       { path: "signup", element: <SignUp /> },
       { path: "login", element: <Login /> },
       { path: "cart", element: <Cart /> },
+      {
+        path: "wishlist",
+        element: (
+          <RequireAuth fallbackPath="/login">
+            <WishList />
+          </RequireAuth>
+        ),
+      },
     ],
   },
 ]);
