@@ -1,0 +1,32 @@
+.tab-title {
+    font-size: 20px;
+  }
+
+.tab-content{
+    border: 1px solid black;
+    border-radius: 30px;
+    padding: 20px;
+  }
+
+#fill-tab-example .nav-link {
+    background-color: black;
+    color: white;
+}
+
+#fill-tab-example .nav-link.active {
+    background-color: white;
+    color: black;
+}
+
+h5 span:hover{
+    cursor: pointer;
+}
+
+.verification-button{
+  width: 23.5em;
+  height: 3.5em;
+}
+
+.currentAddress{
+  font-size: 20px;
+}

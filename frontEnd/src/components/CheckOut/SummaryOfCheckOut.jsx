@@ -1,9 +1,9 @@
-import classes from "./ShopCart.module.css";
+import classes from "../ShopCart/ShopCart.module.css";
 import { MdOutlineDiscount } from "react-icons/md";
 import { FaArrowRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
-const Summary = () => {
+const SummaryOfCheckOut = () => {
   return (
     <div className="card rounded-4 boder boder-1 border-dark-subtle p-2">
       <div className="card-body">
@@ -43,14 +43,6 @@ const Summary = () => {
 
     </div>
     </div>
-   
-  </div>
-  <div className="row mt-3">
-    <div className="col">
-      <Link to="/checkout" className="btn btn-dark w-100 p-2">
-        Go to Checkout <FaArrowRight />
-      </Link>
-    </div>
   </div>
 </div>
 
@@ -74,7 +66,7 @@ const Summary = () => {
   );
 };
 
-export default Summary;
+export default SummaryOfCheckOut;
 {
   /* <div className="row">
         <div className="col-6">Subtotal</div>
