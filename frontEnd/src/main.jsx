@@ -11,6 +11,7 @@ import Login from "./pages/login/Login.jsx";
 import Product from "./pages/Product.jsx";
 import Layout from "./components/Layout.jsx";
 import Cart from "./pages/Cart/Cart.jsx";
+import Checkout from "./components/CheckOut/CheckOut.jsx";
 // import { AuthProvider } from "./context/AuthProvider.jsx";
 import createStore from "react-auth-kit/createStore";
 // import { AuthProvider } from "react-auth-kit";
@@ -44,6 +45,7 @@ const router = createBrowserRouter([
       { path: "signup", element: <SignUp /> },
       { path: "login", element: <Login /> },
       { path: "cart", element: <Cart /> },
+      {path: "/checkout", element: <Checkout/>}
     ],
   },
 ]);
