@@ -37,6 +37,11 @@ const ProductSchema = new Schema({
     default: 0,
   },
 
+  properties: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Property',
+  },
+
   category_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",

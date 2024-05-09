@@ -61,7 +61,7 @@ exports.loginUser = async (req, res) => {
 
     if (same) {
       const token = createToken(user._id);
-      req.session.userID = user._id;
+      
 
       res.status(200).json({
         status: "Success",
