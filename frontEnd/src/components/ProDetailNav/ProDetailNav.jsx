@@ -5,9 +5,11 @@ import Tabs from "react-bootstrap/Tabs";
 import Accordion from "react-bootstrap/Accordion";
 import ProductReview from "../ProductReview/ProductReview";
 import Button from "../Button/Button";
-const ProDetailNav = ({ reviews }) => {
-  const [key, setKey] = useState("Product Details");
+import Addreviw from "../ui/Addreviw";
 
+const ProDetailNav = ({ reviews, ratedId }) => {
+  const [key, setKey] = useState("Product Details");
+  console.log(reviews);
   return (
     <Tabs
       id="controlled-tab-example"
@@ -26,7 +28,8 @@ const ProDetailNav = ({ reviews }) => {
         <div className="d-flex justify-content-between">
           <h3>Rating & Reviews</h3>
 
-          <Button Name="Write review" width="33px"></Button>
+          {/* <Button Name="Write review" width="33px"></Button> */}
+          <Addreviw ratedId={ratedId} />
         </div>
         <div className="d-flex flex-wrap  mt-3">
           <ProductReview reviews={reviews} />

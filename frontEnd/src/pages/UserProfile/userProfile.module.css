@@ -26,11 +26,11 @@ form input {
   padding: 10px;
   margin: 10px 0;
   border: none;
-  background-color: blanchedalmond;
+  background-color: #8181812e;
   border-bottom: 1px solid #381515;
   border-radius: 5px;
   font-size: 1rem;
-  color: #f10000;
+  color: #110f0f;
 }
 form input:focus {
   outline: none;

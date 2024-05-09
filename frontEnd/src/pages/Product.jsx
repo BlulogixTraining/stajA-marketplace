@@ -4,7 +4,6 @@ import ProductDetailNav from "../components/ProDetailNav/ProDetailNav";
 const url = "https://staja-marketplace.onrender.com";
 import classes from "./proudctDetail.module.css";
 import Slider from "react-slick";
-
 import RatingStarts from "../components/ui/RatingStarts";
 import CustomButton from "../components/ui/CustomButton";
 import Breadcrumbs from "../components/ui/Breadcrumb";
@@ -12,7 +11,6 @@ const Product = () => {
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
 
-  //store the reviews
   const [reviews, setReviews] = useState([]);
   let sliderRef1 = useRef(null);
   let sliderRef2 = useRef(null);
@@ -22,6 +20,7 @@ const Product = () => {
   }, []);
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
+  const [rateId, setRateId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [rating, setRating] = useState(0);
   useEffect(() => {
@@ -37,7 +36,8 @@ const Product = () => {
         setIsLoading(false);
         setRating(data.averagerating);
         setReviews(data.reviews);
-        console.log(data.averagerating);
+        setRateId(data.product._id);
+        console.log("data", data.product._id);
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -48,6 +48,8 @@ const Product = () => {
   const handleButtonClick = () => {
     console.log("Add to cart");
   };
+
+  console.log(rateId);
   return (
     <>
       <div className="container mb-4">
@@ -126,7 +128,7 @@ const Product = () => {
       </div>
 
       <section className="container mt-3 justify-content-center ">
-        <ProductDetailNav reviews={reviews} />
+        <ProductDetailNav reviews={reviews} ratedId={rateId} />
       </section>
     </>
   );
