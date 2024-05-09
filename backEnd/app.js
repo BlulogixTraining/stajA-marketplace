@@ -1,8 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const session = require("express-session");
-const cookieParser = require("cookie-parser");
-const MongoStore = require("connect-mongo");
 const methodOverride = require("method-override");
 const fileUpload = require("express-fileupload");
 const userRoute = require("./routes/userRoute");
@@ -12,6 +9,7 @@ const ProductReviewRoute = require("./routes/productReviewRoute");
 const dashboardRoute = require("./routes/dashboardRoute");
 const cartRoute = require("./routes/cartRoute");
 const favoriteRoute = require("./routes/favoriteRoute");
+const proprtiesRoute = require("./routes/proprtiesRoute");
 
 const cors = require("cors");
 
@@ -29,24 +27,12 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
 //Middlewares
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.use(cookieParser());
 app.use(
   methodOverride("_method", {
     methods: ["POST", "GET"],
   })
 );
-//session
-app.use(
-  session({
-    secret: "keyboard cat",
-    resave: false,
-    saveUninitialized: true,
-    // Used with the Express.js framework for session storage.
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URI,
-    }),
-  })
-);
+
 app.use(fileUpload());
 
 //Routes
@@ -58,6 +44,7 @@ app.use("/products", productRoute);
 app.use("/reviews", ProductReviewRoute);
 app.use("/cart", cartRoute);
 app.use("/favorite", favoriteRoute);
+app.use("/proprties", proprtiesRoute);
 
 const port = 3000;
 app.listen(port, () => {
