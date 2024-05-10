@@ -7,6 +7,7 @@ import Slider from "react-slick";
 import RatingStarts from "../components/ui/RatingStarts";
 import CustomButton from "../components/ui/CustomButton";
 import Breadcrumbs from "../components/ui/Breadcrumb";
+import axios from "../api/axios";
 const Product = () => {
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
@@ -23,6 +24,7 @@ const Product = () => {
   const [rateId, setRateId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [rating, setRating] = useState(0);
+  const [error, setError] = useState(null);
   useEffect(() => {
     const fetchProductById = async () => {
       try {
@@ -45,11 +47,37 @@ const Product = () => {
 
     fetchProductById();
   }, [productId]);
-  const handleButtonClick = () => {
-    console.log("Add to cart");
+  const handleButtonClick = async () => {
+    try {
+      const response = await axios.post(`/cart/add`, {
+        product_id: rateId,
+      });
+      console.log("response", response);
+    } catch (error) {
+      setError(error.response.data.message);
+
+      console.error("Error fetching product:", error.response.data.message);
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
+    }
   };
 
-  console.log(`product`, product);
+  const handleAddToCart = async () => {
+    try {
+      const response = await axios.post(`/favorite/add`, {
+        product_id: rateId,
+      });
+      console.log("response", response);
+    } catch (error) {
+      setError(error.response.data.message);
+
+      console.error("Error fetching product:", error.response.data.message);
+      setTimeout(() => {
+        setError(null);
+      }, 5000); // 5000 milliseconds = 5 seconds
+    }
+  };
   return (
     <>
       <div className="container mb-4">
@@ -105,7 +133,7 @@ const Product = () => {
             <div className={classes.add_to_cart}>
               <h5 className="pt-4">Choose Size</h5>
 
-              <div className={`${classes.size} d-flex gap-2 mt-3 `}>
+              {/* <div className={`${classes.size} d-flex gap-2 mt-3 `}>
                 <CustomButton
                   title="Large"
                   color="#F0F0F0"
@@ -121,7 +149,29 @@ const Product = () => {
                   onClick={handleButtonClick}
                   style={{ borderRadius: "50%" }}
                 />
+              </div> */}
+              <div className="d-flex gap-2 pt-3 ">
+                <CustomButton
+                  width={"100%"}
+                  // isActive={true}
+                  title="Buy Now"
+                  color="black"
+                  onClick={handleButtonClick}
+                />
+                <CustomButton
+                  width={"30%"}
+                  // isActive={true}
+
+                  title="add to wishlist"
+                  color="black"
+                  onClick={handleAddToCart}
+                />
               </div>
+              {error && (
+                <div className="alert alert-danger mt-2" role="alert">
+                  {error}
+                </div>
+              )}
             </div>
           </div>
         </div>
