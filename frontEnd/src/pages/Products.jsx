@@ -13,8 +13,8 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [selectedValues, setSelectedValues] = useState([]);
+  console.log(selectedValues);
 
   const handleSelectedValuesChange = (values) => {
     setSelectedValues(values);
@@ -26,16 +26,16 @@ const Products = () => {
       try {
         setIsLoading(true);
         let productsUrl = `${url}/products`;
+        const params = new URLSearchParams();
         if (selectedValues.length > 0) {
-          const categories = new URLSearchParams({
-            categories: selectedValues.join(","),
-          });
-          productsUrl += `?${categories.toString()}`;
+          params.append("categories", selectedValues.join(","));
         }
-        const response = await axios.get(`${productsUrl}?page=${currentPage}`);
+        params.append("page", currentPage);
+        productsUrl += `?${params.toString()}`;
+
+        const response = await axios.get(productsUrl);
         setProducts(response.data.products);
         setTotalPages(response.data.pages);
-        console.log("response.data.products");
         setIsLoading(false);
       } catch (error) {
         setError(error);
@@ -68,6 +68,7 @@ const Products = () => {
                   <Card
                     productSlug={product.slug}
                     name={product.name}
+                    rating={product.averagerating}
                     img={`${url}${product.image[0]}`}
                     price={product.price}
                     discount={product.discount}

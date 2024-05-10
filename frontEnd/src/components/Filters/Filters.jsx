@@ -53,7 +53,7 @@ const Filters = ({ onSelectedValuesChange }) => {
           </label>
         ))}
       </div>
-      <div className="d-flex flex-column">
+      {/* <div className="d-flex flex-column">
         <h3 className={classes.cat_title}>Category:</h3>
         {categories.map((category) => (
           <label key={category._id} className="px-2">
@@ -68,7 +68,7 @@ const Filters = ({ onSelectedValuesChange }) => {
             {category.name}
           </label>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -1,14 +1,20 @@
 import React from "react";
 
 function Pagination({ current, pages, onPageChange }) {
+  console.log("current", current);
   const renderPaginationItems = () => {
     const paginationItems = [];
     for (let i = 1; i <= pages; i++) {
       paginationItems.push(
-        <li key={i} className={`page-item ${i === current ? "active" : ""}`}>
+        <li key={i} className={`page-item ${i === current ? "" : ""}`}>
           <button
-            className={`page-link ${i === current ? "active" : ""}`}
+            className={`page-link ${i === current ? "" : ""}`}
             onClick={() => onPageChange(i)}
+            style={
+              {
+                //active page style
+              }
+            }
           >
             {i}
           </button>
