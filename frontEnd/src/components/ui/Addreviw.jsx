@@ -40,13 +40,13 @@ const Addreviw = ({ ratedId }) => {
         reviewData
       );
       console.log("Review submitted successfully:", response.data);
-      reset(); // Reset form fields
-      setSelectedRating(0); // Reset star rating
+      reset();
+      setSelectedRating(0);
     } catch (error) {
       console.error("Error fetching product:", error);
     } finally {
       setSubmitting(false);
-      handleClose(); // Close the modal after submission attempt
+      handleClose();
     }
   };
 
