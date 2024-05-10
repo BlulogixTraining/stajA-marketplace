@@ -7,7 +7,6 @@ const Category = require("../../../models/Category");
 const ProductReview = require("../../../models/ProductReview");
 const Property = require("../../../models/Property");
 
-
 exports.createProduct = async (req, res) => {
   const uploadDir = path.join(__dirname, "../../../public/images/");
 
@@ -61,10 +60,34 @@ exports.getAllProducts = async (req, res) => {
       filter = { category_id: category._id };
     }
 
-    const products = await Product.find(filter)
-      .sort("createdAt")
-      .skip((page - 1) * productPerPage)
-      .limit(productPerPage);
+    const products = await Product.aggregate([
+      { $match: filter },
+      {
+        $lookup: {
+          from: "productreviews",
+          localField: "_id",
+          foreignField: "product_id",
+          as: "reviews",
+        },
+      },
+      {
+        $addFields: {
+          averagerating: { $ceil: { $avg: "$reviews.rating" } },
+        },
+      },
+      //To obscure the array of reviews
+      {
+        $project: {
+          reviews: 0,
+        },
+      },
+      {
+        $skip: (page - 1) * productPerPage,
+      },
+      {
+        $limit: productPerPage,
+      },
+    ]);
 
     res.status(200).json({
       status: "Success",
@@ -86,20 +109,23 @@ exports.getProductDetails = async (req, res) => {
     const reviews = await ProductReview.find({
       product_id: product._id,
     }).populate("user_id", "name");
-    const properties = await Property.findOne({ category_id: product.category_id });
+    const properties = await Property.findOne({
+      category_id: product.category_id,
+    });
     let totalRating = 0;
     reviews.forEach((review) => {
       totalRating += review.rating;
     });
-    
-    const averagerating = reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
+
+    const averagerating =
+      reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
 
     res.status(200).json({
       status: "Success",
       product,
       averagerating,
       reviews,
-      properties
+      properties,
     });
   } catch (error) {
     res.status(400).json({
