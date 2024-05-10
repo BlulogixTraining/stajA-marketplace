@@ -25,7 +25,10 @@ const Addreviw = ({ ratedId }) => {
       product_id: ratedId,
     };
     try {
-      const response = await axios.post(`${url}/reviews`, reviewData);
+      const response = await axios.post(
+        `${url}/reviews/${ratedId}`,
+        reviewData
+      );
       console.log("Review submitted successfully:", response.data);
     } catch (error) {
       console.error("Error fetching product:", error);
