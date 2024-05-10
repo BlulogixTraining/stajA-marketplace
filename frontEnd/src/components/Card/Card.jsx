@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import classes from "./Card.module.css";
-const Card = ({ img, name, price, discount, productSlug }) => {
-  console.log("productSlug", productSlug);
+import RatingStarts from "../ui/RatingStarts";
+const Card = ({ img, name, price, discount, productSlug, rating }) => {
+  // console.log("productSlug", productSlug);
   return (
     <div
       className="product"
@@ -15,6 +16,7 @@ const Card = ({ img, name, price, discount, productSlug }) => {
           <img src={img} alt="productImage" className="img-fluid" />
         </div>
         <div className={classes.details}>
+          <RatingStarts star={rating} />
           <h5>{name}</h5>
           <div className={classes.prices}>
             <span>{`$${price}`}</span>
