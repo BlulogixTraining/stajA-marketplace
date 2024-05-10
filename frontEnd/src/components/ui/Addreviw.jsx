@@ -9,16 +9,26 @@ const url = "https://staja-marketplace.onrender.com";
 const Addreviw = ({ ratedId }) => {
   const [show, setShow] = useState(false);
   const [selectedRating, setSelectedRating] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setSubmitting(false);
+  };
   const handleShow = () => setShow(true);
   const handleRatingChange = (newRating) => {
     setSelectedRating(newRating);
   };
 
-  const { register, handleSubmit, errors } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitting, isValid },
+  } = useForm();
 
   const onSubmit = async (data) => {
+    setSubmitting(true);
     const reviewData = {
       review: data.review,
       rating: selectedRating,
@@ -30,8 +40,13 @@ const Addreviw = ({ ratedId }) => {
         reviewData
       );
       console.log("Review submitted successfully:", response.data);
+      reset();
+      setSelectedRating(0);
     } catch (error) {
       console.error("Error fetching product:", error);
+    } finally {
+      setSubmitting(false);
+      handleClose();
     }
   };
 
@@ -53,14 +68,13 @@ const Addreviw = ({ ratedId }) => {
               isWritable="true"
             />
             <input {...register("review", { required: true, maxLength: 20 })} />
-            <input type="submit" onClick={handleClose} />
+            <input
+              type="submit"
+              value={submitting ? "Submitting..." : "Submit"}
+              disabled={isSubmitting || !isValid}
+            />
           </form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
     </>
   );

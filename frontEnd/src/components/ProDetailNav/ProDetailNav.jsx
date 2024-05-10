@@ -28,7 +28,6 @@ const ProDetailNav = ({ reviews, ratedId }) => {
         <div className="d-flex justify-content-between">
           <h3>Rating & Reviews</h3>
 
-          {/* <Button Name="Write review" width="33px"></Button> */}
           <Addreviw ratedId={ratedId} />
         </div>
         <div className="d-flex flex-wrap  mt-3">
