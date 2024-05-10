@@ -65,14 +65,13 @@ const Products = () => {
             <div className="col d-flex flex-wrap justify-content-center justify-content-lg-start mt-3 mt-md-0 gap-4 gap-md-0   ">
               {products.map((product) => (
                 <div key={product.id} className={`col col-md-4 mb-5  `}>
-                  <Link to={`/products/${product.slug}`} className="text-black">
-                    <Card
-                      name={product.name}
-                      img={`${url}${product.image[0]}`}
-                      price={product.price}
-                      discount={product.discount}
-                    />{" "}
-                  </Link>
+                  <Card
+                    productSlug={product.slug}
+                    name={product.name}
+                    img={`${url}${product.image[0]}`}
+                    price={product.price}
+                    discount={product.discount}
+                  />{" "}
                 </div>
               ))}
             </div>

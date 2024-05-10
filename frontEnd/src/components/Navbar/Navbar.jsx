@@ -41,11 +41,14 @@ const TobNav = () => {
                 Products
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/wishlist">
-                wishlist
-              </Link>
-            </li>{" "}
+            {isAuthenticated && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/wishlist">
+                  Wishlist
+                </Link>
+              </li>
+            )}
+
             <li className="nav-item">
               <Link className="nav-link" href="#">
                 models

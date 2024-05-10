@@ -37,7 +37,7 @@ const Product = () => {
         setRating(data.averagerating);
         setReviews(data.reviews);
         setRateId(data.product._id);
-        console.log("data", data.product._id);
+        console.log("data.averagerating", data.averagerating);
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -49,7 +49,7 @@ const Product = () => {
     console.log("Add to cart");
   };
 
-  console.log(rateId);
+  console.log(`product`, product);
   return (
     <>
       <div className="container mb-4">
@@ -89,13 +89,13 @@ const Product = () => {
           <div className="col-12 col-md-6">
             <div className={classes.product_detail}>
               <h2>{product?.product.name}</h2>
-              <RatingStarts star={product?.averagerating} />
+              <RatingStarts star={rating} />
               <div className={classes.detail_price}>
                 <h4 className={classes.orignal_price}>
                   ${product?.product.price}
                 </h4>
                 <h4 className={classes.desc_price}>
-                  ${product?.product.discount}%
+                  ${product?.product.discount}
                 </h4>
                 <p>%50</p>
               </div>

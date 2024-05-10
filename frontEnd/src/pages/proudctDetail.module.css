@@ -1,7 +1,7 @@
 .big_detail_img {
   width: 500px;
   height: 400px;
-  background-color: #f2f2f2fd;
+  /* background-color: #f2f2f2fd; */
   border-radius: 25px;
   -webkit-border-radius: 25px;
   -moz-border-radius: 25px;
@@ -31,7 +31,10 @@
   object-fit: cover;
 }
 .slider_container {
-  background-color: rgba(184, 170, 189, 0.211);
+  /* background-color: rgba(184, 170, 189, 0.211); */
+  border: 1px solid #d2c4c4;
+  border-radius: 25px;
+  overflow: hidden;
 }
 
 .product_detail {

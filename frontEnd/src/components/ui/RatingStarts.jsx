@@ -7,8 +7,8 @@ const RatingStarts = ({ star, onChange, isWritable }) => {
 
   const handleStarClick = (clickedRating) => {
     if (isWritable) {
-      setSelectedRating(clickedRating); // Update selected rating when a star is clicked
-      onChange(clickedRating); // Call the onChange function with the new rating
+      setSelectedRating(clickedRating);
+      onChange(clickedRating);
     }
   };
 
@@ -16,15 +16,17 @@ const RatingStarts = ({ star, onChange, isWritable }) => {
     <div className={classes.star}>
       {[...Array(5)].map((_, index) => {
         const currentRating = index + 1;
-        const filled = currentRating <= selectedRating;
+
+        const filled =
+          star !== null && star !== undefined && currentRating <= star;
         return (
           <FaStar
             key={index}
             className={classes.star}
-            size={35}
+            size={30}
             color={filled ? "#ffc107" : "#e4e5e9"}
-            onClick={() => handleStarClick(currentRating)} // Call handleStarClick when a star is clicked
-            style={{ cursor: isWritable ? "pointer" : "default" }} // Change cursor style based on isWritable prop
+            onClick={() => handleStarClick(currentRating)}
+            style={{ cursor: isWritable ? "pointer" : "default" }}
           />
         );
       })}
