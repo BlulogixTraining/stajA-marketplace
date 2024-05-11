@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const AddressSchema = new Schema({
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   name: {
     type: String,
     required: true,
@@ -24,10 +28,6 @@ const AddressSchema = new Schema({
     type: String,
   },
 
-  user_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
   createdAt: {
     type: Date,
     default: Date.now,
