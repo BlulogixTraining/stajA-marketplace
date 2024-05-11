@@ -1,8 +1,10 @@
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import classes from "./ShopCart.module.css";
-const ShopCart = ({ CartProdcut }) => {
+
+const url = "https://staja-marketplace.onrender.com";
+const ShopCart = ({ CartProdcut, onRemoveClick }) => {
   const cartData = CartProdcut;
-  const url = "https://staja-marketplace.onrender.com";
+
   return (
     <div className="contianer">
       <div className="row">
@@ -26,7 +28,11 @@ const ShopCart = ({ CartProdcut }) => {
                       <h4 className="text-capitalize fw-bold w-100 d-flex justify-content-start">
                         {product.name}
                       </h4>
-                      <a className=" text-decoration-line-through text-danger d--inline-flex justify-content-end fs-5">
+                      <a
+                        onClick={() => onRemoveClick(product._id)}
+                        style={{ cursor: "pointer" }}
+                        className=" text-decoration-line-through text-danger d--inline-flex justify-content-end fs-5"
+                      >
                         <RiDeleteBin5Fill />{" "}
                       </a>
                     </div>

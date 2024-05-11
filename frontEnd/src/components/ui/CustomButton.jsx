@@ -13,6 +13,7 @@ const CustomButton = ({ width, height, color, title, style, onClick }) => {
     width: width || "auto",
     height: height || "auto",
     backgroundColor: isActive ? "black" : color || "gray",
+    color: "white",
     // color: isActive ? "white" : "black",
     ...style,
   };
