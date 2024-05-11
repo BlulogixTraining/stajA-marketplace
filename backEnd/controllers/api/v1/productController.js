@@ -5,7 +5,7 @@ const path = require("path");
 const Product = require("../../../models/Product");
 const Category = require("../../../models/Category");
 const ProductReview = require("../../../models/ProductReview");
-const Property = require("../../../models/Property");
+const ProductVariant = require("../../../models/ProductVariant");
 
 exports.createProduct = async (req, res) => {
   const uploadDir = path.join(__dirname, "../../../public/images/");
@@ -109,8 +109,9 @@ exports.getProductDetails = async (req, res) => {
     const reviews = await ProductReview.find({
       product_id: product._id,
     }).populate("user_id", "name");
-    const properties = await Property.findOne({
-      category_id: product.category_id,
+
+    const productvariant = await ProductVariant.findOne({
+      product_id: product._id,
     });
     let totalRating = 0;
     reviews.forEach((review) => {
@@ -125,7 +126,7 @@ exports.getProductDetails = async (req, res) => {
       product,
       averagerating,
       reviews,
-      properties,
+      productvariant,
     });
   } catch (error) {
     res.status(400).json({

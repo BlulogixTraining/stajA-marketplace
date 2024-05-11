@@ -4,6 +4,11 @@ const slugify = require("slugify");
 const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
+  category_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+    required: true,
+  },
   name: {
     type: String,
     required: true,
@@ -37,16 +42,6 @@ const ProductSchema = new Schema({
     default: 0,
   },
 
-  properties: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Property',
-  },
-
-  category_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category",
-    required: true,
-  },
   createdAt: {
     type: Date,
     default: Date.now,

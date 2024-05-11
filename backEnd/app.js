@@ -9,7 +9,7 @@ const ProductReviewRoute = require("./routes/productReviewRoute");
 const dashboardRoute = require("./routes/dashboardRoute");
 const cartRoute = require("./routes/cartRoute");
 const favoriteRoute = require("./routes/favoriteRoute");
-const proprtiesRoute = require("./routes/proprtiesRoute");
+const productVariantRoute = require("./routes/productVariantRoute");
 
 const cors = require("cors");
 
@@ -44,7 +44,7 @@ app.use("/products", productRoute);
 app.use("/reviews", ProductReviewRoute);
 app.use("/cart", cartRoute);
 app.use("/favorite", favoriteRoute);
-app.use("/proprties", proprtiesRoute);
+app.use("/productvariant", productVariantRoute);
 
 const port = 3000;
 app.listen(port, () => {

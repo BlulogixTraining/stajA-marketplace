@@ -3,6 +3,14 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ProductReviewSchema = new Schema({
+  product_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product",
+  },
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   review: {
     type: String,
     required: true,
@@ -14,14 +22,6 @@ const ProductReviewSchema = new Schema({
     max: 5,
   },
 
-  product_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
-  },
-  user_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
   createdAt: {
     type: Date,
     default: Date.now,
