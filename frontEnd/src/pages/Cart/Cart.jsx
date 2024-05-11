@@ -4,6 +4,7 @@ import ShopCart from "../../components/ShopCart/ShopCart";
 import { useEffect, useState } from "react";
 import axios from "../../api/axios";
 import Breadcrumbs from "../../components/ui/Breadcrumb";
+import { Link } from "react-router-dom";
 
 const url = "https://staja-marketplace.onrender.com";
 const Cart = () => {
