@@ -8,7 +8,7 @@ import Breadcrumbs from "../../components/ui/Breadcrumb";
 const url = "https://staja-marketplace.onrender.com";
 const Cart = () => {
   const [cart, setCart] = useState([]);
-  // fetch the cart data
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -23,13 +23,26 @@ const Cart = () => {
     fetchCart();
   }, []);
 
+  const handleRemoveClick = async (id) => {
+    try {
+      const response = await axios.post(`/cart/remove`, {
+        product_id: id,
+      });
+
+      const newCart = cart.filter((product) => product._id !== id);
+      setCart(newCart);
+    } catch (error) {
+      setError(error.response.data.message);
+      console.error("Error fetching product:", error.response.data.message);
+    }
+  };
   return (
     <div className="container py-3 ">
       <Breadcrumbs />
       <h1 className={classes.cart_title}>Your Cart</h1>
       <div className="row d-flex justify-content-between mt-3">
         <div className="col d-flex flex-column gap-2  ">
-          <ShopCart CartProdcut={cart} />
+          <ShopCart CartProdcut={cart} onRemoveClick={handleRemoveClick} />
         </div>
         <div className="col-md-4">
           <Summary />
