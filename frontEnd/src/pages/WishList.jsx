@@ -34,16 +34,30 @@ const WishList = () => {
         setWishlist(response.data.favorite);
         console.log("responsedele", response.data);
       }
+
+      const newWishlist = wishlist.filter(
+        (product) => product._id !== productId
+      );
+      setWishlist(newWishlist);
     } catch (error) {
       console.error(error);
     }
   };
-  if (!wishlist) {
+  if (!wishlist.length) {
     return (
       <div className="container">
         <Breadcrumbs />
         <h1>WishList</h1>
-        <p>Loading...</p>
+        <div className="row">
+          <div className="col d-flex flex-column gap-2  ">
+            <h3 className="text-center">Your wishlist is empty</h3>
+            <div className="d-flex justify-content-center">
+              <Link to="/products" className="btn btn-secondary">
+                Shop Now
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
