@@ -8,12 +8,6 @@ const ProductVariantSchema = new Schema({
     ref: "Product",
   },
 
-  size: {
-    type: [String],
-  },
-  colors: {
-    type: [String],
-  },
   ram: {
     type: String,
   },
@@ -37,6 +31,10 @@ const ProductVariantSchema = new Schema({
   },
 
   ssdcapacity: {
+    type: String,
+  },
+
+  style: {
     type: String,
   },
 
