@@ -48,7 +48,7 @@ exports.getAllProducts = async (req, res) => {
   try {
     const page = req.query.page || 1;
 
-    const productPerPage = 5;
+    const productPerPage = 6;
     const totalproducts = await Product.find().countDocuments();
 
     const categorySlug = req.query.categories;
