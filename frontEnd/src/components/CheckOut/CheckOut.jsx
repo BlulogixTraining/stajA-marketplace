@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import './CheckOut.css';
+import './CheckOut.module.css';
 import DropdownAddress from './DropDownAddress';
 import DropdownPayment from './DropDownPayment';
 import Form from 'react-bootstrap/Form';
