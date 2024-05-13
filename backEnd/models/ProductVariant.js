@@ -8,34 +8,13 @@ const ProductVariantSchema = new Schema({
     ref: "Product",
   },
 
-  ram: {
-    type: String,
-  },
-  ramtype: {
-    type: String,
-  },
-  processor: {
-    type: String,
-  },
-  internalmemory: {
-    type: String,
-  },
-  camera: {
-    type: String,
-  },
-  batterypower: {
-    type: String,
-  },
-  warrantyperiod: {
-    type: String,
+  category_id: {
+    type: Schema.Types.ObjectId,
+    ref: "VariantCategory",
   },
 
-  ssdcapacity: {
-    type: String,
-  },
-
-  style: {
-    type: String,
+  variantvalues: {
+    type: [String],
   },
 
   createdAt: {

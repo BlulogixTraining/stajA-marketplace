@@ -110,9 +110,7 @@ exports.getProductDetails = async (req, res) => {
       product_id: product._id,
     }).populate("user_id", "name");
 
-    const productvariant = await ProductVariant.findOne({
-      product_id: product._id,
-    });
+    const productVariants = await ProductVariant.find({ product_id: product._id }).populate("category_id");
     let totalRating = 0;
     reviews.forEach((review) => {
       totalRating += review.rating;
@@ -120,13 +118,19 @@ exports.getProductDetails = async (req, res) => {
 
     const averagerating =
       reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
+      const variants_available = {};
 
+      productVariants.forEach((variant) => {
+        const categoryName = variant.category_id.name;
+        variants_available[categoryName] = variants_available[categoryName] || [];
+        variants_available[categoryName] = variants_available[categoryName].concat(variant.variantvalues);
+      });
     res.status(200).json({
       status: "Success",
       product,
       averagerating,
       reviews,
-      productvariant,
+      variants_available,
     });
   } catch (error) {
     res.status(400).json({
