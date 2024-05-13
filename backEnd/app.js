@@ -46,7 +46,7 @@ app.use("/cart", cartRoute);
 app.use("/favorite", favoriteRoute);
 app.use("/productvariant", productVariantRoute);
 
-const port = 3000;
+const port = 4000;
 app.listen(port, () => {
   console.log(`App started on port ${port}`);
 });
