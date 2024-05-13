@@ -3,7 +3,7 @@ const productVariantController = require("../controllers/api/v1/productVariantCo
 const verifyToken = require("../middleware/api/v1/verifytoken");
 const router = express.Router();
 
-router.route("/").post(verifyToken, productVariantController.createProductVariant);
+router.route("/:id").post(verifyToken, productVariantController.createProductVariant);
 router.route("/").get( productVariantController.getProductVariant);
 
 

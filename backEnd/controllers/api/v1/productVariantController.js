@@ -1,9 +1,14 @@
 const ProductVariant = require("../../../models/ProductVariant");
+const Product = require("../../../models/Product");
 
 exports.createProductVariant = async (req, res) => {
   try {
-    const productvariant = await ProductVariant.create(req.body);
-    /*
+    const product = await Product.findOne({ _id: req.params.id });
+    const productvariant = await ProductVariant.create({
+      ...req.body,
+      product_id: product._id,
+    });
+/*
     if (product.product_variant.includes(product._id)) {
       return res
         .status(400)
