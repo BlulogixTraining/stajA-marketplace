@@ -6,6 +6,7 @@ const Product = require("../../../models/Product");
 const Category = require("../../../models/Category");
 const ProductReview = require("../../../models/ProductReview");
 const ProductVariant = require("../../../models/ProductVariant");
+const VariantCategory = require("../../../models/VariantCategory");
 
 exports.createProduct = async (req, res) => {
   const uploadDir = path.join(__dirname, "../../../public/images/");
@@ -106,27 +107,31 @@ exports.getAllProducts = async (req, res) => {
 exports.getProductDetails = async (req, res) => {
   try {
     const product = await Product.findOne({ slug: req.params.slug });
-    const reviews = await ProductReview.find({
-      product_id: product._id,
-    }).populate("user_id", "name");
+    const reviews = await ProductReview.find({ product_id: product._id }).populate("user_id", "name");
+    const productVariants = await ProductVariant.find({ product_id: product._id }).populate("category_id");
 
-    const productvariant = await ProductVariant.findOne({
-      product_id: product._id,
-    });
     let totalRating = 0;
+
     reviews.forEach((review) => {
       totalRating += review.rating;
     });
 
-    const averagerating =
-      reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
+    const averageRating = reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
+
+    const variants_available = {};
+
+    productVariants.forEach((variant) => {
+      const categoryName = variant.category_id.name;
+      variants_available[categoryName] = variants_available[categoryName] || [];
+      variants_available[categoryName] = variants_available[categoryName].concat(variant.variantvalues);
+    });
 
     res.status(200).json({
       status: "Success",
       product,
-      averagerating,
+      averageRating,
       reviews,
-      productvariant,
+      variants_available,
     });
   } catch (error) {
     res.status(400).json({
@@ -135,6 +140,8 @@ exports.getProductDetails = async (req, res) => {
     });
   }
 };
+
+
 /*
 
 // Function to generate fake products
