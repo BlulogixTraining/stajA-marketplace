@@ -1,6 +1,6 @@
 const express = require("express");
 const categoryController = require("../controllers/api/v1/categoryController");
-const variantCategoryController = require("../controllers/api/v1/VariantCategoryController");
+const variantCategoryController = require("../controllers/api/v1/variantCategoryController");
 const verifyToken = require('../middleware/api/v1/verifytoken');
 const router = express.Router();
 
