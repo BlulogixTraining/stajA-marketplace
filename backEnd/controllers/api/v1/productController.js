@@ -94,7 +94,6 @@ exports.getAllProducts = async (req, res) => {
       products: products,
       current: page,
       pages: Math.ceil(totalproducts / productPerPage),
-      averagerating
     });
   } catch (error) {
     res.status(400).json({
