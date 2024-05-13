@@ -10,7 +10,7 @@ const ProductVariantSchema = new Schema({
 
   category_id: {
     type: Schema.Types.ObjectId,
-    ref: "VariantCategory",
+    ref: "Category",
   },
 
   variantvalues: {

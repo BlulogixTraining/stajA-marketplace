@@ -9,8 +9,6 @@ const VariantCategorySchema = new Schema({
     required: true,
   },
 
-  values: [{ type: String }],
-
   slug: {
     type: String,
     unique: true,
@@ -21,8 +19,13 @@ const VariantCategorySchema = new Schema({
   },
 });
 
-const VariantCategory = mongoose.model(
-  "VariantCategory",
-  VariantCategorySchema
-);
+VariantCategorySchema.pre("validate", function (next) {
+  this.slug = slugify(this.name, {
+    lower: true,
+    strict: true,
+  });
+  next();
+});
+
+const VariantCategory = mongoose.model("VariantCategory", VariantCategorySchema);
 module.exports = VariantCategory;
