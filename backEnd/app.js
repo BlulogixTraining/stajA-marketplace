@@ -10,7 +10,6 @@ const dashboardRoute = require("./routes/dashboardRoute");
 const cartRoute = require("./routes/cartRoute");
 const favoriteRoute = require("./routes/favoriteRoute");
 const productVariantRoute = require("./routes/productVariantRoute");
-const variantCategoryRoute = require("./routes/variantCategoryRoute");
 
 
 const cors = require("cors");
@@ -42,7 +41,6 @@ app.use(fileUpload());
 app.use("/users", userRoute);
 app.use("/userprofile", dashboardRoute);
 app.use("/categories", categoryRoute);
-app.use("/variantcategories", variantCategoryRoute);
 app.use("/products", productRoute);
 app.use("/reviews", ProductReviewRoute);
 app.use("/cart", cartRoute);
