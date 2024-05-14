@@ -6,6 +6,7 @@ const Product = require("../../../models/Product");
 const Category = require("../../../models/Category");
 const ProductReview = require("../../../models/ProductReview");
 const ProductVariant = require("../../../models/ProductVariant");
+const VariantCategory = require("../../../models/VariantCategory");
 
 exports.createProduct = async (req, res) => {
   const uploadDir = path.join(__dirname, "../../../public/images/");
@@ -110,7 +111,10 @@ exports.getProductDetails = async (req, res) => {
       product_id: product._id,
     }).populate("user_id", "name");
 
-    const productVariants = await ProductVariant.find({ product_id: product._id }).populate("category_id");
+    const variantCategories = await VariantCategory.find();
+    const productVariants = await ProductVariant.find({ product_id: product._id });
+   
+
     let totalRating = 0;
     reviews.forEach((review) => {
       totalRating += review.rating;
@@ -118,19 +122,28 @@ exports.getProductDetails = async (req, res) => {
 
     const averagerating =
       reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
+      
       const variants_available = {};
 
-      productVariants.forEach((variant) => {
-        const categoryName = variant.category_id.name;
-        variants_available[categoryName] = variants_available[categoryName] || [];
-        variants_available[categoryName] = variants_available[categoryName].concat(variant.variantvalues);
+    
+      variantCategories.forEach((category) => {
+        variants_available[category.name] = [];
+        
+        productVariants.forEach((variant) => {
+          if (String(variant.category_id) === String(category._id)) {
+            variants_available[category.name] = variants_available[category.name].concat(variant.variantvalues);
+          }
+        });
       });
+    
+      
     res.status(200).json({
       status: "Success",
       product,
       averagerating,
       reviews,
       variants_available,
+      
     });
   } catch (error) {
     res.status(400).json({
