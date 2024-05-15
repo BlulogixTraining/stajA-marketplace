@@ -7,6 +7,11 @@
   -o-border-radius: 25px;
   padding: 20px 20px;
 }
+@media screen and (min-width: 771px) {
+  .productReview {
+    width: 48%;
+  }
+}
 .productReview p {
   /* font-size: 1.2rem; */
   color: #a08d8d;

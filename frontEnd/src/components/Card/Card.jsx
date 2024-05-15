@@ -15,7 +15,9 @@ const Card = ({ img, name, price, discount, productSlug, rating }) => {
         <div className={classes.imageBox}>
           <img src={img} alt="productImage" className="img-fluid" />
         </div>
-        <div className={classes.details}>
+        <div
+          className={`${classes.details} d-flex  flex-column  justify-content-center  align-items-center gap-1`}
+        >
           <RatingStarts star={rating} />
           <h5>{name}</h5>
           <div className={classes.prices}>

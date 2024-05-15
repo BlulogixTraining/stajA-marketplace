@@ -12,6 +12,7 @@ const Showcase = ({ products, Showtitle }) => {
       <div className="row justify-content-center gap-5 gap-lg-3 mt-5">
         {products.map((product) => (
           <Card
+            rating={product.averagerating}
             productSlug={product.slug}
             key={product._id}
             name={product.name}

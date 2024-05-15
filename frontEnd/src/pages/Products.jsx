@@ -1,8 +1,7 @@
 import Filters from "../components/Filters/Filters";
 import Card from "../components/Card/Card";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "../api/axios";
-import { Link } from "react-router-dom";
 import Breadcrumbs from "../components/ui/Breadcrumb";
 import Pagination from "../components/ui/Pagination";
 const url = "https://staja-marketplace.onrender.com";
@@ -14,11 +13,10 @@ const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedValues, setSelectedValues] = useState([]);
-  console.log(selectedValues);
 
   const handleSelectedValuesChange = (values) => {
     setSelectedValues(values);
-    setCurrentPage(1);
+    // setCurrentPage(1);
   };
 
   useEffect(() => {
@@ -34,6 +32,7 @@ const Products = () => {
         productsUrl += `?${params.toString()}`;
 
         const response = await axios.get(productsUrl);
+
         setProducts(response.data.products);
         setTotalPages(response.data.pages);
         setIsLoading(false);
@@ -48,6 +47,9 @@ const Products = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+  const memoizedCurrentPage = useMemo(() => currentPage, [currentPage]);
+
+  console.log("products");
   return (
     <>
       <div className="d-block d-sm-flex container-fuild">
@@ -64,7 +66,13 @@ const Products = () => {
             </div>
             <div className="col d-flex flex-wrap justify-content-center justify-content-lg-start mt-3 mt-md-0 gap-4 gap-md-0   ">
               {products.map((product) => (
-                <div key={product.id} className={`col col-md-4 mb-5  `}>
+                <div
+                  key={product.id}
+                  className={`col col-md-5 gap-md-6 col-lg-4 mb-5 position-relative `}
+                >
+                  {/* <span className={`heart-icon ${classes.favorite_heart}`}>
+                    <WishlistHeart productId={product._id} />
+                  </span> */}
                   <Card
                     productSlug={product.slug}
                     name={product.name}
@@ -78,7 +86,7 @@ const Products = () => {
             </div>
           </div>
           <Pagination
-            current={currentPage}
+            current={memoizedCurrentPage}
             pages={totalPages}
             onPageChange={handlePageChange}
           />

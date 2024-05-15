@@ -1,0 +1,10 @@
+.favorite_heart {
+  position: absolute;
+  z-index: 9999;
+  top: 0%;
+  right: 8%;
+  cursor: pointer;
+}
+/* .favorite_heart svg {
+  fill: rgb(254, 213, 213);
+} */

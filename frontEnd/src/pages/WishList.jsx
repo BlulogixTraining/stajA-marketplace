@@ -21,6 +21,7 @@ const WishList = () => {
       console.error(error);
     }
   };
+
   useEffect(() => {
     fetchWishlist();
   }, []);
@@ -32,7 +33,6 @@ const WishList = () => {
       });
       if (response.status === 200 || response.status === 201) {
         setWishlist(response.data.favorite);
-        console.log("responsedele", response.data);
       }
 
       const newWishlist = wishlist.filter(
@@ -43,7 +43,8 @@ const WishList = () => {
       console.error(error);
     }
   };
-  if (!wishlist.length) {
+
+  if (!wishlist) {
     return (
       <div className="container">
         <Breadcrumbs />
@@ -74,21 +75,20 @@ const WishList = () => {
               key={product.id}
               className={`col col-md-3 mb-5 mt-4 ${classes.wishlist_card}`}
             >
-              {" "}
               <span
                 className={`heart-icon ${classes.favorite}`}
                 onClick={() => removeFromWishlist(product._id)}
               >
                 <FaHeart className="fs-3" />
               </span>
-              <Link to={`/products/${product.slug}`} className="text-black">
-                <Card
-                  name={product.name}
-                  img={`${url}${product.image[0]}`}
-                  price={product.price}
-                  discount={product.discount}
-                />{" "}
-              </Link>{" "}
+              <Card
+                productSlug={product.slug}
+                rating={product.averagerating}
+                name={product.name}
+                img={`${url}${product.image[0]}`}
+                price={product.price}
+                discount={product.discount}
+              />{" "}
             </div>
           ))}
         </div>

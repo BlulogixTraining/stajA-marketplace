@@ -9,7 +9,6 @@ import Addreviw from "../ui/Addreviw";
 
 const ProDetailNav = ({ reviews, ratedId }) => {
   const [key, setKey] = useState("Product Details");
-  console.log(reviews);
   return (
     <Tabs
       id="controlled-tab-example"
@@ -28,10 +27,9 @@ const ProDetailNav = ({ reviews, ratedId }) => {
         <div className="d-flex justify-content-between">
           <h3>Rating & Reviews</h3>
 
-          {/* <Button Name="Write review" width="33px"></Button> */}
-          <Addreviw ratedId={ratedId} />
+          {/* <Addreviw ratedId={ratedId} /> */}
         </div>
-        <div className="d-flex flex-wrap  mt-3">
+        <div className="d-flex flex-wrap gap-2   mt-3">
           <ProductReview reviews={reviews} />
         </div>
       </Tab>
