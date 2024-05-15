@@ -12,7 +12,6 @@ import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 
 const TobNav = () => {
   const isAuthenticated = useIsAuthenticated();
-  console.log("isAuthenticated", isAuthenticated);
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container">
@@ -69,7 +68,7 @@ const TobNav = () => {
               placeholder="Search"
               aria-label="Search"
             />
-            <button className="btn btn-outline-success" type="submit">
+            <button className="btn " type="submit">
               Search
             </button>
           </form>

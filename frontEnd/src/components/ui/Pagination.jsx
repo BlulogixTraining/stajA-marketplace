@@ -1,20 +1,21 @@
-import React from "react";
+import { FaArrowLeft } from "react-icons/fa6";
+import { FaArrowRight } from "react-icons/fa6";
 
 function Pagination({ current, pages, onPageChange }) {
-  console.log("current", current);
+  const handlePageChange = (page) => {
+    onPageChange(page);
+  };
+
   const renderPaginationItems = () => {
     const paginationItems = [];
     for (let i = 1; i <= pages; i++) {
       paginationItems.push(
-        <li key={i} className={`page-item ${i === current ? "" : ""}`}>
+        <li key={i} className={`page-item ${current === i ? "active" : ""}`}>
           <button
-            className={`page-link ${i === current ? "" : ""}`}
-            onClick={() => onPageChange(i)}
-            style={
-              {
-                //active page style
-              }
-            }
+            className={`page-link ${
+              current === i ? "bg-dark text-light" : "text-dark"
+            }`} // Change color based on current page
+            onClick={() => handlePageChange(i)}
           >
             {i}
           </button>
@@ -25,25 +26,28 @@ function Pagination({ current, pages, onPageChange }) {
   };
 
   return (
-    <nav aria-label="Page navigation example ">
+    <nav aria-label="Page navigation example">
       <ul className="pagination d-flex justify-content-center gap-2">
         <li className="page-item">
           <button
-            className="page-link"
-            onClick={() => onPageChange(current - 1)}
+            className="page-link text-dark align-items-center d-flex gap-1"
+            onClick={() => handlePageChange(current - 1)}
             disabled={current === 1}
           >
+            {" "}
+            <FaArrowLeft className="fs-6" />
             Previous
           </button>
         </li>
         {renderPaginationItems()}
         <li className="page-item">
           <button
-            className="page-link"
-            onClick={() => onPageChange(current + 1)}
+            className="page-link text-dark align-items-center d-flex gap-1"
+            onClick={() => handlePageChange(current + 1)}
             disabled={current === pages}
           >
             Next
+            <FaArrowRight className="fs-6" />
           </button>
         </li>
       </ul>

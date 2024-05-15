@@ -8,7 +8,11 @@ import RatingStarts from "../components/ui/RatingStarts";
 import CustomButton from "../components/ui/CustomButton";
 import Breadcrumbs from "../components/ui/Breadcrumb";
 import axios from "../api/axios";
+import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
+
 const Product = () => {
+  // is authenticated
+  const isAuthenticated = useIsAuthenticated();
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
 
@@ -25,21 +29,26 @@ const Product = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [rating, setRating] = useState(0);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [varint, setVarint] = useState(null);
   useEffect(() => {
     const fetchProductById = async () => {
       try {
         setIsLoading(true);
         const response = await fetch(`${url}/products/${productId}`);
+
         if (!response.ok) {
           throw new Error("Failed to fetch product");
         }
         const data = await response.json();
+        setVarint(data.productvariant);
+        console.log("data.productvariant", data.productvariant);
         setProduct(data);
         setIsLoading(false);
         setRating(data.averagerating);
         setReviews(data.reviews);
         setRateId(data.product._id);
-        console.log("data.averagerating", data.averagerating);
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -47,12 +56,17 @@ const Product = () => {
 
     fetchProductById();
   }, [productId]);
+
   const handleButtonClick = async () => {
     try {
       const response = await axios.post(`/cart/add`, {
         product_id: rateId,
       });
       console.log("response", response);
+      setSuccess("Product added to cart successfully");
+      setTimeout(() => {
+        setSuccess(null);
+      }, 5000);
     } catch (error) {
       setError(error.response.data.message);
 
@@ -68,7 +82,11 @@ const Product = () => {
       const response = await axios.post(`/favorite/add`, {
         product_id: rateId,
       });
+      setSuccess("Product added to wishlist successfully");
       console.log("response", response);
+      setTimeout(() => {
+        setSuccess(null);
+      }, 3000);
     } catch (error) {
       setError(error.response.data.message);
 
@@ -78,6 +96,7 @@ const Product = () => {
       }, 5000); // 5000 milliseconds = 5 seconds
     }
   };
+
   return (
     <>
       <div className="container mb-4">
@@ -132,41 +151,31 @@ const Product = () => {
             </div>
             <div className={classes.add_to_cart}>
               <h5 className="pt-4">Choose Size</h5>
+              <div className="d-flex gap-2 pt-3"></div>
 
-              {/* <div className={`${classes.size} d-flex gap-2 mt-3 `}>
-                <CustomButton
-                  title="Large"
-                  color="#F0F0F0"
-                  onClick={handleButtonClick}
-                  style={{
-                    borderRadius: "50%",
-                    padding: "15px 20px ",
-                  }}
-                />
-                <CustomButton
-                  title="X-Large"
-                  color="#F0F0F0"
-                  onClick={handleButtonClick}
-                  style={{ borderRadius: "50%" }}
-                />
-              </div> */}
               <div className="d-flex gap-2 pt-3 ">
                 <CustomButton
                   width={"100%"}
                   // isActive={true}
-                  title="Buy Now"
+                  title="Add to cart"
                   color="black"
                   onClick={handleButtonClick}
                 />
                 <CustomButton
-                  width={"30%"}
+                  width={"40%"}
                   // isActive={true}
 
-                  title="add to wishlist"
+                  title="Add to wishlist"
                   color="black"
                   onClick={handleAddToCart}
                 />
               </div>
+
+              {success && (
+                <div className="alert alert-success mt-2" role="alert">
+                  {success}
+                </div>
+              )}
               {error && (
                 <div className="alert alert-danger mt-2" role="alert">
                   {error}
