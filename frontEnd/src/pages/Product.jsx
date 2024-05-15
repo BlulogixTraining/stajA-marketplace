@@ -31,7 +31,9 @@ const Product = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [varint, setVarint] = useState(null);
+  const [variants, Setvariants] = useState(null);
+  const [selectedVariants, setSelectedVariants] = useState({});
+
   useEffect(() => {
     const fetchProductById = async () => {
       try {
@@ -42,8 +44,8 @@ const Product = () => {
           throw new Error("Failed to fetch product");
         }
         const data = await response.json();
-        setVarint(data.productvariant);
-        console.log("data.productvariant", data.productvariant);
+        Setvariants(data.variants_available);
+        console.log("data.productvariant", data.variants_available);
         setProduct(data);
         setIsLoading(false);
         setRating(data.averagerating);
@@ -97,6 +99,13 @@ const Product = () => {
     }
   };
 
+  const handleVariantSelection = (key, variant) => {
+    setSelectedVariants((prevState) => ({
+      ...prevState,
+      [key]: prevState[key] === variant ? null : variant,
+    }));
+  };
+  console.log("setSelectedVariants", selectedVariants);
   return (
     <>
       <div className="container mb-4">
@@ -150,8 +159,62 @@ const Product = () => {
               <h5>Stock: {product?.product.stock}</h5>
             </div>
             <div className={classes.add_to_cart}>
-              <h5 className="pt-4">Choose Size</h5>
-              <div className="d-flex gap-2 pt-3"></div>
+              <div className="d-flex gap-2 ps-2 mt-3">
+                {variants &&
+                  Object.entries(variants).map(([key, value]) => {
+                    if (value.length > 0) {
+                      if (key === "Colors") {
+                        return (
+                          <div key={key} className="">
+                            <h5>{key}</h5>
+                            <div className="btn-group d-flex gap-2">
+                              {value.map((variant) => (
+                                <button
+                                  key={variant}
+                                  type="button"
+                                  className={`rounded-5 p-3 btn ${
+                                    selectedVariants[key] === variant
+                                      ? "btn-dark"
+                                      : "btn-outline-warning"
+                                  }`}
+                                  onClick={() =>
+                                    handleVariantSelection(key, variant)
+                                  }
+                                  style={{ backgroundColor: variant || "blue" }}
+                                ></button>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <div key={key} className="mx-2">
+                            <h5>{key}</h5>
+                            <div className="btn-group d-flex gap-2">
+                              {value.map((variant) => (
+                                <button
+                                  key={variant}
+                                  type="button"
+                                  className={`rounded-5  btn ${
+                                    selectedVariants[key] === variant
+                                      ? "btn-dark"
+                                      : "btn-outline-dark"
+                                  }`}
+                                  onClick={() =>
+                                    handleVariantSelection(key, variant)
+                                  }
+                                >
+                                  {variant}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      }
+                    }
+                    return null;
+                  })}
+              </div>
 
               <div className="d-flex gap-2 pt-3 ">
                 <CustomButton
