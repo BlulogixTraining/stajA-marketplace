@@ -1,5 +1,6 @@
 const User = require("../../../models/User");
 const Product = require("../../../models/Product");
+const ProductVariant = require("../../../models/ProductVariant");
 
 exports.addToCart = async (req, res) => {
   try {
@@ -17,43 +18,30 @@ exports.addToCart = async (req, res) => {
       return res
         .status(404)
         .json({ status: "Fail", message: "Product not found" });
-
-        
     }
-    const selectedVariants = req.body.selectedVariants;
+    const variant = await ProductVariant.findById(req.body.variant_id);
 
-    const cartItem = {
-      product: product._id,
-      variants: selectedVariants,
-    };
-
-    // Check if the same product with the same variants already exists in the cart
-    const existingCartItemIndex = user.cart.findIndex(item => {
-      return (
-        item.product.equals(product._id) &&
-        JSON.stringify(item.variants) === JSON.stringify(selectedVariants)
-      );
-    });
-
-    if (existingCartItemIndex !== -1) {
+    if (!variant) {
       return res
-        .status(400)
-        .json({ status: "Fail", message: "Product already in cart" });
+        .status(404)
+        .json({ status: "Fail", message: "Product variant not found" });
     }
-/*
+   
+
     if (user.cart.includes(product._id)) {
       return res
         .status(400)
         .json({ status: "Fail", message: "Product already in cart" });
     }
-*/
-    user.cart.push(cartItem);
+
+    user.cart.push({ product: product._id, variant: variant._id });
     await user.save();
 
     res.status(201).json({
       status: "Success",
       message: "The product has been added to the cart successfully!",
       product,
+      variant
     });
   } catch (error) {
     res.status(500).json({
