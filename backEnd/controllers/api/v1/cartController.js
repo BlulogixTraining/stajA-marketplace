@@ -35,13 +35,14 @@ exports.addToCart = async (req, res) => {
         .json({ status: "Fail", message: "Product already in cart" });
     }
 
-    user.cart.push(cartItem);
+    user.cart.push({ product: product._id, variant: selectedVariants });
     await user.save();
 
     res.status(201).json({
       status: "Success",
       message: "The product has been added to the cart successfully!",
       product,
+      variant
     });
   } catch (error) {
     res.status(500).json({
