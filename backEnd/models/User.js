@@ -26,13 +26,13 @@ const UserSchema = new Schema({
   image: {
     type: String,
   },
-  
+
   rol: {
     type: String,
     enum: ["admin", "seller", "customer"],
     default: "customer",
   },
-  
+
   phone: {
     type: Number,
   },
@@ -46,16 +46,8 @@ const UserSchema = new Schema({
 
   cart: [
     {
-      product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-        
-      },
-      variant: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "ProductVariant",
-        
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
     },
   ],
   favorite: [
