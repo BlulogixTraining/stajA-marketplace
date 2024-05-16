@@ -1,6 +1,5 @@
 const User = require("../../../models/User");
 const Product = require("../../../models/Product");
-const ProductVariant = require("../../../models/ProductVariant");
 
 exports.addToCart = async (req, res) => {
   try {
@@ -19,7 +18,6 @@ exports.addToCart = async (req, res) => {
         .status(404)
         .json({ status: "Fail", message: "Product not found" });
     }
-    const { selectedVariants } = req.body;
 
     if (user.cart.includes(product._id)) {
       return res
@@ -27,14 +25,13 @@ exports.addToCart = async (req, res) => {
         .json({ status: "Fail", message: "Product already in cart" });
     }
 
-    user.cart.push({ product: product._id, variant: selectedVariants });
+    user.cart.push(product._id);
     await user.save();
 
     res.status(201).json({
       status: "Success",
       message: "The product has been added to the cart successfully!",
       product,
-      variant
     });
   } catch (error) {
     res.status(500).json({
