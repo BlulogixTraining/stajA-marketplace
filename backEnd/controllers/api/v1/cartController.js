@@ -1,5 +1,6 @@
 const User = require("../../../models/User");
 const Product = require("../../../models/Product");
+const ProductVariant = require("../../../models/ProductVariant");
 
 exports.addToCart = async (req, res) => {
   try {
@@ -27,6 +28,7 @@ exports.addToCart = async (req, res) => {
         .status(404)
         .json({ status: "Fail", message: "Product variant not found" });
     }
+    const { selectedVariants } = req.body;
    
 
     if (user.cart.includes(product._id)) {
