@@ -47,6 +47,7 @@ function DropdownPayment(){
                 aria-controls="example-collapse-text"
                 aria-expanded={open}
                 variant="dark"
+                className='mt-2'
             >
             Or Click To Add One
             </Button>
