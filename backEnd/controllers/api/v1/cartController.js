@@ -17,7 +17,17 @@ exports.addToCart = async (req, res) => {
       return res
         .status(404)
         .json({ status: "Fail", message: "Product not found" });
+
+        
     }
+    const variant = await ProductVariant.findById(req.body.variant_id);
+
+    if (!variant) {
+      return res
+        .status(404)
+        .json({ status: "Fail", message: "Product variant not found" });
+    }
+   
 
     if (user.cart.includes(product._id)) {
       return res
@@ -25,7 +35,7 @@ exports.addToCart = async (req, res) => {
         .json({ status: "Fail", message: "Product already in cart" });
     }
 
-    user.cart.push(product._id);
+    user.cart.push(cartItem);
     await user.save();
 
     res.status(201).json({
