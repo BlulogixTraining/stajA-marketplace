@@ -37,7 +37,7 @@ const Cart = () => {
       console.error("Error fetching product:", error.response.data.message);
     }
   };
-  if (!cart.length) {
+  if (!cart) {
     return (
       <div className="container py-3 ">
         <Breadcrumbs />
