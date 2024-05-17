@@ -32,6 +32,7 @@ exports.createProduct = async (req, res) => {
     const product = await Product.create({
       ...req.body,
       image: imagePaths,
+      user_id: req.userId,
       
     });
 

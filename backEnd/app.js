@@ -11,6 +11,7 @@ const cartRoute = require("./routes/cartRoute");
 const favoriteRoute = require("./routes/favoriteRoute");
 const productVariantRoute = require("./routes/productVariantRoute");
 const productDetailsRoute = require("./routes/productDetailsRoute");
+const sellerRoute = require("./routes/sellerRoute");
 
 
 
@@ -49,6 +50,7 @@ app.use("/cart", cartRoute);
 app.use("/favorite", favoriteRoute);
 app.use("/productvariant", productVariantRoute);
 app.use("/productdetails", productDetailsRoute);
+app.use("/seller", sellerRoute);
 
 
 const port = 3000;
