@@ -23,19 +23,20 @@ export default function RangeSlider() {
       },
       '& .MuiSlider-rail': {
         backgroundColor: 'lightgray', // Customize rail color
-        height: 7,
+        height: 8,
       },
       '& .MuiSlider-track': {
         backgroundColor: 'black', // Customize track color
-        height: 7,
+        height: 8,
       },
     }}>
       <Slider
-        getAriaLabel={() => 'Temperature range'}
+        getAriaLabel={() => 'Price range'}
         value={value}
         onChange={handleChange}
         valueLabelDisplay="auto"
         getAriaValueText={valuetext}
+        valueLabelFormat={valuetext}
       />
     </Box>
   );
