@@ -1,5 +1,7 @@
 const User = require("../../../models/User");
 const Product = require("../../../models/Product");
+const ProductReview = require("../../../models/ProductReview");
+
 
 exports.addToFavorite = async (req, res) => {
   try {
@@ -88,9 +90,32 @@ exports.getAllProductsExistsInFavorite = async (req, res) => {
 
     const productsInFavorite = user.favorite;
 
+   
+    const favoriteProductIds = productsInFavorite.map(product => product._id);
+
+    
+    const averageRatings = await ProductReview.aggregate([
+      { $match: { product_id: { $in: favoriteProductIds } } },
+      { 
+        $group: {
+          _id: "$product_id",
+          averagerating: { $avg: "$rating" }
+        }
+      }
+    ]);
+
+   
+    const favoriteProductsWithRatings = productsInFavorite.map(product => {
+      const rating = averageRatings.find(r => r._id.equals(product._id));
+      return {
+        ...product.toObject(),
+        averagerating: rating ? rating.averagerating : null
+      };
+    });
+
     res.status(200).json({
       status: "Success",
-      favorite: productsInFavorite,
+      favorite: favoriteProductsWithRatings,
     });
   } catch (error) {
     res.status(500).json({
@@ -99,3 +124,4 @@ exports.getAllProductsExistsInFavorite = async (req, res) => {
     });
   }
 };
+
