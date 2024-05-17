@@ -1,0 +1,97 @@
+.blue {
+  background-color: #1900d5;
+}
+.yellow {
+  background-color: #c1ef00;
+}
+.red {
+  background-color: #e8502f;
+}
+.black {
+  background-color: #000000;
+}
+.gray {
+  background-color: #3c3c3c;
+}
+.lightGray {
+  background-color: #7c7c7c;
+}
+.green {
+  background-color: #a9ffa7;
+}
+.bg_main {
+  background-color: #0f0e0e;
+}
+
+.bg_main_1 {
+  background-color: #828282;
+}
+
+.topNavbg {
+  background-color: white;
+
+  padding: 1em 2em;
+}
+.topNavbg a {
+  color: white;
+}
+
+.topNavbg a:hover {
+  color: #f1f1f1;
+}
+.greating h4 {
+  font-weight: bold;
+}
+.greating p {
+  color: #828282;
+  margin-bottom: 0;
+}
+.icons a > * {
+  fill: none;
+  stroke: #7c7c7c;
+  stroke-width: 1px;
+}
+
+.search input {
+  background-color: #d4d4d489;
+  border: 1px solid #7c7c7c;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  padding: 0.5em 1em;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+.search input::placeholder {
+  color: rgb(0, 0, 0);
+}
+
+/* side bar */
+.sideBar {
+  width: 250px;
+  background-color: white;
+  padding: 1em 2em;
+  border-right: 1px solid #dfdada;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.brand h4 {
+  color: black;
+}
+.brand img {
+  width: 50px;
+  height: 50px;
+}
+
+.brand h4 {
+  font-size: 1.5em;
+}
+.nav_item {
+  color: #7c7c7c;
+}
