@@ -28,6 +28,7 @@ const Login = () => {
     },
   });
   const onSubmit = async (data) => {
+    console.log("data", data);
     try {
       const response = await axios.post(url, JSON.stringify(data));
       if (response.status === 200 || response.status === 201) {
