@@ -7,6 +7,7 @@ const Category = require("../../../models/Category");
 const ProductReview = require("../../../models/ProductReview");
 const ProductVariant = require("../../../models/ProductVariant");
 const VariantCategory = require("../../../models/VariantCategory");
+const ProductDetails = require("../../../models/ProductDetails");
 
 exports.createProduct = async (req, res) => {
   const uploadDir = path.join(__dirname, "../../../public/images/");
@@ -31,6 +32,7 @@ exports.createProduct = async (req, res) => {
     const product = await Product.create({
       ...req.body,
       image: imagePaths,
+      
     });
 
     res.status(201).json({
@@ -110,10 +112,13 @@ exports.getProductDetails = async (req, res) => {
     const reviews = await ProductReview.find({
       product_id: product._id,
     }).populate("user_id", "name");
-
+    const Productdetails = await ProductDetails.find({
+      product_id: product._id,
+    });
     const variantCategories = await VariantCategory.find();
-    const productVariants = await ProductVariant.find({ product_id: product._id });
-   
+    const productVariants = await ProductVariant.find({
+      product_id: product._id,
+    });
 
     let totalRating = 0;
     reviews.forEach((review) => {
@@ -122,28 +127,28 @@ exports.getProductDetails = async (req, res) => {
 
     const averagerating =
       reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
-      
-      const variants_available = {};
 
-    
-      variantCategories.forEach((category) => {
-        variants_available[category.name] = [];
-        
-        productVariants.forEach((variant) => {
-          if (String(variant.category_id) === String(category._id)) {
-            variants_available[category.name] = variants_available[category.name].concat(variant.variantvalues);
-          }
-        });
+    const variants_available = {};
+
+    variantCategories.forEach((category) => {
+      variants_available[category.name] = [];
+
+      productVariants.forEach((variant) => {
+        if (String(variant.category_id) === String(category._id)) {
+          variants_available[category.name] = variants_available[
+            category.name
+          ].concat(variant.variantvalues);
+        }
       });
-    
-      
+    });
+
     res.status(200).json({
       status: "Success",
       product,
       averagerating,
       reviews,
+      Productdetails,
       variants_available,
-      
     });
   } catch (error) {
     res.status(400).json({
