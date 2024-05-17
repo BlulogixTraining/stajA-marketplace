@@ -26,7 +26,7 @@ export default function RangeSlider() {
         height: 8,
       },
       '& .MuiSlider-track': {
-        backgroundColor: 'black', // Customize track color
+        color: 'black',
         height: 8,
       },
     }}>
