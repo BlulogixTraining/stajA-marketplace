@@ -36,15 +36,14 @@ const ProductSchema = new Schema({
       type: String,
     },
   ],
+  stock: {
+    type: Number,
+    default: 0,
+  },
 
   slug: {
     type: String,
     unique: true,
-  },
-
-  stock: {
-    type: Number,
-    default: 0,
   },
 
   createdAt: {
