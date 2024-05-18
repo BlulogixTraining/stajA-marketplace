@@ -8,7 +8,7 @@ const router = express.Router();
 router.route("/").get(productController.getAllProducts);
 router.route("/:slug").get(productController.getProductDetails);
 router.route("/").post(verifyToken, productController.createProduct);
-
+router.route("/edit/:id").post(verifyToken, productController.editProduct);
 
 
 
