@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "../../api/axios";
 
@@ -11,45 +11,66 @@ const AddProduct = () => {
   } = useForm();
   const [imageFiles, setImageFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("/categories");
+        setCategories(response.data.categories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const onSubmit = async (data) => {
+    setIsLoading(true);
     try {
       const formData = new FormData();
       formData.append("name", data.name);
       formData.append("description", data.description);
       formData.append("price", data.price);
-      formData.append("category", data.category);
+      formData.append("category_id", data.category);
       formData.append("discount", data.discount);
       formData.append("stock", data.stock);
-      imageFiles.forEach((file, index) => {
-        formData.append(`images[${index}]`, file);
+      imageFiles.forEach((file) => {
+        formData.append("images", file);
       });
 
-      const response = await axios.post("{{baseURL}}/products", formData, {
+      const response = await axios.post("/products", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
       console.log("Product added successfully:", response.data);
-      // Reset the form and image previews after successful submission
       reset();
       setImageFiles([]);
       setImagePreviews([]);
     } catch (error) {
       console.error("Error adding product:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
+    const files = Array.from(event.target.files);
+    const validFiles = files.filter(
+      (file) =>
+        file.size <= 2 * 1024 * 1024 &&
+        ["image/jpeg", "image/png"].includes(file.type)
+    );
+
+    validFiles.forEach((file) => {
       const preview = URL.createObjectURL(file);
       setImageFiles((prev) => [...prev, file]);
       setImagePreviews((prev) => [...prev, preview]);
-      // Clear the file input
-      event.target.value = null;
-    }
+    });
   };
 
   const removeImage = (index) => {
@@ -100,10 +121,10 @@ const AddProduct = () => {
             className={`form-control ${errors.price ? "is-invalid" : ""}`}
             id="price"
             step="0.01"
-            {...register("price", { required: true })}
+            {...register("price", { required: true, min: 0 })}
           />
           {errors.price && (
-            <div className="invalid-feedback">This field is required</div>
+            <div className="invalid-feedback">Price must be positive</div>
           )}
         </div>
 
@@ -117,10 +138,10 @@ const AddProduct = () => {
               className={`form-control ${errors.discount ? "is-invalid" : ""}`}
               id="discount"
               step="0.01"
-              {...register("discount", { required: true })}
+              {...register("discount", { required: true, min: 0 })}
             />
             {errors.discount && (
-              <div className="invalid-feedback">This field is required</div>
+              <div className="invalid-feedback">Discount must be positive</div>
             )}
           </div>
           <div className="col-md-6">
@@ -131,10 +152,10 @@ const AddProduct = () => {
               type="number"
               className={`form-control ${errors.stock ? "is-invalid" : ""}`}
               id="stock"
-              {...register("stock", { required: true })}
+              {...register("stock", { required: true, min: 0 })}
             />
             {errors.stock && (
-              <div className="invalid-feedback">This field is required</div>
+              <div className="invalid-feedback">Stock must be positive</div>
             )}
           </div>
         </div>
@@ -149,10 +170,11 @@ const AddProduct = () => {
             {...register("category", { required: true })}
           >
             <option value="">Select a category</option>
-            <option value="electronics">Electronics</option>
-            <option value="fashion">Fashion</option>
-            <option value="home">Home</option>
-            <option value="books">Books</option>
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
           </select>
           {errors.category && (
             <div className="invalid-feedback">This field is required</div>
@@ -168,6 +190,7 @@ const AddProduct = () => {
             className={`form-control ${errors.images ? "is-invalid" : ""}`}
             id="images"
             onChange={handleImageChange}
+            multiple
           />
           {errors.images && (
             <div className="invalid-feedback">This field is required</div>
@@ -202,8 +225,8 @@ const AddProduct = () => {
           )}
         </div>
 
-        <button type="submit" className="btn btn-dark">
-          Add Product
+        <button type="submit" className="btn btn-dark" disabled={isLoading}>
+          {isLoading ? "Adding Product..." : "Add Product"}
         </button>
       </form>
     </div>

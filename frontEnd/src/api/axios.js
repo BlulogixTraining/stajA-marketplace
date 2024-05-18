@@ -5,6 +5,7 @@ const headers = {
   "Content-Type": "application/json",
   withCredentials: true,
   Accept: "application/json",
+  "Access-Control-Allow-Origin": "*",
   Authorization: userToken,
 };
 export default axios.create({
