@@ -18,6 +18,7 @@ import createStore from "react-auth-kit/createStore";
 import AuthProvider from "react-auth-kit";
 import RequireAuth from "@auth-kit/react-router/RequireAuth";
 import WishList from "./pages/WishList";
+import OrderDetials from "./pages/OrderDetials.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
       { path: "products", element: <Products /> },
       { path: "products/:productId", element: <Product /> },
       { path: "about", element: <About /> },
+      { path: "orderdetails", element: <OrderDetials /> },
       {
         path: "userProfile",
         element: (
