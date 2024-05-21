@@ -8,7 +8,7 @@ const ProductReview = ({ Name, desc, star, date, reviews }) => {
       {reviews1.map((review) => (
         <div
           key={review._id}
-          className={`col col-sm-6 ${classes.productReview}`}
+          className={`col-11   col-md-5 mb-3 pb-1   ${classes.productReview}`}
         >
           <div className="d-flex flex-column gap-2">
             <RatingStarts star={review.rating} />

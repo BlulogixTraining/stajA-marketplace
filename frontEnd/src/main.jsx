@@ -18,7 +18,11 @@ import createStore from "react-auth-kit/createStore";
 import AuthProvider from "react-auth-kit";
 import RequireAuth from "@auth-kit/react-router/RequireAuth";
 import WishList from "./pages/WishList";
-import OrderDetials from "./pages/OrderDetials.jsx";
+import Dashboard from "./pages/dashboard/Dashboard.jsx";
+import ProductsSeller from "./components/Dashborad/ProductsSeller.jsx";
+import Sellerhome from "./components/Dashborad/Sellerhome.jsx";
+import AddProduct from "./components/Dashborad/AddProduct.jsx";
+import EditProductPage from "./components/Dashborad/EditProductPage.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,6 +34,17 @@ const router = createBrowserRouter([
       { path: "about", element: <About /> },
       { path: "orderdetails", element: <OrderDetials /> },
       {
+        path: "dashboard",
+        element: <Dashboard />,
+        children: [
+          { index: "/", element: <Sellerhome /> },
+
+          { path: "products", element: <ProductsSeller /> },
+          { path: "add-product", element: <AddProduct /> },
+          { path: "edit-product/:id", element: <EditProductPage /> },
+        ],
+      },
+      {
         path: "userProfile",
         element: (
           <RequireAuth fallbackPath="/login">
@@ -39,11 +54,7 @@ const router = createBrowserRouter([
       },
       {
         path: "sellerProfile",
-        element: (
-          <RequireAuth fallbackPath="/login">
-            <SellerProfile />
-          </RequireAuth>
-        ),
+        element: <SellerProfile />,
       },
 
       { path: "signup", element: <SignUp /> },

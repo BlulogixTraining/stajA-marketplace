@@ -6,6 +6,8 @@ const Product = require("../../../models/Product");
 const Category = require("../../../models/Category");
 const ProductReview = require("../../../models/ProductReview");
 const ProductVariant = require("../../../models/ProductVariant");
+const VariantCategory = require("../../../models/VariantCategory");
+const ProductDetails = require("../../../models/ProductDetails");
 
 exports.createProduct = async (req, res) => {
   const uploadDir = path.join(__dirname, "../../../public/images/");
@@ -30,6 +32,7 @@ exports.createProduct = async (req, res) => {
     const product = await Product.create({
       ...req.body,
       image: imagePaths,
+      user_id: req.userId,
     });
 
     res.status(201).json({
@@ -48,7 +51,7 @@ exports.getAllProducts = async (req, res) => {
   try {
     const page = req.query.page || 1;
 
-    const productPerPage = 5;
+    const productPerPage = 6;
     const totalproducts = await Product.find().countDocuments();
 
     const categorySlug = req.query.categories;
@@ -109,10 +112,14 @@ exports.getProductDetails = async (req, res) => {
     const reviews = await ProductReview.find({
       product_id: product._id,
     }).populate("user_id", "name");
-
-    const productvariant = await ProductVariant.findOne({
+    const Productdetails = await ProductDetails.find({
       product_id: product._id,
     });
+    const variantCategories = await VariantCategory.find();
+    const productVariants = await ProductVariant.find({
+      product_id: product._id,
+    });
+
     let totalRating = 0;
     reviews.forEach((review) => {
       totalRating += review.rating;
@@ -121,17 +128,56 @@ exports.getProductDetails = async (req, res) => {
     const averagerating =
       reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
 
+    const variants_available = {};
+
+    variantCategories.forEach((category) => {
+      variants_available[category.name] = [];
+
+      productVariants.forEach((variant) => {
+        if (String(variant.category_id) === String(category._id)) {
+          variants_available[category.name] = variants_available[
+            category.name
+          ].concat(variant.variantvalues);
+        }
+      });
+    });
+
     res.status(200).json({
       status: "Success",
       product,
       averagerating,
       reviews,
-      productvariant,
+      Productdetails,
+      variants_available,
     });
   } catch (error) {
     res.status(400).json({
       status: "Fail",
       error,
+    });
+  }
+};
+
+exports.editProduct = async (req, res) => {
+  try {
+    const product = await Product.findOne({ _id: req.params.id });
+
+    (product.category_id = req.body.category_id),
+      (product.name = req.body.name),
+      (product.description = req.body.description),
+      (product.price = req.body.price),
+      (product.discount = req.body.discount),
+      (product.image = req.body.image),
+      (product.stock = req.body.stock),
+      await product.save();
+    res.status(200).json({
+      status: "Success",
+      product,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "Fail",
+      message: error.message,
     });
   }
 };

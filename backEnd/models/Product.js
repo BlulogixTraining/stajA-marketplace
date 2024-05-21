@@ -9,6 +9,11 @@ const ProductSchema = new Schema({
     ref: "Category",
     required: true,
   },
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   name: {
     type: String,
     required: true,
@@ -31,15 +36,14 @@ const ProductSchema = new Schema({
       type: String,
     },
   ],
+  stock: {
+    type: Number,
+    default: 0,
+  },
 
   slug: {
     type: String,
     unique: true,
-  },
-
-  stock: {
-    type: Number,
-    default: 0,
   },
 
   createdAt: {

@@ -26,13 +26,13 @@ const UserSchema = new Schema({
   image: {
     type: String,
   },
-  
+
   rol: {
     type: String,
     enum: ["admin", "seller", "customer"],
     default: "customer",
   },
-  
+
   phone: {
     type: Number,
   },

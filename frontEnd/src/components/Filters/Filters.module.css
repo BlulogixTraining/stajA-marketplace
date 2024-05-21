@@ -2,7 +2,7 @@
   position: sticky;
   display: flex;
   flex-direction: column;
-  padding-left: 25px;
+  padding-left: 21px;
   padding-top: 21px;
   padding-bottom: 21px;
   border: 1px solid lightgray;
@@ -13,13 +13,18 @@
   -moz-border-radius: 20px;
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
+  width: 102%;
 }
 .cat_title {
-  font-size: 22px;
+  font-size: 25px;
   font-weight: 600;
   margin-bottom: 10px;
   font-family: Satoshi;
   font-weight: bold;
+}
+.headerRow {
+  display: flex;
+  gap: 55%;
 }
 .form_check {
   display: flex !important;
@@ -29,35 +34,63 @@
 .applybutton {
   background-color: black;
   color: white;
+  align-self: center;
 }
-.dressings p {
+.dressings{
+  margin-top: 10px;
+}
+.dressings p a{
+  font-size: 18px;
   cursor: pointer;
   margin-bottom: 15px;
-}
-.price h3 {
-  cursor: pointer;
+  font-family: satoshi;
 }
 .colors h3 {
+  margin-bottom: 15px;
+  margin-top: 10px;
   display: inline-block;
   cursor: pointer;
+  font-family: satoshi;
+  font-size: 25px;
 }
 .size h3 {
   display: inline-block;
   cursor: pointer;
+  font-family: satoshi;
+  margin-bottom: 15px;
+  font-size: 25px;
+  margin-top: 10px;
 }
 .style h3 {
+  display: inline-block;
   cursor: pointer;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  font-family: satoshi;
+  font-size: 25px;
 }
 .price h2 {
-  padding-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  display: inline-block;
+  font-family: satoshi;
+  cursor: pointer;
+  font-size: 25px;
 }
 .applybutton {
   border-radius: 30px;
   width: 200px;
   margin: 10px;
+  font-family: satoshi;
 }
 .size button {
+  background-color: #F0F0F0;
+  color: rgb(0, 0, 0, 0.6);
   margin: 2px;
+  font-family: satoshi;
+  border-radius: 25px;
+  font-size: 18px;
+  width: auto;
 }
 .size p {
   display: inline-block;
@@ -67,19 +100,15 @@
   display: inline-block;
   font-size: 22px;
 }
-.style a {
-  display: inline-block;
-  font-size: 22px;
+.style p a{
+  font-size: 18px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  font-family: satoshi;
 }
 .colors p {
   display: inline-block;
   font-size: 22px;
-}
-.colors button {
-  margin: 6px;
-  height: 40px;
-  width: 40px;
-  border-radius: 100px;
 }
 .colors button {
   margin: 7px;
@@ -90,40 +119,69 @@
 .colors .red {
   background-color: red;
   color: red;
+  border: 1px solid rgba(0, 0, 0, 0.267);
 }
 .colors .blue {
-  background-color: blue;
-  color: blue;
+  background-color: #063AF5;
+  color: #063AF5;
+  border: 1px solid rgba(0, 0, 0, 0.267);
 }
 .colors .green {
-  background-color: green;
-  color: green;
+  background-color: #00C12B;
+  color: #00C12B;
+  border: 1px solid rgba(0, 0, 0, 0.267);
 }
 .colors .purple {
-  background-color: purple;
-  color: purple;
+  background-color: #7D06F5;
+  color: #7D06F5;
+  border: 1px solid rgba(0, 0, 0, 0.267);
 }
 .colors .yellow {
-  background-color: rgb(204, 204, 86);
-  color: rgb(204, 204, 86);
+  background-color: #F5DD06;
+  color: #F5DD06;
+  border: 1px solid rgba(0, 0, 0, 0.267);
 }
 .colors .cyan {
-  background-color: cyan;
-  color: cyan;
+  background-color: #06CAF5;
+  color: #06CAF5;
+  border: 1px solid rgba(0, 0, 0, 0.267);
 }
 .colors .black {
   background-color: black;
   color: black;
+  border: 1px solid rgba(0, 0, 0, 0.267);
 }
-.colors .gray {
-  background-color: gray;
-  color: gray;
+.colors .white {
+  background-color: white;
+  color: white;
+  border: 1px solid rgba(0, 0, 0, 0.267);
 }
-
+.colors .orange {
+  background-color: #F57906;
+  color: #F57906;
+  border: 1px solid rgba(0, 0, 0, 0.267);
+}
+.colors .pink {
+  background-color: #F506A4;
+  color: #F506A4;
+  border: 1px solid rgba(0, 0, 0, 0.267);
+}
 @media (max-width: 768px) {
   .filterMainSquare {
     width: 94%;
     margin: auto;
     padding: 10px;
   }
+}
+hr{
+  width: 94%;
+}
+.closedarrow{
+  margin-top: 10px;
+  float: right;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.smallHeader .closedarrow{
+  margin-top: 15px;
 }
