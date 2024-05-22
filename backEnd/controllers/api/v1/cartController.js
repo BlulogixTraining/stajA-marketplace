@@ -1,5 +1,6 @@
 const User = require("../../../models/User");
 const Product = require("../../../models/Product");
+const Cart = require("../../../models/Cart");
 
 exports.addToCart = async (req, res) => {
   try {
@@ -11,6 +12,12 @@ exports.addToCart = async (req, res) => {
         .json({ status: "Fail", message: "User not found" });
     }
 
+    let cart = await Cart.findOne({ user_id: user._id });
+
+    if (!cart) {
+      cart = new Cart({ user_id: user._id, products: [] });
+    }
+
     const product = await Product.findById(req.body.product_id);
 
     if (!product) {
@@ -19,14 +26,14 @@ exports.addToCart = async (req, res) => {
         .json({ status: "Fail", message: "Product not found" });
     }
 
-    if (user.cart.includes(product._id)) {
+    if (cart.products.includes(product._id)) {
       return res
         .status(400)
         .json({ status: "Fail", message: "Product already in cart" });
     }
 
-    user.cart.push(product._id);
-    await user.save();
+    cart.products.push(product._id);
+    await cart.save();
 
     res.status(201).json({
       status: "Success",
@@ -51,7 +58,7 @@ exports.removeFromCart = async (req, res) => {
         .status(404)
         .json({ status: "Fail", message: "User not found" });
     }
-
+    const cart = await Cart.findOne({ user_id: user._id });
     const product = await Product.findById(req.body.product_id);
 
     if (!product) {
@@ -60,8 +67,8 @@ exports.removeFromCart = async (req, res) => {
         .json({ status: "Fail", message: "Product not found" });
     }
 
-    await user.cart.pull(product._id);
-    await user.save();
+    await cart.products.pull(product._id);
+    await cart.save();
 
     res.status(201).json({
       status: "Success",
@@ -79,19 +86,20 @@ exports.removeFromCart = async (req, res) => {
 
 exports.getAllProductsExistsInCart = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).populate("cart");
+    const user = await User.findById(req.userId);
 
     if (!user) {
       return res
         .status(404)
         .json({ status: "fail", message: "User not found" });
     }
-
-    const productsInCart = user.cart;
+    const carts = await Cart.find({ user_id: user._id })
+      .populate("products")
+      .select("products");
 
     res.status(200).json({
       status: "Success",
-      cart: productsInCart,
+      carts,
     });
   } catch (error) {
     res.status(500).json({

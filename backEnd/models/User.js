@@ -44,12 +44,6 @@ const UserSchema = new Schema({
     },
   ],
 
-  cart: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
-    },
-  ],
   favorite: [
     {
       type: mongoose.Schema.Types.ObjectId,
