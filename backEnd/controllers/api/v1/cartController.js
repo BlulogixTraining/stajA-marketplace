@@ -97,9 +97,14 @@ exports.getAllProductsExistsInCart = async (req, res) => {
       .populate("products")
       .select("products");
 
+    let totalItemsInCart = 0;
+    carts.forEach((cart) => {
+      totalItemsInCart += cart.products.length;
+    });
     res.status(200).json({
       status: "Success",
       carts,
+      totalItemsInCart,
     });
   } catch (error) {
     res.status(500).json({
