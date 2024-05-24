@@ -27,7 +27,7 @@ const UserSchema = new Schema({
     type: String,
   },
 
-  rol: {
+  role: {
     type: String,
     enum: ["admin", "seller", "customer"],
     default: "customer",
@@ -45,6 +45,13 @@ const UserSchema = new Schema({
   ],
 
   favorite: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+    },
+  ],
+
+  cart: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Product",
