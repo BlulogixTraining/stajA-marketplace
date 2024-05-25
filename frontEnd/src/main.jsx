@@ -21,6 +21,7 @@ import Sellerhome from "./components/Dashborad/Sellerhome.jsx";
 import AddProduct from "./components/Dashborad/AddProduct.jsx";
 import EditProductPage from "./components/Dashborad/EditProductPage.jsx";
 import MyOrders from "./pages/MyOrders.jsx";
+import OrderDetials from "./pages/OrderDetials.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
       { path: "/", element: <App /> },
       { path: "products", element: <Products /> },
       { path: "products/:productId", element: <Product /> },
-      { path: "about", element: <About /> },
+      { path: "myorders", element: <MyOrders /> },
       { path: "orderdetails", element: <OrderDetials /> },
       {
         path: "dashboard",
