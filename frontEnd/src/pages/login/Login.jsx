@@ -3,11 +3,11 @@ import { useForm } from "react-hook-form";
 import { useContext, useEffect, useState } from "react";
 import classes from "./Login.module.css";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
-import { AuthContext } from "../../context/AuthProvider";
 import axios from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import ModelSuccess from "../../components/ui/ModelSuccess";
 const url = "https://staja-marketplace.onrender.com/users/login";
+import SignUpLogo from "../../../public/Rectangle 20 (1).svg";
 
 const Login = () => {
   const [errMsg, setErrMsg] = useState("");
@@ -38,9 +38,6 @@ const Login = () => {
 
         const email = response.data.user.email;
 
-        console.log("id", userID);
-        console.log("token", token);
-
         signIn({
           auth: {
             token: token,
@@ -53,7 +50,6 @@ const Login = () => {
         });
         // setAuthData({ token, userID });
         localStorage.setItem("authToken", token);
-        localStorage.setItem("userID", userID); //
 
         setSuccess(true);
       }
@@ -91,11 +87,20 @@ const Login = () => {
           }}
         />
       )}
-      <div className="d-flex flex-column flex-md-row align-items-center justify-content-center h-100">
+      <div className="d-flex flex-column flex-md-row align-items-center justify-content-center h-100 gap-5">
         <div className="col-12 col-md-3 ">
-          <h1>Hello again</h1>
+          <div className="">
+            <img
+              src={SignUpLogo}
+              alt="SignUp Logo"
+              className="img-fluid h-100 w-100 object-fit-cover "
+            />
+          </div>{" "}
         </div>
         <div className="col-12 col-md-5">
+          <h3>
+            <span className={classes.textGradient}>Login to ShopCoo</span>
+          </h3>{" "}
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="d-flex flex-column gap-2 "

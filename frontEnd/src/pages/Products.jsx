@@ -52,13 +52,13 @@ const Products = () => {
   console.log("products");
   return (
     <>
-      <div className="d-block d-sm-flex container-fuild">
+      <div className=" container-fuild">
         <div className="container">
           <Breadcrumbs />
 
           <h2 className="my-4 fw-bold ">Products</h2>
           <div className="row">
-            <div className="col col-md-3">
+            <div className="col col-md-3 position-relative">
               <Filters
                 onSelectedValuesChange={handleSelectedValuesChange}
                 products={products}
@@ -92,6 +92,8 @@ const Products = () => {
           />
         </div>
       </div>
+
+      <div className="container-fluid"></div>
     </>
   );
 };

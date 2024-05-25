@@ -4,8 +4,9 @@ import axios from "../../api/axios";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
+const url = "https://staja-marketplace.onrender.com/users/signup";
 
-const url = "http://localhost:3000/users/signup";
+import SignUpLogo from "../../../public/Group 4.svg";
 const SignUp = () => {
   const { setAuth } = useContext(AuthContext);
   const [errMsg, setErrMsg] = useState("");
@@ -57,14 +58,23 @@ const SignUp = () => {
     navigate("/");
   }
   return (
-    <div className={`${classes.contanier_height} container`}>
-      <div className="d-flex flex-column flex-md-row align-items-center justify-content-center h-100">
-        <div className="col-12 col-md-3">
-          <h3>
-            Hello and welcome
-            <br />
-            <span className={classes.textGradient}>to Our MarketPlace</span>
-          </h3>
+    <div
+      className={`${classes.contanier_height} container-fluid text-center justify-content-center `}
+    >
+      <h3>
+        Hello and welcome
+        <br />
+        <span className={classes.textGradient}>To ShopCoo</span>
+      </h3>{" "}
+      <div className="d-flex flex-column flex-md-row align-items-center justify-content-center h-100 gap-5">
+        <div className="col-12 col-md-3 ">
+          <div className="">
+            <img
+              src={SignUpLogo}
+              alt="SignUp Logo"
+              className="img-fluid h-100 w-100 object-fit-cover "
+            />
+          </div>
         </div>
         <div className="col-12 col-md-5">
           <form

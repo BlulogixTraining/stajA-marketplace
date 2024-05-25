@@ -8,10 +8,9 @@ import { BsCartDash } from "react-icons/bs";
 import { FaUser } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
+import axios from "../../api/axios";
 
-const TobNav = () => {
-  const isAuthenticated = useIsAuthenticated();
+const TobNav = ({ isAuthenticated }) => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container">
@@ -48,18 +47,13 @@ const TobNav = () => {
               </li>
             )}
 
-            <li className="nav-item">
-              <Link className="nav-link" href="#">
-                models
-              </Link>
-            </li>
-            {/* <NavDropdown title="Catigory" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-            </NavDropdown> */}
+            {isAuthenticated && (
+              <li className="nav-item">
+                <Link className="nav-link" to="orders">
+                  My Orders
+                </Link>
+              </li>
+            )}
           </ul>
           <form className="d-flex" role="search">
             <input

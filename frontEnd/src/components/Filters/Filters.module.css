@@ -7,7 +7,11 @@
   padding-bottom: 21px;
   border: 1px solid lightgray;
   /* max-width: 400px; */
-  /* height: 70vh; */
+  height: 100vh;
+  overflow: scroll;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: thin;
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
@@ -36,10 +40,10 @@
   color: white;
   align-self: center;
 }
-.dressings{
+.dressings {
   margin-top: 10px;
 }
-.dressings p a{
+.dressings p a {
   font-size: 18px;
   cursor: pointer;
   margin-bottom: 15px;
@@ -84,7 +88,7 @@
   font-family: satoshi;
 }
 .size button {
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   color: rgb(0, 0, 0, 0.6);
   margin: 2px;
   font-family: satoshi;
@@ -100,7 +104,7 @@
   display: inline-block;
   font-size: 22px;
 }
-.style p a{
+.style p a {
   font-size: 18px;
   cursor: pointer;
   margin-bottom: 15px;
@@ -122,28 +126,28 @@
   border: 1px solid rgba(0, 0, 0, 0.267);
 }
 .colors .blue {
-  background-color: #063AF5;
-  color: #063AF5;
+  background-color: #063af5;
+  color: #063af5;
   border: 1px solid rgba(0, 0, 0, 0.267);
 }
 .colors .green {
-  background-color: #00C12B;
-  color: #00C12B;
+  background-color: #00c12b;
+  color: #00c12b;
   border: 1px solid rgba(0, 0, 0, 0.267);
 }
 .colors .purple {
-  background-color: #7D06F5;
-  color: #7D06F5;
+  background-color: #7d06f5;
+  color: #7d06f5;
   border: 1px solid rgba(0, 0, 0, 0.267);
 }
 .colors .yellow {
-  background-color: #F5DD06;
-  color: #F5DD06;
+  background-color: #f5dd06;
+  color: #f5dd06;
   border: 1px solid rgba(0, 0, 0, 0.267);
 }
 .colors .cyan {
-  background-color: #06CAF5;
-  color: #06CAF5;
+  background-color: #06caf5;
+  color: #06caf5;
   border: 1px solid rgba(0, 0, 0, 0.267);
 }
 .colors .black {
@@ -157,13 +161,13 @@
   border: 1px solid rgba(0, 0, 0, 0.267);
 }
 .colors .orange {
-  background-color: #F57906;
-  color: #F57906;
+  background-color: #f57906;
+  color: #f57906;
   border: 1px solid rgba(0, 0, 0, 0.267);
 }
 .colors .pink {
-  background-color: #F506A4;
-  color: #F506A4;
+  background-color: #f506a4;
+  color: #f506a4;
   border: 1px solid rgba(0, 0, 0, 0.267);
 }
 @media (max-width: 768px) {
@@ -173,15 +177,15 @@
     padding: 10px;
   }
 }
-hr{
+hr {
   width: 94%;
 }
-.closedarrow{
+.closedarrow {
   margin-top: 10px;
   float: right;
   margin-right: 20px;
   cursor: pointer;
 }
-.smallHeader .closedarrow{
+.smallHeader .closedarrow {
   margin-top: 15px;
 }
