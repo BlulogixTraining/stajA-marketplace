@@ -1,0 +1,21 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/products", "destination": "/index.html" },
+    { "source": "/products/:productId", "destination": "/index.html" },
+    { "source": "/myorders", "destination": "/index.html" },
+    { "source": "/orderdetails", "destination": "/index.html" },
+    { "source": "/dashboard", "destination": "/index.html" },
+    { "source": "/dashboard/products", "destination": "/index.html" },
+    { "source": "/dashboard/add-product", "destination": "/index.html" },
+    { "source": "/dashboard/edit-product/:id", "destination": "/index.html" },
+    { "source": "/userProfile", "destination": "/index.html" },
+    { "source": "/sellerProfile", "destination": "/index.html" },
+    { "source": "/signup", "destination": "/index.html" },
+    { "source": "/login", "destination": "/index.html" },
+    { "source": "/cart", "destination": "/index.html" },
+    { "source": "/checkout", "destination": "/index.html" },
+    { "source": "/wishlist", "destination": "/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

@@ -65,31 +65,21 @@ const Footer = () => {
               <h3 className={classes.footer__company}>COMPANY</h3>
               <Link className={classes.footer__links}>About </Link>
               <Link className={classes.footer__links}>Features</Link>
-              <Link className={classes.footer__links}>Works</Link>
-              <Link className={classes.footer__links}>Career</Link>
             </div>
             <div className="col-lg-2 d-flex  flex-column gap-3 ">
               <h3 className={classes.footer__company}>HELP</h3>
               <Link className={classes.footer__links}>Customer Support </Link>
               <Link className={classes.footer__links}>Delivery Details</Link>
-              <Link className={classes.footer__links}>Terms & Conditions</Link>
-              <Link className={classes.footer__links}>Privacy Policy</Link>
             </div>{" "}
             <div className="col-lg-2 d-flex  flex-column gap-3 ">
               <h3 className={classes.footer__company}>FAQ</h3>
-              <Link className={classes.footer__links}>Account</Link>
-              <Link className={classes.footer__links}>Manage Deliveries</Link>
               <Link className={classes.footer__links}>Orders</Link>
               <Link className={classes.footer__links}>Payments</Link>
             </div>
             <div className="col-lg-2 d-flex  flex-column gap-3 ">
               <h3 className={classes.footer__company}>Resources</h3>
-              <Link className={classes.footer__links}>Free eBooks </Link>
-              <Link className={classes.footer__links}>
-                Development Tutorial
-              </Link>
-              <Link className={classes.footer__links}>How to - Blog</Link>
-              <Link className={classes.footer__links}>Youtube Playlist</Link>
+              <Link className={classes.footer__links}>Terms & Conditions</Link>
+              <Link className={classes.footer__links}>Privacy Policy</Link>
             </div>
           </div>
         </div>

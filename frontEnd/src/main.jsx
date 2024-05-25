@@ -1,7 +1,6 @@
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
-import About from "./pages/About.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UserProfile from "./pages/UserProfile/UserProfile.jsx";
 import SellerProfile from "./pages/SellerProfile.jsx";
@@ -12,9 +11,7 @@ import Product from "./pages/Product.jsx";
 import Layout from "./components/Layout.jsx";
 import Cart from "./pages/Cart/Cart.jsx";
 import Checkout from "./components/CheckOut/CheckOut.jsx";
-// import { AuthProvider } from "./context/AuthProvider.jsx";
 import createStore from "react-auth-kit/createStore";
-// import { AuthProvider } from "react-auth-kit";
 import AuthProvider from "react-auth-kit";
 import RequireAuth from "@auth-kit/react-router/RequireAuth";
 import WishList from "./pages/WishList";
@@ -23,6 +20,8 @@ import ProductsSeller from "./components/Dashborad/ProductsSeller.jsx";
 import Sellerhome from "./components/Dashborad/Sellerhome.jsx";
 import AddProduct from "./components/Dashborad/AddProduct.jsx";
 import EditProductPage from "./components/Dashborad/EditProductPage.jsx";
+import MyOrders from "./pages/MyOrders.jsx";
+import OrderDetials from "./pages/OrderDetials.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,7 +30,7 @@ const router = createBrowserRouter([
       { path: "/", element: <App /> },
       { path: "products", element: <Products /> },
       { path: "products/:productId", element: <Product /> },
-      { path: "about", element: <About /> },
+      { path: "myorders", element: <MyOrders /> },
       { path: "orderdetails", element: <OrderDetials /> },
       {
         path: "dashboard",

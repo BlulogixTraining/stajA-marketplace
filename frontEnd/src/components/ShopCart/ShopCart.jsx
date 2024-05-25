@@ -4,12 +4,12 @@ import classes from "./ShopCart.module.css";
 const url = "https://staja-marketplace.onrender.com";
 const ShopCart = ({ CartProdcut, onRemoveClick }) => {
   const cartData = CartProdcut;
-
+  console.log("cartData", cartData);
   return (
     <div className="contianer">
       <div className="row">
         <div className="d-flex flex-column gap-2">
-          {cartData.map((product) => (
+          {cartData?.map((product) => (
             <div
               key={product._id}
               className="box d-flex gap-3 border border-1 border-dark-subtle p-3 rounded-4"
