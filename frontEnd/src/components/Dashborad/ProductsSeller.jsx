@@ -10,8 +10,9 @@ const ProductsSeller = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("/products");
+      const response = await axios.get("/seller");
       setProducts(response.data.products);
+      console.log(response.data.products);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -64,16 +65,15 @@ const ProductsSeller = () => {
               <td>{product.description.substring(0, 50)}...</td>
               <td>${product.price}</td>
               <td>{product.stock}</td>
-              <td>{product.category}</td>
+              <td>{product.category_id.name}</td>
               <td>{product.discount}%</td>
               <td>
                 <Link
-                  to={`/dashboard/edit-product/${product._id}`}
-                  className="btn btn-primary me-2"
+                  to={`/dashboard/edit-product/${product.slug}`}
+                  className="btn btn-primary mt-2"
                 >
-                  Edit
+                  Edit Product
                 </Link>
-                {/* Add delete button if needed */}
               </td>
             </tr>
           ))}
