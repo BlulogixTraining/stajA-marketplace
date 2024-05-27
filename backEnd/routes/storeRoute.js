@@ -6,9 +6,9 @@ const checkRole = require("../middleware/api/v1/checkRole");
 const router = express.Router();
 
 router.route("/").get(verifyToken, StoreController.getAllStores);
-router.route("/").post(verifyToken, checkRole(['seller','admin']),StoreController.createStore);
-router.route("/edit/:id").put(verifyToken,checkRole(['seller','admin']), StoreController.editStore);
-router.route("/delete/:id").delete(verifyToken,checkRole(['admin']), StoreController.deleteStore);
+router.route("/").post(verifyToken, checkRole(["admin","seller"]),StoreController.createStore);
+router.route("/edit/:id").put(verifyToken,checkRole(["admin","seller"]), StoreController.editStore);
+router.route("/delete/:id").delete(verifyToken,checkRole(["admin","seller"]), StoreController.deleteStore);
 
 
 module.exports = router;

@@ -8,11 +8,11 @@ const router = express.Router();
 router.route("/").get(productController.getAllProducts);
 router.route("/:slug").get(productController.getProductDetails);
 router
-  .route("/").post(verifyToken,checkRole(["seller","admin"]),
+  .route("/").post(verifyToken,checkRole(["seller"]),
     productController.createProduct
   );
-router.route("/edit/:id").put(verifyToken, checkRole(["seller","admin"]),productController.editProduct);
-router.route("/delete/:id").delete(verifyToken, checkRole(["admin"]),productController.deleteProduct);
+router.route("/edit/:id").put(verifyToken, checkRole(["admin","seller"]),productController.editProduct);
+router.route("/delete/:id").delete(verifyToken, checkRole(["admin","seller"]),productController.deleteProduct);
 
 
 module.exports = router;
