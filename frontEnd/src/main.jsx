@@ -22,6 +22,8 @@ import AddProduct from "./components/Dashborad/AddProduct.jsx";
 import EditProductPage from "./components/Dashborad/EditProductPage.jsx";
 import MyOrders from "./pages/MyOrders.jsx";
 import OrderDetials from "./pages/OrderDetials.jsx";
+import Category from "./components/Dashborad/Category/Category.jsx";
+import AddCategory from "./components/Dashborad/Category/AddCategory.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -41,6 +43,8 @@ const router = createBrowserRouter([
           { path: "products", element: <ProductsSeller /> },
           { path: "add-product", element: <AddProduct /> },
           { path: "edit-product/:id", element: <EditProductPage /> },
+          { path: "categories", element: <Category /> },
+          { path: "categories/add", element: <AddCategory /> },
         ],
       },
       {

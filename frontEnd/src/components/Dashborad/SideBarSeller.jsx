@@ -20,24 +20,27 @@ export const SideBarSeller = () => {
           className="mb-2"
           id="logo"
         />
-        <h4>Groth</h4>
+        <h4>Shopcoo</h4>
       </div>
       <ul className="nav flex-column">
         <li className="nav-item mb-2">
           <Link className={`nav-link ${classes.nav_item}`} to="/dashboard">
             <RiHomeSmileLine /> Dashboard
           </Link>
-        </li>
-        <li className="nav-item mb-2">
-          <a className={`nav-link ${classes.nav_item}`} href="#">
-            {" "}
-            <BsClipboardData /> Analytics
-          </a>
-        </li>
+        </li>{" "}
         <li className="nav-item mb-2">
           <Link className={`nav-link ${classes.nav_item}`} to="./products">
             {" "}
             <MdOutlineProductionQuantityLimits /> Products
+          </Link>
+        </li>
+        <li className="nav-item mb-2">
+          <Link
+            className={`nav-link ${classes.nav_item}`}
+            to="/dashboard/categories"
+          >
+            {" "}
+            <BsClipboardData /> Categories
           </Link>
         </li>
         <li className="nav-item mb-2">

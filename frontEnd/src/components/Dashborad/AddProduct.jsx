@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "../../api/axios";
 
@@ -11,28 +11,41 @@ const AddProduct = () => {
   } = useForm();
   const [imageFiles, setImageFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
+  const [categories, setCategories] = useState([]);
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("categories");
+        setCategories(response.data.categories);
+        console.log(response.data.categories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+    fetchCategories();
+  }, []);
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
       formData.append("name", data.name);
       formData.append("description", data.description);
       formData.append("price", data.price);
-      formData.append("category", data.category);
+      formData.append("category_id", data.category);
       formData.append("discount", data.discount);
       formData.append("stock", data.stock);
-      imageFiles.forEach((file, index) => {
-        formData.append(`images[${index}]`, file);
+      imageFiles.forEach((file) => {
+        formData.append("images", file);
       });
 
-      const response = await axios.post("{{baseURL}}/products", formData, {
+      console.log(formData);
+
+      const response = await axios.post("products", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
-      console.log("Product added successfully:", response.data);
-      // Reset the form and image previews after successful submission
       reset();
       setImageFiles([]);
       setImagePreviews([]);
@@ -149,10 +162,11 @@ const AddProduct = () => {
             {...register("category", { required: true })}
           >
             <option value="">Select a category</option>
-            <option value="electronics">Electronics</option>
-            <option value="fashion">Fashion</option>
-            <option value="home">Home</option>
-            <option value="books">Books</option>
+            {categories?.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
           </select>
           {errors.category && (
             <div className="invalid-feedback">This field is required</div>
