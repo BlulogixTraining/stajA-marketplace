@@ -41,7 +41,9 @@ exports.createStore = async (req, res) => {
 
 exports.getAllStores = async (req, res) => {
   try {
-    const stores = await Store.find();
+    const stores = await Store.find({
+      seller_id: req.userId,
+    });
 
     res.status(200).json({
       status: "Success",
