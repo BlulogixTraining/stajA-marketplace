@@ -6,26 +6,25 @@ exports.addToCart = async (req, res) => {
     const user = await User.findById(req.userId);
 
     if (!user) {
-      return res
-        .status(404)
-        .json({ status: "Fail", message: "User not found" });
+      return res.status(404).json({ status: "Fail", message: "User not found" });
     }
 
     const product = await Product.findById(req.body.product_id);
 
     if (!product) {
-      return res
-        .status(404)
-        .json({ status: "Fail", message: "Product not found" });
+      return res.status(404).json({ status: "Fail", message: "Product not found" });
     }
 
-    if (user.cart.includes(product._id)) {
-      return res
-        .status(400)
-        .json({ status: "Fail", message: "Product already in cart" });
+    const { variants } = req.body;
+
+    
+    const productInCart = user.cart.find(item => item.product_id.equals(product._id));
+
+    if (productInCart) {
+      return res.status(400).json({ status: "Fail", message: "Product already in cart" });
     }
 
-    user.cart.push(product._id);
+    user.cart.push({ product_id: product._id, variants });
     await user.save();
 
     res.status(201).json({
@@ -41,6 +40,7 @@ exports.addToCart = async (req, res) => {
     });
   }
 };
+
 
 exports.removeFromCart = async (req, res) => {
   try {
