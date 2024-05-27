@@ -89,10 +89,27 @@ exports.getAllProductsExistsInCart = async (req, res) => {
 
     const productsInCart = user.cart;
     const totalItemsInCart = productsInCart.length;
+
+    let subtotal = 0;
+    let totalDiscount = 0;
+
+    productsInCart.forEach((product) => {
+      subtotal += product.price;
+      totalDiscount += product.discount;
+    });
+
+    const total = subtotal - totalDiscount;
+
     res.status(200).json({
       status: "Success",
       totalItems: totalItemsInCart,
+      orderSummary: {
+        subtotal: subtotal.toFixed(2),
+        discount: totalDiscount.toFixed(2),
+        total: total.toFixed(2),
+      },
       cart: productsInCart,
+      
     });
   } catch (error) {
     res.status(500).json({
