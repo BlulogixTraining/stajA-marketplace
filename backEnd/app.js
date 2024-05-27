@@ -12,8 +12,7 @@ const favoriteRoute = require("./routes/favoriteRoute");
 const productVariantRoute = require("./routes/productVariantRoute");
 const productDetailsRoute = require("./routes/productDetailsRoute");
 const sellerRoute = require("./routes/sellerRoute");
-
-
+const storeRoute = require("./routes/storeRoute");
 
 const cors = require("cors");
 
@@ -51,7 +50,7 @@ app.use("/favorite", favoriteRoute);
 app.use("/productvariant", productVariantRoute);
 app.use("/productdetails", productDetailsRoute);
 app.use("/seller", sellerRoute);
-
+app.use("/stores", storeRoute);
 
 const port = 3000;
 app.listen(port, () => {

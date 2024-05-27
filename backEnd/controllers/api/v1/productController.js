@@ -181,6 +181,22 @@ exports.editProduct = async (req, res) => {
     });
   }
 };
+
+exports.deleteProduct = async (req, res) => {
+  try {
+    const product = await Product.deleteOne({ _id: req.params.id });
+
+    res.status(200).json({
+      status: "Success",
+      product,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "Fail",
+      error,
+    });
+  }
+};
 /*
 
 // Function to generate fake products

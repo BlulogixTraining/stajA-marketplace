@@ -27,6 +27,7 @@ exports.createUser = async (req, res) => {
         ...req.body,
         image: "/images/" + sampleFile.name,
       });
+
       const token = createToken(user._id);
       res.status(201).json({
         status: "User has been created successfully!",
@@ -61,7 +62,6 @@ exports.loginUser = async (req, res) => {
 
     if (same) {
       const token = createToken(user._id);
-      
 
       res.status(200).json({
         status: "Success",

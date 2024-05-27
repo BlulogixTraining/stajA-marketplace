@@ -2,14 +2,16 @@ const express = require("express");
 const categoryController = require("../controllers/api/v1/categoryController");
 const variantCategoryController = require("../controllers/api/v1/categoryController");
 const verifyToken = require("../middleware/api/v1/verifytoken");
+const checkRole = require("../middleware/api/v1/checkRole");
+
 const router = express.Router();
 
 router.route("/").get(categoryController.getAllCategory);
-router.route("/edit/:id").put(verifyToken,categoryController.editCategory);
-router.route("/delete/:id").delete(verifyToken,categoryController.deleteCategory);
-router.route("/").post(verifyToken, categoryController.createCategory);
+router.route("/edit/:id").put(verifyToken,checkRole(['admin']),categoryController.editCategory);
+router.route("/delete/:id").delete(verifyToken,checkRole(['admin']),categoryController.deleteCategory);
+router.route("/").post(verifyToken,checkRole(['admin']), categoryController.createCategory);
 
 router.route("/variant").get(variantCategoryController.getAllVariantCategory);
-router.route("/variant").post(verifyToken, variantCategoryController.createVariantCategory);
+router.route("/variant").post(verifyToken, checkRole(['seller','admin']),variantCategoryController.createVariantCategory);
 
 module.exports = router;
