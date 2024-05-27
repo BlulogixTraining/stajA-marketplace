@@ -53,14 +53,8 @@ const UserSchema = new Schema({
 
   cart: [
     {
-      product_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-      },
-      variants: {
-        type: Map,
-        of: String,
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
     },
   ],
   createdAt: {
