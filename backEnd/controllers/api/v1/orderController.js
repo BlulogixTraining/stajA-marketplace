@@ -11,6 +11,13 @@ exports.createOrder = async (req, res) => {
         .json({ status: "fail", message: "User not found" });
     }
 
+    const { address, payment } = req.body;
+
+    /*
+    if (!address || !payment) {
+      return res.status(400).json({ status: "fail", message: "Address and payment details are required" });
+    }
+*/
     const cartItems = user.cart;
 
     if (cartItems.length === 0) {
@@ -28,6 +35,7 @@ exports.createOrder = async (req, res) => {
         price: item.price,
         discount: item.discount,
         total: itemTotal,
+        
       };
     });
 
@@ -39,6 +47,20 @@ exports.createOrder = async (req, res) => {
       subtotal: subtotal.toFixed(2),
       totalDiscount: totalDiscount.toFixed(2),
       total: total.toFixed(2),
+      address: {
+        name: address.name,
+        addressline1: address.addressline1,
+        addressline2: address.addressline2,
+        country: address.country,
+        state: address.state,
+        zipcode: address.zipcode,
+      },
+      payment: {
+        cardNumber: payment.cardNumber,
+        nameOnCard: payment.nameOnCard,
+        cardValidationDate: payment.cardValidationDate,
+        ccv: payment.ccv,
+      },
     });
 
     await order.save();

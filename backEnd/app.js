@@ -14,6 +14,8 @@ const productDetailsRoute = require("./routes/productDetailsRoute");
 const sellerRoute = require("./routes/sellerRoute");
 const storeRoute = require("./routes/storeRoute");
 const orderRoute = require("./routes/orderRoute");
+const addressRoute = require("./routes/addressRoute");
+const paymentRoute = require("./routes/paymentRoute");
 
 
 
@@ -55,6 +57,8 @@ app.use("/productdetails", productDetailsRoute);
 app.use("/seller", sellerRoute);
 app.use("/stores", storeRoute);
 app.use("/orders", orderRoute);
+app.use("/addresses", addressRoute);
+app.use("/payments", paymentRoute);
 
 const port = 3000;
 app.listen(port, () => {

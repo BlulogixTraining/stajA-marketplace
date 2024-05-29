@@ -1,41 +1,31 @@
 const mongoose = require("mongoose");
-
 const Schema = mongoose.Schema;
 
-const AddressSchema = new Schema({
+const PaymentSchema = new Schema({
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-  },
-  name: {
-    type: String,
     required: true,
   },
-
-  addressline1: {
-    type: String,
+  cardNumber: {
+    type: Number,
     required: true,
   },
-  addressline2: {
+  NameOnCard: {
     type: String,
   },
-
-  country: {
-    type: String,
-  },
-
-  state: {
-    type: String,
-  },
-
-  zipcode: {
+  CardValidationDate: {
     type: Number,
   },
+  ccv: {
+    type: Number,
+  },
+
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-const Address = mongoose.model("Address", AddressSchema);
-module.exports = Address;
+const Payment = mongoose.model("Payment", PaymentSchema);
+module.exports = Payment;
