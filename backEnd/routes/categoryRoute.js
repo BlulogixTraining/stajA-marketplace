@@ -7,8 +7,8 @@ const checkRole = require("../middleware/api/v1/checkRole");
 const router = express.Router();
 
 router.route("/").get(categoryController.getAllCategory);
-router.route("/edit/:id").put(verifyToken,checkRole(['admin']),categoryController.editCategory);
-router.route("/delete/:id").delete(verifyToken,checkRole(['admin']),categoryController.deleteCategory);
+router.route("/edit/:id").put(verifyToken,checkRole(['seller','admin']),categoryController.editCategory);
+router.route("/delete/:id").delete(verifyToken,checkRole(['seller','admin']),categoryController.deleteCategory);
 router.route("/").post(verifyToken,checkRole(['seller','admin']), categoryController.createCategory);
 
 router.route("/variant").get(variantCategoryController.getAllVariantCategory);
