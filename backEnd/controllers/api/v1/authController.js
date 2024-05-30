@@ -63,10 +63,19 @@ exports.loginUser = async (req, res) => {
     if (same) {
       const token = createToken(user._id);
 
+      const sanitizedUser = {
+        _id: user._id,
+        name: user.name,
+        lastname: user.lastname,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+      };
+
       res.status(200).json({
         status: "Success",
         message: "You are logged in!",
-        user,
+        user: sanitizedUser,
         token: token,
       });
     } else {
