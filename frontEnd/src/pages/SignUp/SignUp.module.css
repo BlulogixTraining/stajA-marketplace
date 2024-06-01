@@ -39,3 +39,6 @@
 .glass_button:active {
   transform: translateY(1px);
 }
+.Box_con {
+  height: 300px;
+}

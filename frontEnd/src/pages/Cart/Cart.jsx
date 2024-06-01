@@ -10,17 +10,19 @@ const url = "https://staja-marketplace.onrender.com";
 const Cart = () => {
   const [cart, setCart] = useState([]);
   const [error, setError] = useState(null);
+  const [cartTotal, setCartTotal] = useState(0);
 
+  const fetchCart = async () => {
+    try {
+      const response = await axios.get(`${url}/cart/get`);
+      setCart(response.data.cart);
+      setCartTotal(response.data.orderSummary);
+      console.log("cart", response.data.orderSummary);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const response = await axios.get(`${url}/cart/get`);
-        setCart(response.data.cart);
-        console.log("cart", response.data.cart);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchCart();
   }, []);
 
@@ -29,7 +31,7 @@ const Cart = () => {
       const response = await axios.post(`/cart/remove`, {
         product_id: id,
       });
-
+      fetchCart();
       const newCart = cart.filter((product) => product._id !== id);
       setCart(newCart);
     } catch (error) {
@@ -65,7 +67,7 @@ const Cart = () => {
           <ShopCart CartProdcut={cart} onRemoveClick={handleRemoveClick} />
         </div>
         <div className="col-md-4">
-          <Summary />
+          <Summary CartSummary={cartTotal} />
         </div>
       </div>{" "}
     </div>

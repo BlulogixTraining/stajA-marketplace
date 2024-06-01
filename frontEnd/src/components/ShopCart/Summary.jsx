@@ -3,62 +3,74 @@ import { MdOutlineDiscount } from "react-icons/md";
 import { FaArrowRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
-const Summary = () => {
+const Summary = ({ CartSummary }) => {
+  const Summary = CartSummary;
   return (
     <div className="card rounded-4 boder boder-1 border-dark-subtle p-2">
       <div className="card-body">
-        <h4 className="card-title mb-4"><b>Order Summary</b></h4>
+        <h4 className="card-title mb-4">
+          <b>Order Summary</b>
+        </h4>
 
         <div className="row">
           <div className={`${classes.order_sum_item} d-flex `}>
-            <h5 className=" flex-fill  text-secondary fw-light">Subtotal</h5> 
-            <h5><b>$200</b></h5>
+            <h5 className=" flex-fill  text-secondary fw-light">Subtotal</h5>
+            <h5>
+              <b>${Summary?.subtotal}</b>
+            </h5>
           </div>
           <div className={`${classes.order_sum_item} d-flex `}>
             <h5 className=" flex-fill text-secondary fw-light">Discount</h5>
-            <h5 className="text-decoration-line-through text-danger"><b>$10</b></h5>
+            <h5 className="text-decoration-line-through text-danger">
+              <b>${Summary?.discount}</b>
+            </h5>
           </div>
           <div className={`${classes.order_sum_item} d-flex `}>
             <h5 className=" flex-fill text-secondary fw-light">Delivery Fee</h5>
-            <h5><b>$200</b></h5>
+            <h5>
+              <b>Free</b>
+            </h5>
           </div>
-        <hr />
-        <div className={`${classes.order_sum_item} d-flex `}>
-            <h5 className=" flex-fill text-secondary fw-light"> <b>Total</b></h5>
-            <h4><b>$400</b></h4>
+          <hr />
+          <div className={`${classes.order_sum_item} d-flex `}>
+            <h5 className=" flex-fill text-secondary fw-light">
+              {" "}
+              <b>Total</b>
+            </h5>
+            <h4>
+              <b>${Summary?.total}</b>
+            </h4>
           </div>
-          
-    <div className="container text-center">
-  <div className="row">
-    <div className="col">
-    <div className="input-group">
-    <span className="input-group-text" id="btnGroupAddon2">
-      <MdOutlineDiscount />
-    </span>
-    <input type="text" className="form-control flex-1"
-     placeholder="Add promo code" 
-     aria-label="Input group example" 
-     aria-describedby="btnGroupAddon2"/>
-    <button type="button" className="btn btn-dark ">Apply</button>
 
-    </div>
-    </div>
-   
-  </div>
-  <div className="row mt-3">
-    <div className="col">
-      <Link to="/checkout" className="btn btn-dark w-100 p-2">
-        Go to Checkout <FaArrowRight />
-      </Link>
-    </div>
-  </div>
-</div>
+          <div className="container text-center">
+            <div className="row">
+              <div className="col">
+                <div className="input-group">
+                  <span className="input-group-text" id="btnGroupAddon2">
+                    <MdOutlineDiscount />
+                  </span>
+                  <input
+                    type="text"
+                    className="form-control flex-1"
+                    placeholder="Add promo code"
+                    aria-label="Input group example"
+                    aria-describedby="btnGroupAddon2"
+                  />
+                  <button type="button" className="btn btn-dark ">
+                    Apply
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="row mt-3">
+              <div className="col">
+                <Link to="/checkout" className="btn btn-dark w-100 p-2">
+                  Go to Checkout <FaArrowRight />
+                </Link>
+              </div>
+            </div>
+          </div>
 
-  
-
-
-
-          
           {/* <p className="d-inline-flex gap-1">
   <a className="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
     Add promo code 
@@ -67,7 +79,6 @@ const Summary = () => {
     Apply
   </button>
 </p> */}
-
         </div>
       </div>
     </div>
