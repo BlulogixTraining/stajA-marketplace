@@ -67,16 +67,16 @@ const SignUp = () => {
         <span className={classes.textGradient}>To ShopCoo</span>
       </h3>{" "}
       <div className="d-flex flex-column flex-md-row align-items-center justify-content-center h-100 gap-5">
-        <div className="col-12 col-md-3 ">
-          <div className="">
+        <div className="col-12 col-md-2 ">
+          <div className={classes.Box_con}>
             <img
               src={SignUpLogo}
               alt="SignUp Logo"
-              className="img-fluid h-100 w-100 object-fit-cover "
+              className="img-fluid h-100 w-100  "
             />
           </div>
         </div>
-        <div className="col-12 col-md-5">
+        <div className="col-12 col-md-4">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="d-flex flex-column gap-2"

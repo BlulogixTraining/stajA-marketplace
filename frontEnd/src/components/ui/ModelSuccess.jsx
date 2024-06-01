@@ -18,7 +18,7 @@ const ModelSuccess = (props) => {
         </p>
       </Modal.Body>
       <Modal.Footer className="p-1">
-        <a onClick={props.onHide} className="bg-success btn btn-dark" href="/">
+        <a onClick={props.onHide} className="bg-success btn btn-dark">
           Close
         </a>
       </Modal.Footer>

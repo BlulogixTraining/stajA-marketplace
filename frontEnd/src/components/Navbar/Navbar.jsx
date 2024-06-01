@@ -1,15 +1,10 @@
-import { Col, Form, Row } from "react-bootstrap";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import { useEffect, useState } from "react";
 import classes from "./Navbar.module.css";
 import { BsCartDash } from "react-icons/bs";
 import { FaUser } from "react-icons/fa6";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import axios from "../../api/axios";
-
 const TobNav = ({ isAuthenticated }) => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -31,27 +26,48 @@ const TobNav = ({ isAuthenticated }) => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link
-                className="nav-link active"
+              <NavLink
+                style={({ isActive }) => {
+                  return {
+                    fontWeight: isActive ? "bold" : "",
+                  };
+                }}
+                className="nav-link"
                 aria-current="page"
                 to="./products"
               >
                 Products
-              </Link>
+              </NavLink>
             </li>
             {isAuthenticated && (
               <li className="nav-item">
-                <Link className="nav-link" to="/wishlist">
+                <NavLink
+                  style={({ isActive }) => {
+                    return {
+                      fontWeight: isActive ? "bold" : "",
+                    };
+                  }}
+                  className="nav-link"
+                  to="/wishlist"
+                >
                   Wishlist
-                </Link>
+                </NavLink>
               </li>
             )}
 
             {isAuthenticated && (
               <li className="nav-item">
-                <Link className="nav-link" to="orders">
+                <NavLink
+                  style={({ isActive }) => {
+                    return {
+                      fontWeight: isActive ? "bold" : "",
+                    };
+                  }}
+                  className="nav-link"
+                  to="myorders"
+                >
                   My Orders
-                </Link>
+                </NavLink>
               </li>
             )}
           </ul>
@@ -69,18 +85,19 @@ const TobNav = ({ isAuthenticated }) => {
 
           <li className="list-group-item mx-3  d-flex gap-3">
             {" "}
-            <Link to="/cart">
+            <NavLink to="/cart">
               <BsCartDash className={classes.shop} />
-            </Link>
+              {/* <span className={classes.cart_count}>{cart?.totalItems}</span> */}
+            </NavLink>
             {isAuthenticated && (
               <Link to="/userProfile">
                 <FaUser className={classes.profile} />
               </Link>
             )}
             {!isAuthenticated && (
-              <Link to="/login">
+              <NavLink to="/login">
                 <FaUser className={classes.profile} />
-              </Link>
+              </NavLink>
             )}
           </li>
         </div>
@@ -88,12 +105,5 @@ const TobNav = ({ isAuthenticated }) => {
     </nav>
   );
 };
-{
-  /* <Nav.Link href="/cart">
-              <BsCartDash className={classes.shop} />
-            </Nav.Link>
-            <Nav.Link eventKey={2} href="/login">
-              <FaUser className={classes.profile} />
-            </Nav.Link> */
-}
+
 export default TobNav;

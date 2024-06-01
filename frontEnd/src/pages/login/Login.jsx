@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useContext, useEffect, useState } from "react";
 import classes from "./Login.module.css";
@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import ModelSuccess from "../../components/ui/ModelSuccess";
 const url = "https://staja-marketplace.onrender.com/users/login";
 import SignUpLogo from "../../../public/Rectangle 20 (1).svg";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 const Login = () => {
   const [errMsg, setErrMsg] = useState("");
@@ -37,7 +38,8 @@ const Login = () => {
         const name = response.data.user.name;
 
         const email = response.data.user.email;
-
+        const role = response.data.user.role;
+        console.log("role", role);
         signIn({
           auth: {
             token: token,
@@ -45,6 +47,8 @@ const Login = () => {
           userState: {
             email: email,
             name: name,
+            role: role,
+            userId: userID,
           },
           expires: 60 * 60 * 24 * 30,
         });
@@ -70,11 +74,16 @@ const Login = () => {
     if (success) {
       console.log(90);
       setModalShow(true);
-
-      // navigate("/");
     }
   }, [success]);
+  const user = useAuthUser();
+  const role = user?.role;
 
+  // if (role == "seller") {
+  //   return <Navigate to="/dashboard" />;
+  // } else if (role == "customer") {
+  //   return <Navigate to="/" />;
+  // }
   return (
     <div className={`${classes.contanier_height} container`}>
       {" "}
