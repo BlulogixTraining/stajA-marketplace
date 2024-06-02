@@ -1,0 +1,48 @@
+.tab-title {
+  font-size: 20px;
+}
+
+.tab-content {
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+#fill-tab-example .nav-link {
+  background-color: rgba(0, 0, 0, 0.075);
+  color: black;
+  border: 1px solid black;
+}
+
+#fill-tab-example .nav-link.active {
+  background-color: white;
+  color: black;
+  border-bottom: 5px solid black;
+}
+
+h5 span:hover {
+  cursor: pointer;
+}
+
+.verification-button {
+  width: 23.5em;
+  height: 3.5em;
+}
+
+.currentAddress {
+  font-size: 20px;
+}
+
+.choosing {
+  font-size: 25px;
+}
+
+.addressAA .nav-link.active {
+  background-color: rgb(0, 0, 0);
+}
+
+.addressAA .nav-link {
+  color: black;
+  border: 1px solid black;
+  border-radius: 0px;
+}
