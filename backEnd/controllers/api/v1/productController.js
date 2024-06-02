@@ -49,18 +49,67 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const page = req.query.page || 1;
-
+    const page = parseInt(req.query.page) || 1;
     const productPerPage = 6;
     const totalproducts = await Product.find().countDocuments();
 
+    const variantValues = req.query.variantValues;
+    const variantCategory = req.query.variantCategory;
     const categorySlug = req.query.categories;
+
     const category = await Category.findOne({ slug: categorySlug });
 
     let filter = {};
 
     if (categorySlug) {
       filter = { category_id: category._id };
+    }
+
+    if (variantValues || variantCategory) {
+      
+      let variantQuery = {};
+
+      
+      if (variantValues) {
+        variantQuery.variantvalues = variantValues;
+      }
+
+      
+      if (variantCategory) {
+        const category = await VariantCategory.findOne({
+          slug: variantCategory,
+        });
+        if (category) {
+          variantQuery.category_id = category._id;
+        } else {
+         
+          return res.status(200).json({
+            status: "Success",
+            products: [],
+            current: page,
+            pages: 0,
+          });
+        }
+      }
+
+      
+      const matchingVariants = await ProductVariant.find(variantQuery);
+
+      
+      const productIds = matchingVariants.map((variant) => variant.product_id);
+
+      
+      if (productIds.length > 0) {
+        filter = { _id: { $in: productIds } };
+      } else {
+        
+        return res.status(200).json({
+          status: "Success",
+          products: [],
+          current: page,
+          pages: 0,
+        });
+      }
     }
 
     const products = await Product.aggregate([
@@ -78,7 +127,6 @@ exports.getAllProducts = async (req, res) => {
           averagerating: { $ceil: { $avg: "$reviews.rating" } },
         },
       },
-      //To obscure the array of reviews
       {
         $project: {
           reviews: 0,
@@ -101,7 +149,7 @@ exports.getAllProducts = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       status: "Fail",
-      error,
+      error: error.message,
     });
   }
 };
