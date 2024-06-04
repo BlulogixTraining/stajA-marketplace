@@ -22,6 +22,7 @@ const SignUp = () => {
       lastname: "Your Last Name",
       email: "name@gmail.com",
       password: "123456sadf",
+      role: "customer",
     },
   });
 
@@ -33,9 +34,7 @@ const SignUp = () => {
       .then((response) => {
         console.log(response);
         if (response.status === 200 || response.status === 201) {
-          // const token = response.data.token;
           setAuth({ name, lastname, email, password });
-          // localStorage.setItem("authToken", token);
           setSuccess(true);
         }
       })
@@ -62,9 +61,7 @@ const SignUp = () => {
       className={`${classes.contanier_height} container-fluid text-center justify-content-center `}
     >
       <h3>
-        Hello and welcome
-        <br />
-        <span className={classes.textGradient}>To ShopCoo</span>
+        <h4 className={classes.textGradient}>ShopCoo</h4>
       </h3>{" "}
       <div className="d-flex flex-column flex-md-row align-items-center justify-content-center h-100 gap-5">
         <div className="col-12 col-md-2 ">
@@ -112,6 +109,20 @@ const SignUp = () => {
             {errors.email && (
               <p className="text-danger">{errors.email.message}</p>
             )}
+
+            <select
+              className="form-select"
+              {...register("role", {
+                required: "This is required",
+              })}
+            >
+              <option value="customer">Customer</option>
+              <option value="seller">Seller</option>
+            </select>
+            {errors.role && (
+              <p className="text-danger">{errors.role.message}</p>
+            )}
+
             <input
               {...register("password", {
                 required: "This is required",

@@ -22,7 +22,6 @@ const ProductsSeller = () => {
     fetchProducts();
   }, []);
 
-  // Get current products
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = products.slice(
@@ -32,6 +31,14 @@ const ProductsSeller = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const removeProduct = async (id) => {
+    try {
+      await axios.delete(`/products/delete/${id}`);
+      fetchProducts();
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
   return (
     <div className="container-fluid mt-1 mx-2">
       <h2 className="mb-4">Products</h2>
@@ -67,14 +74,22 @@ const ProductsSeller = () => {
               <td>{product.stock}</td>
               <td>{product.category_id.name}</td>
               <td>{product.discount}%</td>
-              <td>
+              <td className="d-flex flex-column">
                 <Link
                   to={`/dashboard/edit-product/${product.slug}`}
                   className="btn btn-primary mt-2"
                 >
                   Edit Product
                 </Link>
+                <button
+                  className="btn btn-danger mt-2"
+                  onClick={() => removeProduct(product._id)}
+                >
+                  Delete Product
+                </button>
               </td>
+
+              <td></td>
             </tr>
           ))}
         </tbody>

@@ -54,7 +54,6 @@ const TobNav = ({ isAuthenticated }) => {
                 </NavLink>
               </li>
             )}
-
             {isAuthenticated && (
               <li className="nav-item">
                 <NavLink
@@ -69,7 +68,35 @@ const TobNav = ({ isAuthenticated }) => {
                   My Orders
                 </NavLink>
               </li>
-            )}
+            )}{" "}
+            <li className="nav-item">
+              <NavLink
+                style={({ isActive }) => {
+                  return {
+                    fontWeight: isActive ? "bold" : "",
+                  };
+                }}
+                className="nav-link"
+                aria-current="page"
+                to="./about"
+              >
+                About
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                style={({ isActive }) => {
+                  return {
+                    fontWeight: isActive ? "bold" : "",
+                  };
+                }}
+                className="nav-link"
+                aria-current="page"
+                to="./contact"
+              >
+                Contact
+              </NavLink>
+            </li>
           </ul>
           <form className="d-flex" role="search">
             <input

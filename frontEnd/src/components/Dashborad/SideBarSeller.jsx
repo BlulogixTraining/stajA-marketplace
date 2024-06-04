@@ -6,7 +6,7 @@ import { RiPaypalLine } from "react-icons/ri";
 import { FaShippingFast } from "react-icons/fa";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { IoIosLogOut } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 export const SideBarSeller = () => {
   return (
     <div
@@ -27,22 +27,44 @@ export const SideBarSeller = () => {
           <Link className={`nav-link ${classes.nav_item}`} to="/dashboard">
             <RiHomeSmileLine /> Dashboard
           </Link>
-        </li>{" "}
-        <li className="nav-item mb-2">
-          <Link className={`nav-link ${classes.nav_item}`} to="./products">
-            {" "}
-            <MdOutlineProductionQuantityLimits /> Products
-          </Link>
         </li>
-        <li className="nav-item mb-2">
-          <Link
+        <li className="nav-item">
+          <NavLink
+            style={({ isActive }) => {
+              return {
+                fontWeight: isActive ? "bold" : "",
+                backgroundColor: isActive ? "white" : "",
+                color: isActive ? "black" : "",
+                border: isActive ? "1px solid black" : "",
+                borderRadius: isActive ? "5px" : "",
+              };
+            }}
             className={`nav-link ${classes.nav_item}`}
-            to="/dashboard/categories"
+            aria-current="page"
+            to="./products"
           >
-            {" "}
-            <BsClipboardData /> Categories
-          </Link>
+            <MdOutlineProductionQuantityLimits /> Products
+          </NavLink>
         </li>
+        <li className="nav-item">
+          <NavLink
+            style={({ isActive }) => {
+              return {
+                fontWeight: isActive ? "bold" : "",
+                backgroundColor: isActive ? "white" : "",
+                color: isActive ? "black" : "",
+                border: isActive ? "1px solid black" : "",
+                borderRadius: isActive ? "5px" : "",
+              };
+            }}
+            className={`nav-link ${classes.nav_item}`}
+            aria-current="page"
+            to="./categories"
+          >
+            <BsClipboardData /> Categories
+          </NavLink>
+        </li>
+
         <li className="nav-item mb-2">
           <a className={`nav-link ${classes.nav_item}`} href="#">
             {" "}
