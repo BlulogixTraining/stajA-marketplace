@@ -3,14 +3,16 @@ import classes from "./SignUp.module.css";
 import axios from "../../api/axios";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 const url = "https://staja-marketplace.onrender.com/users/signup";
-
+import useSignIn from "react-auth-kit/hooks/useSignIn";
 import SignUpLogo from "../../../public/Group 4.svg";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 const SignUp = () => {
   const { setAuth } = useContext(AuthContext);
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
+  const signIn = useSignIn();
   const navigate = useNavigate();
   const {
     register,
@@ -26,35 +28,43 @@ const SignUp = () => {
     },
   });
 
-  const onSubmit = (data) => {
-    const { name, lastname, email, password } = data;
-    console.log(data);
-    axios
-      .post(url, JSON.stringify(data))
-      .then((response) => {
-        console.log(response);
-        if (response.status === 200 || response.status === 201) {
-          setAuth({ name, lastname, email, password });
-          setSuccess(true);
-        }
-      })
-      .catch((err) => {
-        setSuccess(false);
-        console.log(err);
-        if (!err.response) {
-          setErrMsg("No Server Response");
-        } else if (err.response.status === 400) {
-          setErrMsg("Missing Username or Password");
-        } else if (err.response.status === 401) {
-          setErrMsg("Unauthorized");
-        } else {
-          setErrMsg("Login Failed");
-        }
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post(url, data);
+
+      const token = response.data.token;
+      const userID = response.data.user._id;
+      const name = response.data.user.name;
+
+      const email = response.data.user.email;
+      const role = response.data.user.role;
+
+      signIn({
+        auth: {
+          token: token,
+        },
+        userState: {
+          name: name,
+          userId: userID,
+          email: email,
+          role: role,
+        },
+        expires: 60 * 60 * 24 * 30,
       });
+
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  if (success) {
-    navigate("/");
+  const user = useAuthUser();
+  const role = user?.role;
+
+  if (role == "seller") {
+    return <Navigate to="/dashboard" />;
+  } else if (role == "customer") {
+    return <Navigate to="/" />;
   }
   return (
     <div

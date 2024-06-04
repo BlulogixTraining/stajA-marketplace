@@ -26,6 +26,7 @@ import Category from "./components/Dashborad/Category/Category.jsx";
 import AddCategory from "./components/Dashborad/Category/AddCategory.jsx";
 import About from "./pages/About.jsx";
 import Contact from "./pages/Contact.jsx";
+import Adresses from "./pages/UserProfile/Adresses.jsx";
 
 // import loader
 const router = createBrowserRouter([
@@ -40,6 +41,14 @@ const router = createBrowserRouter([
       { path: "orderdetails", element: <OrderDetials /> },
       { path: "about", element: <About /> },
       { path: "contact", element: <Contact /> },
+      {
+        path: "adresses",
+        element: (
+          <RequireAuth fallbackPath="/login">
+            <Adresses />
+          </RequireAuth>
+        ),
+      },
       {
         path: "userProfile",
         element: (
