@@ -1,14 +1,17 @@
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import classes from "./Dashboard.module.css";
 import { HiChatAlt2 } from "react-icons/hi";
 import { IoNotificationsOutline } from "react-icons/io5";
 
 export const NavSeller = () => {
+  const { name } = useAuthUser();
+
   return (
     <div
       className={` d-flex container-fluid justify-content-between align-items-center ${classes.topNav} shadow-sm py-2 px-5`}
     >
       <div className={`${classes.greating}`}>
-        <h4 className={`${classes.topNavTitle} m-0`}>Welcome , Sultan</h4>
+        <h4 className={`${classes.topNavTitle} m-0`}>Welcome , {name}</h4>
         <p className={`${classes.topNavSubTitle}`}>
           1 October 2022 |11:99 AM GMT
         </p>

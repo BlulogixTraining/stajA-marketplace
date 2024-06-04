@@ -52,7 +52,6 @@ const Login = () => {
           },
           expires: 60 * 60 * 24 * 30,
         });
-        // setAuthData({ token, userID });
         localStorage.setItem("authToken", token);
 
         setSuccess(true);
@@ -79,11 +78,11 @@ const Login = () => {
   const user = useAuthUser();
   const role = user?.role;
 
-  // if (role == "seller") {
-  //   return <Navigate to="/dashboard" />;
-  // } else if (role == "customer") {
-  //   return <Navigate to="/" />;
-  // }
+  if (role == "seller") {
+    return <Navigate to="/dashboard" />;
+  } else if (role == "customer") {
+    return <Navigate to="/" />;
+  }
   return (
     <div className={`${classes.contanier_height} container`}>
       {" "}

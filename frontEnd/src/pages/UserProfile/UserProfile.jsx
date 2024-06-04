@@ -7,10 +7,13 @@ import useSignOut from "react-auth-kit/hooks/useSignOut";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Breadcrumbs from "../../components/ui/Breadcrumb";
+import Adresses from "./Adresses";
 
 const UserProfile = () => {
   const { register, handleSubmit } = useForm({});
   const { loading, setloadig } = useState();
+  const [showAddress, setShowAddress] = useState(false);
+  const [showAddressCards, setShowAddressCards] = useState(false);
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -36,6 +39,7 @@ const UserProfile = () => {
       // setloadig(true);
       const response = await axios.get(`${url}/userprofile`);
       setUserData(response.data.user);
+      setShowAddress(response.data.user.addresses);
       console.log("response", response.data);
       // setloadig(false);
     } catch (error) {
@@ -51,18 +55,32 @@ const UserProfile = () => {
   const address1 =
     userData.addresses.length > 0 ? userData.addresses[0].addressline1 : "";
 
-  console.log("goo", address1);
-
+  const handleDelete = async (address) => {
+    try {
+      const response = await axios.delete(`/addresses/${address}`);
+      fetchUserProfile();
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="user-profile">
       {" "}
       <div className={`${classes.userHeader} container`}>
         <Breadcrumbs />
         <div className="card shadow-sm container mt-5 p-0 ">
-          <div className={`${classes.header} card-header  py-3`}>
+          <div
+            className={`${classes.header} card-header  py-3 d-flex justify-content-between`}
+          >
             <h4>
               Welcome <span> {auth?.name}</span>
             </h4>
+            <button
+              className="btn btn-dark"
+              onClick={() => setShowAddressCards(!showAddressCards)}
+            >
+              My Address
+            </button>
           </div>
           <div className="card-body">
             <div className={classes.hero_profile}>
@@ -154,6 +172,35 @@ const UserProfile = () => {
                 LoggOut
               </a>
             </div>
+          </div>
+        </div>
+        {/* on toggle dissplay the addreess below */}
+        <div className="container mt-5 p-0 d-flex gap-3">
+          <div>
+            {showAddressCards && <h2>My Address</h2>}
+            {showAddressCards &&
+              showAddress?.map((address) => (
+                <div
+                  className="card mb-3 py-2 px-3"
+                  key={address.name}
+                  style={{ width: "18em" }}
+                >
+                  <div className="card-body">
+                    <h5 className="card-title">Name: {address.name}</h5>
+                    <p className="card-text">lastName: {address.lastname}</p>
+                    <p className="card-text">Country: {address.country}</p>
+                    <p className="card-text">State: {address.addressline1}</p>
+                    <p className="card-text">Street: {address.addressline2}</p>
+                    <p className="card-text">Email: {address.email}</p>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(address._id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       </div>

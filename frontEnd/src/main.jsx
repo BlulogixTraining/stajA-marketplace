@@ -24,6 +24,11 @@ import MyOrders from "./pages/MyOrders.jsx";
 import OrderDetials from "./pages/OrderDetials.jsx";
 import Category from "./components/Dashborad/Category/Category.jsx";
 import AddCategory from "./components/Dashborad/Category/AddCategory.jsx";
+import About from "./pages/About.jsx";
+import Contact from "./pages/Contact.jsx";
+import Adresses from "./pages/UserProfile/Adresses.jsx";
+
+// import loader
 const router = createBrowserRouter([
   {
     path: "/",
@@ -34,18 +39,15 @@ const router = createBrowserRouter([
       { path: "products/:productId", element: <Product /> },
       { path: "myorders", element: <MyOrders /> },
       { path: "orderdetails", element: <OrderDetials /> },
+      { path: "about", element: <About /> },
+      { path: "contact", element: <Contact /> },
       {
-        path: "dashboard",
-        element: <Dashboard />,
-        children: [
-          { index: "/", element: <Sellerhome /> },
-
-          { path: "products", element: <ProductsSeller /> },
-          { path: "add-product", element: <AddProduct /> },
-          { path: "edit-product/:id", element: <EditProductPage /> },
-          { path: "categories", element: <Category /> },
-          { path: "categories/add", element: <AddCategory /> },
-        ],
+        path: "adresses",
+        element: (
+          <RequireAuth fallbackPath="/login">
+            <Adresses />
+          </RequireAuth>
+        ),
       },
       {
         path: "userProfile",
@@ -54,10 +56,6 @@ const router = createBrowserRouter([
             <UserProfile />
           </RequireAuth>
         ),
-      },
-      {
-        path: "sellerProfile",
-        element: <SellerProfile />,
       },
 
       { path: "signup", element: <SignUp /> },
@@ -78,6 +76,22 @@ const router = createBrowserRouter([
             <WishList />
           </RequireAuth>
         ),
+      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: <Dashboard />,
+    children: [
+      { index: "/", element: <Sellerhome /> },
+      { path: "products", element: <ProductsSeller /> },
+      { path: "add-product", element: <AddProduct /> },
+      { path: "edit-product/:id", element: <EditProductPage /> },
+      { path: "categories", element: <Category /> },
+      { path: "categories/add", element: <AddCategory /> },
+      {
+        path: "sellerProfile",
+        element: <SellerProfile />,
       },
     ],
   },
