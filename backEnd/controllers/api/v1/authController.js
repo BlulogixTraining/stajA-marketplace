@@ -11,27 +11,67 @@ exports.createUser = async (req, res) => {
     fs.mkdirSync(uploadDir, { recursive: true });
   }
 
-  let sampleFile = req.files.image;
-  let uploadPath = path.join(uploadDir, sampleFile.name);
+  if (req.files && req.files.image) {
+    let sampleFile = req.files.image;
+    let uploadPath = path.join(uploadDir, sampleFile.name);
 
-  sampleFile.mv(uploadPath, async (err) => {
-    if (err) {
-      return res.status(500).json({
-        status: "Fail",
-        error: err.message,
-      });
-    }
+    sampleFile.mv(uploadPath, async (err) => {
+      if (err) {
+        return res.status(500).json({
+          status: "Fail",
+          error: err.message,
+        });
+      }
 
+      try {
+        const user = await User.create({
+          ...req.body,
+          image: "/images/" + sampleFile.name,
+        });
+
+        const token = createToken(user._id);
+        const sanitizedUser = {
+          _id: user._id,
+          name: user.name,
+          lastname: user.lastname,
+          email: user.email,
+          image: user.image,
+          role: user.role,
+          phone: user.phone,
+        };
+        res.status(201).json({
+          status: "User has been created successfully!",
+          user: sanitizedUser,
+          token: token,
+        });
+      } catch (error) {
+        res.status(400).json({
+          status: "Fail",
+          error,
+        });
+      }
+    });
+  } else {
     try {
       const user = await User.create({
         ...req.body,
-        image: "/images/" + sampleFile.name,
+        image: "",
       });
 
       const token = createToken(user._id);
+
+      const sanitizedUser = {
+        _id: user._id,
+        name: user.name,
+        lastname: user.lastname,
+        email: user.email,
+        image: user.image,
+        role: user.role,
+        phone: user.phone,
+      };
       res.status(201).json({
         status: "User has been created successfully!",
-        user,
+        user: sanitizedUser,
         token: token,
       });
     } catch (error) {
@@ -40,7 +80,7 @@ exports.createUser = async (req, res) => {
         error,
       });
     }
-  });
+  }
 };
 
 exports.loginUser = async (req, res) => {
