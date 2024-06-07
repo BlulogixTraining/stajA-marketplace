@@ -40,7 +40,12 @@ const ProductSchema = new Schema({
     type: Number,
     default: 0,
   },
-
+  variants: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Variant",
+    },
+  ],
   slug: {
     type: String,
     unique: true,

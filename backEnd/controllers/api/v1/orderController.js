@@ -1,5 +1,7 @@
 const Order = require("../../../models/Order");
 const User = require("../../../models/User");
+const Payment = require("../../../models/Payment");
+const Address = require("../../../models/Address");
 
 exports.createOrder = async (req, res) => {
   try {
@@ -11,17 +13,28 @@ exports.createOrder = async (req, res) => {
         .json({ status: "fail", message: "User not found" });
     }
 
-    const { address, payment } = req.body;
-
-    /*
-    if (!address || !payment) {
-      return res.status(400).json({ status: "fail", message: "Address and payment details are required" });
-    }
-*/
     const cartItems = user.cart;
 
     if (cartItems.length === 0) {
       return res.status(400).json({ status: "fail", message: "Cart is empty" });
+    }
+
+    const payment = await Payment.findOne({ user_id: user._id }).sort({
+      createdAt: -1,
+    });
+    if (!payment) {
+      return res
+        .status(400)
+        .json({ status: "fail", message: "No payment information found" });
+    }
+
+    const address = await Address.findOne({ user_id: user._id }).sort({
+      createdAt: -1,
+    });
+    if (!address) {
+      return res
+        .status(400)
+        .json({ status: "fail", message: "No address information found" });
     }
     let subtotal = 0;
     let totalDiscount = 0;
@@ -35,7 +48,6 @@ exports.createOrder = async (req, res) => {
         price: item.price,
         discount: item.discount,
         total: itemTotal,
-        
       };
     });
 
@@ -43,24 +55,12 @@ exports.createOrder = async (req, res) => {
 
     const order = new Order({
       user_id: user._id,
+      payment_id: payment._id,
+      address_id: address._id,
       products: orderItems,
       subtotal: subtotal.toFixed(2),
       totalDiscount: totalDiscount.toFixed(2),
       total: total.toFixed(2),
-      address: {
-        name: address.name,
-        addressline1: address.addressline1,
-        addressline2: address.addressline2,
-        country: address.country,
-        state: address.state,
-        zipcode: address.zipcode,
-      },
-      payment: {
-        cardNumber: payment.cardNumber,
-        nameOnCard: payment.nameOnCard,
-        cardValidationDate: payment.cardValidationDate,
-        ccv: payment.ccv,
-      },
     });
 
     await order.save();
@@ -82,7 +82,7 @@ exports.createOrder = async (req, res) => {
 
 exports.getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ user_id: req.userId });
+    const orders = await Order.find({ user_id: req.userId }).populate('payment_id address_id');
 
     res.status(200).json({
       status: "Success",
@@ -98,11 +98,11 @@ exports.getAllOrders = async (req, res) => {
 
 exports.deleteOrder = async (req, res) => {
   try {
-   const order = await Order.deleteOne({ _id: req.params.id });
+    const order = await Order.deleteOne({ _id: req.params.id });
 
     res.status(200).json({
       status: "Success",
-      order
+      order,
     });
   } catch (error) {
     res.status(400).json({

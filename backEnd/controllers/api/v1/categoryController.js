@@ -1,5 +1,6 @@
 const Category = require("../../../models/Category");
-const VariantCategory = require("../../../models/VariantCategory");
+const Variant = require("../../../models/Variant");
+
 
 exports.createCategory = async (req, res) => {
   try {
@@ -65,13 +66,13 @@ exports.deleteCategory = async (req, res) => {
   }
 };
 
-exports.createVariantCategory = async (req, res) => {
+exports.createVariant = async (req, res) => {
   try {
-    const variantcategory = await VariantCategory.create(req.body);
+    const variant = await Variant.create(req.body);
 
     res.status(201).json({
       status: "Categoty has been created successfuly!",
-      variantcategory,
+      variant,
     });
   } catch (error) {
     res.status(400).json({
@@ -80,13 +81,13 @@ exports.createVariantCategory = async (req, res) => {
     });
   }
 };
-exports.getAllVariantCategory = async (req, res) => {
+exports.getAllVariants = async (req, res) => {
   try {
-    const variantcategories = await VariantCategory.find();
+    const variants = await Variant.find();
 
     res.status(200).json({
       status: "Success",
-      variantcategories,
+      variants,
     });
   } catch (error) {
     res.status(400).json({

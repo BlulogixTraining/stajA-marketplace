@@ -4,9 +4,8 @@ const mongoose = require("mongoose");
 const path = require("path");
 const Product = require("../../../models/Product");
 const Category = require("../../../models/Category");
+const Variant = require("../../../models/Variant");
 const ProductReview = require("../../../models/ProductReview");
-const ProductVariant = require("../../../models/ProductVariant");
-const VariantCategory = require("../../../models/VariantCategory");
 const ProductDetails = require("../../../models/ProductDetails");
 
 exports.createProduct = async (req, res) => {
@@ -16,22 +15,24 @@ exports.createProduct = async (req, res) => {
     fs.mkdirSync(uploadDir, { recursive: true });
   }
 
-  const files = req.files.images;
-
   try {
     const imagePaths = [];
 
-    for (const file of files) {
-      const uploadPath = path.join(uploadDir, file.name);
+    if (req.files && req.files.images) {
+      const files = Array.isArray(req.files.images)
+        ? req.files.images
+        : [req.files.images];
 
-      await file.mv(uploadPath);
-
-      imagePaths.push("/images/" + file.name);
+      for (const file of files) {
+        const uploadPath = path.join(uploadDir, file.name);
+        await file.mv(uploadPath);
+        imagePaths.push("/images/" + file.name);
+      }
     }
 
     const product = await Product.create({
       ...req.body,
-      image: imagePaths,
+      image: imagePaths.length ? imagePaths : undefined,
       user_id: req.userId,
     });
 
@@ -55,12 +56,26 @@ exports.getAllProducts = async (req, res) => {
     const totalproducts = await Product.find().countDocuments();
 
     const categorySlug = req.query.categories;
+    const variantValues = req.query.variants;
+
     const category = await Category.findOne({ slug: categorySlug });
 
     let filter = {};
 
     if (categorySlug) {
       filter = { category_id: category._id };
+    }
+
+    if (variantValues) {
+      const variantValueArray = variantValues.split(",");
+
+      const variants = await Variant.find({
+        values: { $in: variantValueArray },
+      });
+
+      const variantIds = variants.map((variant) => variant._id);
+
+      filter = { variants: { $in: variantIds } };
     }
 
     const products = await Product.aggregate([
@@ -78,10 +93,19 @@ exports.getAllProducts = async (req, res) => {
           averagerating: { $ceil: { $avg: "$reviews.rating" } },
         },
       },
-      //To obscure the array of reviews
+      // To obscure the array of reviews
       {
         $project: {
           reviews: 0,
+        },
+      },
+
+      {
+        $lookup: {
+          from: "variants",
+          localField: "variants",
+          foreignField: "_id",
+          as: "variants",
         },
       },
       {
@@ -108,17 +132,12 @@ exports.getAllProducts = async (req, res) => {
 
 exports.getProductDetails = async (req, res) => {
   try {
-    const product = await Product.findOne({ slug: req.params.slug });
+    const product = await Product.findOne({ slug: req.params.slug }).populate(
+      "variants"
+    );
     const reviews = await ProductReview.find({
       product_id: product._id,
     }).populate("user_id", "name");
-    const Productdetails = await ProductDetails.find({
-      product_id: product._id,
-    });
-    const variantCategories = await VariantCategory.find();
-    const productVariants = await ProductVariant.find({
-      product_id: product._id,
-    });
 
     let totalRating = 0;
     reviews.forEach((review) => {
@@ -128,18 +147,8 @@ exports.getProductDetails = async (req, res) => {
     const averagerating =
       reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
 
-    const variants_available = {};
-
-    variantCategories.forEach((category) => {
-      variants_available[category.name] = [];
-
-      productVariants.forEach((variant) => {
-        if (String(variant.category_id) === String(category._id)) {
-          variants_available[category.name] = variants_available[
-            category.name
-          ].concat(variant.variantvalues);
-        }
-      });
+    const Productdetails = await ProductDetails.find({
+      product_id: product._id,
     });
 
     res.status(200).json({
@@ -148,7 +157,6 @@ exports.getProductDetails = async (req, res) => {
       averagerating,
       reviews,
       Productdetails,
-      variants_available,
     });
   } catch (error) {
     res.status(400).json({

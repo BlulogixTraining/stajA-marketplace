@@ -1,6 +1,5 @@
 const express = require("express");
 const categoryController = require("../controllers/api/v1/categoryController");
-const variantCategoryController = require("../controllers/api/v1/categoryController");
 const verifyToken = require("../middleware/api/v1/verifytoken");
 const checkRole = require("../middleware/api/v1/checkRole");
 
@@ -11,7 +10,5 @@ router.route("/edit/:id").put(verifyToken,checkRole(['seller','admin']),category
 router.route("/delete/:id").delete(verifyToken,checkRole(['seller','admin']),categoryController.deleteCategory);
 router.route("/").post(verifyToken,checkRole(['seller','admin']), categoryController.createCategory);
 
-router.route("/variant").get(variantCategoryController.getAllVariantCategory);
-router.route("/variant").post(verifyToken, checkRole(['seller','admin']),variantCategoryController.createVariantCategory);
 
 module.exports = router;

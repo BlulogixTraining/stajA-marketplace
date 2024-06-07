@@ -7,6 +7,16 @@ const OrderSchema = new Schema({
     ref: "User",
     required: true,
   },
+  payment_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Payment",
+    required: true,
+  },
+  address_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Address",
+    required: true,
+  },
   products: [
     {
       product_id: {
@@ -52,28 +62,6 @@ const OrderSchema = new Schema({
     default: "pending",
   },
 
-  address: {
-    type: Object,
-    required: true,
-    properties: {
-      name: { type: String, required: true },
-      addressline1: { type: String, required: true },
-      addressline2: { type: String },
-      country: { type: String, required: true },
-      state: { type: String, required: true },
-      zipcode: { type: Number, required: true },
-    },
-  },
-  payment: {
-    type: Object,
-    required: true,
-    properties: {
-      cardNumber: { type: Number, required: true },
-      nameOnCard: { type: String, required: true },
-      cardValidationDate: { type: Number, required: true },
-      ccv: { type: Number, required: true },
-    },
-  },
   createdAt: {
     type: Date,
     default: Date.now,
