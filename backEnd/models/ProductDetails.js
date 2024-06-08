@@ -8,7 +8,11 @@ const ProductDetailsSchema = new Schema({
     ref: "Product",
     required: true,
   },
-  details: {
+  key: {
+    type: String,
+    required: true,
+  },
+  value: {
     type: String,
     required: true,
   },

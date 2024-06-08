@@ -42,8 +42,11 @@ const ProductSchema = new Schema({
   },
   variants: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Variant",
+      category_id: {
+        type: Schema.Types.ObjectId,
+        ref: "Variant",
+      },
+      values: [String],
     },
   ],
   slug: {
