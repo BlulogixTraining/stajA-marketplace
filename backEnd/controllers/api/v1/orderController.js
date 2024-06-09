@@ -45,6 +45,7 @@ exports.createOrder = async (req, res) => {
       totalDiscount += item.discount;
       return {
         product_id: item._id,
+        image:item.image,
         price: item.price,
         discount: item.discount,
         total: itemTotal,
@@ -82,7 +83,9 @@ exports.createOrder = async (req, res) => {
 
 exports.getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ user_id: req.userId }).populate('payment_id address_id');
+    const orders = await Order.find({ user_id: req.userId })
+      .populate("payment_id address_id")
+      .populate("user_id", "name");
 
     res.status(200).json({
       status: "Success",
