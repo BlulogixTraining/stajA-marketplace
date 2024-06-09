@@ -7,7 +7,7 @@
   padding-bottom: 21px;
   border: 1px solid lightgray;
   /* max-width: 400px; */
-  height: 100vh;
+  height: 70vh;
   overflow: scroll;
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
@@ -18,6 +18,34 @@
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
   width: 102%;
+}
+.filterMainSquare {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.filterMainSquare::-webkit-scrollbar {
+  width: 8px;
+}
+
+.filterMainSquare::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.filterMainSquare::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.filterMainSquare::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+@supports (scrollbar-width: thin) {
+  .filterMainSquare {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+  }
 }
 .cat_title {
   font-size: 25px;

@@ -26,13 +26,17 @@ const Products = () => {
         let productsUrl = `${url}/products`;
         const params = new URLSearchParams();
         if (selectedValues.length > 0) {
-          params.append("categories", selectedValues.join(","));
+          params.append("variants", selectedValues.join(","));
         }
         params.append("page", currentPage);
         productsUrl += `?${params.toString()}`;
 
-        const response = await axios.get(productsUrl);
+        // Replace %2C with ,
+        productsUrl = productsUrl.replaceAll("%2C", ",");
 
+        const response = await axios.get(productsUrl);
+        console.log(productsUrl);
+        console.log(response.data);
         setProducts(response.data.products);
         setTotalPages(response.data.pages);
         setIsLoading(false);
