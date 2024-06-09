@@ -4,6 +4,11 @@ const slugify = require("slugify");
 const Schema = mongoose.Schema;
 
 const CategorySchema = new Schema({
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   name: {
     type: String,
     required: true,
