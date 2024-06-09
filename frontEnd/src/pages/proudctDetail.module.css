@@ -42,7 +42,7 @@
 }
 
 .product_detail h2 {
-  font-size: 3rem;
+  font-size: 2rem;
   /* make the litters upperscase */
   text-transform: uppercase;
   font-family: "Integral CF", sans-serif;
@@ -73,7 +73,7 @@
   font-weight: 600;
   color: #ff3636;
   background-color: #ff33333b;
-  padding: 5px 15px;
+  padding: 5px 5px;
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
