@@ -23,7 +23,7 @@ const RatingStarts = ({ star, onChange, isWritable }) => {
           <FaStar
             key={index}
             className={classes.star}
-            size={30}
+            size={25}
             color={filled ? "#ffc107" : "#e4e5e9"}
             onClick={() => handleStarClick(currentRating)}
             style={{ cursor: isWritable ? "pointer" : "default" }}

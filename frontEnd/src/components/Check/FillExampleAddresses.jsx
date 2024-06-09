@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import AddressTabs from "./AddressTabs";
@@ -28,10 +28,16 @@ const FillExampleAddresses = ({
     setSelectedAddress(selected);
   };
 
-  OrderData({
-    payment: selectedPayment,
-    address: selectedAddress,
-  });
+  const stableOrderData = useCallback(OrderData, []);
+
+  useEffect(() => {
+    if (selectedPayment && selectedAddress) {
+      stableOrderData({
+        payment_id: selectedPayment._id,
+        address_id: selectedAddress._id,
+      });
+    }
+  }, [selectedPayment, selectedAddress, stableOrderData]);
 
   return (
     <Tabs
