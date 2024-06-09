@@ -1,0 +1,52 @@
+.containerCustom {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .textDangerEmphasis {
+    color: #000000;
+  }
+  
+  .btnDarkCustom {
+    background-color: #343a40;
+    border-color: #343a40;
+  }
+  
+  .btnDarkCustom:hover {
+    background-color: #23272b;
+    border-color: #1d2124;
+  }
+  
+  .textMuted {
+    color: #6c757d !important;
+  }
+  
+  .bgLight {
+    background-color: #f8f9fa !important;
+  }
+  
+  .p-4 {
+    padding: 1.5rem !important;
+  }
+  
+  .rounded {
+    border-radius: 0.25rem !important;
+  }
+  
+  input::placeholder, textarea::placeholder {
+    color: #adb5bd;
+  }
+  
+  i {
+    margin-right: 0.5rem;
+  }
+  
+  p {
+    margin: 0.5rem 0;
+  }
+  
+  iframe {
+    border: none;
+  }
+
+  
