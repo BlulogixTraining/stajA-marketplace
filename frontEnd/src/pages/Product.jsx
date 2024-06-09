@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ProductDetailNav from "../components/ProDetailNav/ProDetailNav";
 const url = "https://staja-marketplace.onrender.com";
 import classes from "./proudctDetail.module.css";
@@ -45,7 +45,7 @@ const Product = () => {
         }
         const data = await response.json();
         Setvariants(data.variants_available);
-        console.log("data.productvariant", data.variants_available);
+        console.log("data.productvariant", data);
         setProduct(data);
         setIsLoading(false);
         setRating(data.averagerating);
@@ -145,7 +145,15 @@ const Product = () => {
           <div className="col-12 col-md-6">
             <div className={classes.product_detail}>
               <h2>{product?.product.name}</h2>
-              <RatingStarts star={rating} />
+              <div className=" d-flex justify-content-between">
+                <RatingStarts star={rating} />
+                <Link
+                  className=" fs-5 text-black"
+                  to={`/store/${product?.product.slug}`}
+                >
+                  Store: {product?.product.stock}
+                </Link>
+              </div>
               <div className={classes.detail_price}>
                 <h4 className={classes.orignal_price}>
                   ${product?.product.price}
@@ -153,7 +161,7 @@ const Product = () => {
                 <h4 className={classes.desc_price}>
                   ${product?.product.discount}
                 </h4>
-                <p>%50</p>
+                <p className=" m-0">%50</p>
               </div>
               <p>{product?.product.description}</p>
               <h5>Stock: {product?.product.stock}</h5>
