@@ -1,5 +1,6 @@
 const Category = require("../../../models/Category");
 const Variant = require("../../../models/Variant");
+const User = require("../../../models/User");
 
 exports.createCategory = async (req, res) => {
   try {
@@ -21,9 +22,7 @@ exports.createCategory = async (req, res) => {
 };
 exports.getAllCategory = async (req, res) => {
   try {
-    const categories = await Category.find({
-      user_id: req.userId,
-    });
+    const categories = await Category.find();
 
     res.status(200).json({
       status: "Success",
@@ -38,34 +37,78 @@ exports.getAllCategory = async (req, res) => {
 };
 exports.editCategory = async (req, res) => {
   try {
-    const categories = await Category.findOne({ _id: req.params.id });
-    categories.name = req.body.name;
-    categories.save();
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({
+        status: "fail",
+        message: "User not found",
+      });
+    }
 
-    res.status(200).json({
-      status: "Success",
-      categories,
-    });
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Category not found",
+      });
+    }
+
+    if (user._id.toString() === category.user_id.toString()) {
+      category.name = req.body.name;
+      await category.save();
+
+      res.status(200).json({
+        status: "Success",
+        category,
+      });
+    } else {
+      res.status(403).json({
+        status: "fail",
+        message: "Unauthorized action",
+      });
+    }
   } catch (error) {
     res.status(400).json({
       status: "Fail",
-      error,
+      error: error.message,
     });
   }
 };
 
 exports.deleteCategory = async (req, res) => {
   try {
-    const categories = await Category.deleteOne({ _id: req.params.id });
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({
+        status: "fail",
+        message: "User not found",
+      });
+    }
 
-    res.status(200).json({
-      status: "Success",
-      categories,
-    });
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Category not found",
+      });
+    }
+
+    if (user._id.toString() === category.user_id.toString()) {
+      await Category.deleteOne({ _id: req.params.id });
+      res.status(200).json({
+        status: "Success",
+        message: "Category deleted",
+      });
+    } else {
+      res.status(403).json({
+        status: "fail",
+        message: "Unauthorized action",
+      });
+    }
   } catch (error) {
     res.status(400).json({
       status: "Fail",
-      error,
+      error: error.message,
     });
   }
 };

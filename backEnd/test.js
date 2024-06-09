@@ -77,3 +77,25 @@ exports.createProduct = async (req, res) => {
   }
 };
 */
+
+
+/*
+    const variantCategories = await VariantCategory.find();
+    const productVariants = await ProductVariant.find({
+      product_id: product._id,
+    });
+
+    const variants_available = {};
+
+    variantCategories.forEach((category) => {
+      variants_available[category.name] = [];
+
+      productVariants.forEach((variant) => {
+        if (String(variant.category_id) === String(category._id)) {
+          variants_available[category.name] = variants_available[
+            category.name
+          ].concat(variant.variantvalues);
+        }
+      });
+    });
+    */
