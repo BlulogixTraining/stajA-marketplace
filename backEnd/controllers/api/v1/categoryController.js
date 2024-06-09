@@ -1,10 +1,12 @@
 const Category = require("../../../models/Category");
 const Variant = require("../../../models/Variant");
 
-
 exports.createCategory = async (req, res) => {
   try {
-    const category = await Category.create(req.body);
+    const category = await Category.create({
+      ...req.body,
+      user_id: req.userId,
+    });
 
     res.status(201).json({
       status: "Categoty has been created successfuly!",
@@ -19,7 +21,9 @@ exports.createCategory = async (req, res) => {
 };
 exports.getAllCategory = async (req, res) => {
   try {
-    const categories = await Category.find();
+    const categories = await Category.find({
+      user_id: req.userId,
+    });
 
     res.status(200).json({
       status: "Success",
