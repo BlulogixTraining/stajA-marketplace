@@ -67,7 +67,7 @@ const Products = () => {
             <div className="col d-flex flex-wrap justify-content-center justify-content-lg-start mt-3 mt-md-0 gap-4 gap-md-0   ">
               {products.map((product) => (
                 <div
-                  key={product.id}
+                  key={product._id}
                   className={`col col-md-5 gap-md-6 col-lg-4 mb-5 position-relative `}
                 >
                   {/* <span className={`heart-icon ${classes.favorite_heart}`}>
