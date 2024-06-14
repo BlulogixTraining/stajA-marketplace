@@ -38,7 +38,8 @@ exports.createProduct = async (req, res) => {
 
     // Handle existing variants
     if (req.body.variants) {
-      productData.variants = req.body.variants.map((variant) => ({
+      const variants = Array.isArray(req.body.variants) ? req.body.variants : [req.body.variants];
+      productData.variants = variants.map(variant => ({
         category_id: variant.category_id,
         values: variant.values,
       }));
