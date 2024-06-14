@@ -1,9 +1,9 @@
 const Product = require("../../../models/Product");
 
-exports.getDashboard = async (req, res) => {
+exports.getProductsRelatedToSeller = async (req, res) => {
   try {
     const products = await Product.find({
-      user_id: req.userId,
+      seller: req.userId,
     }).populate("category_id", "name");
 
     res.status(200).json({
@@ -17,5 +17,3 @@ exports.getDashboard = async (req, res) => {
     });
   }
 };
-
-
