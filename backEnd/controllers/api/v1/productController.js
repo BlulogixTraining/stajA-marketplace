@@ -35,17 +35,63 @@ exports.createProduct = async (req, res) => {
       image: imagePaths.length ? imagePaths : undefined,
       user_id: req.userId,
     };
+/*
+  // Handling variants
+  if (req.body.variants && Array.isArray(req.body.variants)) {
+    const variantsData = [];
 
-    // Handle existing variants
-    if (req.body.variants) {
-      const variants = Array.isArray(req.body.variants) ? req.body.variants : [req.body.variants];
-      productData.variants = variants.map(variant => ({
+    for (const variant of req.body.variants) {
+      const variantRecord = await Variant.findById(variant.category_id);
+      if (!variantRecord) {
+        return res.status(400).json({
+          status: "Fail",
+          message: `Variant with ID ${variant.category_id} does not exist.`,
+        });
+      }
+      const valueExists = variantRecord.values.includes(variant.value);
+      if (!valueExists) {
+        return res.status(400).json({
+          status: "Fail",
+          message: `Value ${variant.value} does not exist in variant ${variantRecord.category}.`,
+        });
+      }
+      variantsData.push({
         category_id: variant.category_id,
-        values: variant.values,
-      }));
+        value: variant.value,
+      });
     }
 
-    const product = await Product.create(productData);
+    productData.variants = variantsData;
+  }
+*/
+// Handling variants
+if (req.body.variants && Array.isArray(req.body.variants)) {
+  const variantsData = [];
+
+  for (const variant of req.body.variants) {
+    const variantRecord = await Variant.findById(variant.category_id);
+    if (!variantRecord) {
+      return res.status(400).json({
+        status: "Fail",
+        message: `Variant with ID ${variant.category_id} does not exist.`,
+      });
+    }
+    const invalidValues = variant.values.filter(value => !variantRecord.values.includes(value));
+    if (invalidValues.length > 0) {
+      return res.status(400).json({
+        status: "Fail",
+        message: `Values ${invalidValues.join(', ')} do not exist in variant ${variantRecord.category}.`,
+      });
+    }
+    variantsData.push({
+      category_id: variant.category_id,
+      values: variant.values,
+    });
+  }
+
+  productData.variants = variantsData;
+}
+  const product = await Product.create(productData);
 
     res.status(201).json({
       status: "Product has been created successfully!",
