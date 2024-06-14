@@ -9,11 +9,12 @@ const ProductSchema = new Schema({
     ref: "Category",
     required: true,
   },
-  user_id: {
+  seller: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
+  
   name: {
     type: String,
     required: true,

@@ -4,6 +4,6 @@ const sellerDashboardController = require("../controllers/api/v1/sellerDashboard
 const verifyToken = require("../middleware/api/v1/verifytoken");
 const router = express.Router();
 
-router.route("/").get(verifyToken, sellerDashboardController.getDashboard);
+router.route("/").get(verifyToken, sellerDashboardController.getProductsRelatedToSeller);
 
 module.exports = router;

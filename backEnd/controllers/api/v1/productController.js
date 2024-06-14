@@ -33,65 +33,41 @@ exports.createProduct = async (req, res) => {
     const productData = {
       ...req.body,
       image: imagePaths.length ? imagePaths : undefined,
-      user_id: req.userId,
+      seller: req.userId,
     };
-/*
-  // Handling variants
-  if (req.body.variants && Array.isArray(req.body.variants)) {
-    const variantsData = [];
 
-    for (const variant of req.body.variants) {
-      const variantRecord = await Variant.findById(variant.category_id);
-      if (!variantRecord) {
-        return res.status(400).json({
-          status: "Fail",
-          message: `Variant with ID ${variant.category_id} does not exist.`,
+    // Handling variants
+    if (req.body.variants && Array.isArray(req.body.variants)) {
+      const variantsData = [];
+
+      for (const variant of req.body.variants) {
+        const variantRecord = await Variant.findById(variant.category_id);
+        if (!variantRecord) {
+          return res.status(400).json({
+            status: "Fail",
+            message: `Variant with ID ${variant.category_id} does not exist.`,
+          });
+        }
+        const invalidValues = variant.values.filter(
+          (value) => !variantRecord.values.includes(value)
+        );
+        if (invalidValues.length > 0) {
+          return res.status(400).json({
+            status: "Fail",
+            message: `Values ${invalidValues.join(
+              ", "
+            )} do not exist in variant ${variantRecord.category}.`,
+          });
+        }
+        variantsData.push({
+          category_id: variant.category_id,
+          values: variant.values,
         });
       }
-      const valueExists = variantRecord.values.includes(variant.value);
-      if (!valueExists) {
-        return res.status(400).json({
-          status: "Fail",
-          message: `Value ${variant.value} does not exist in variant ${variantRecord.category}.`,
-        });
-      }
-      variantsData.push({
-        category_id: variant.category_id,
-        value: variant.value,
-      });
-    }
 
-    productData.variants = variantsData;
-  }
-*/
-// Handling variants
-if (req.body.variants && Array.isArray(req.body.variants)) {
-  const variantsData = [];
-
-  for (const variant of req.body.variants) {
-    const variantRecord = await Variant.findById(variant.category_id);
-    if (!variantRecord) {
-      return res.status(400).json({
-        status: "Fail",
-        message: `Variant with ID ${variant.category_id} does not exist.`,
-      });
+      productData.variants = variantsData;
     }
-    const invalidValues = variant.values.filter(value => !variantRecord.values.includes(value));
-    if (invalidValues.length > 0) {
-      return res.status(400).json({
-        status: "Fail",
-        message: `Values ${invalidValues.join(', ')} do not exist in variant ${variantRecord.category}.`,
-      });
-    }
-    variantsData.push({
-      category_id: variant.category_id,
-      values: variant.values,
-    });
-  }
-
-  productData.variants = variantsData;
-}
-  const product = await Product.create(productData);
+    const product = await Product.create(productData);
 
     res.status(201).json({
       status: "Product has been created successfully!",
@@ -175,10 +151,12 @@ exports.getAllProducts = async (req, res) => {
 
 exports.getProductDetails = async (req, res) => {
   try {
-    const product = await Product.findOne({ slug: req.params.slug }).populate({
-      path: "variants.category_id",
-      select: "category",
-    });
+    const product = await Product.findOne({ slug: req.params.slug })
+      .populate({
+        path: "variants.category_id",
+        select: "category",
+      })
+      .populate("seller", "name");
     const reviews = await ProductReview.find({
       product_id: product._id,
     }).populate("user_id", "name");
@@ -194,33 +172,15 @@ exports.getProductDetails = async (req, res) => {
     const Productdetails = await ProductDetails.find({
       product_id: product._id,
     });
-    /*
-    const variantCategories = await VariantCategory.find();
-    const productVariants = await ProductVariant.find({
-      product_id: product._id,
-    });
 
-    const variants_available = {};
+    
 
-    variantCategories.forEach((category) => {
-      variants_available[category.name] = [];
-
-      productVariants.forEach((variant) => {
-        if (String(variant.category_id) === String(category._id)) {
-          variants_available[category.name] = variants_available[
-            category.name
-          ].concat(variant.variantvalues);
-        }
-      });
-    });
-    */
     res.status(200).json({
       status: "Success",
       product,
       averagerating,
       reviews,
       Productdetails,
-      // variants_available,
     });
   } catch (error) {
     res.status(400).json({
