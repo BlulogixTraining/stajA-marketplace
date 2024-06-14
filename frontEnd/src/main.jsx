@@ -28,6 +28,8 @@ import About from "./pages/About.jsx";
 import Contact from "./pages/Contact.jsx";
 import Adresses from "./pages/UserProfile/Adresses.jsx";
 import Store from "./pages/store/StoreSeller.jsx";
+import Varients from "./components/Dashborad/Varients/Varients.jsx";
+import AddVarient from "./components/Dashborad/Varients/AddVarient.jsx";
 // import loader
 const router = createBrowserRouter([
   {
@@ -90,6 +92,8 @@ const router = createBrowserRouter([
       { path: "edit-product/:id", element: <EditProductPage /> },
       { path: "categories", element: <Category /> },
       { path: "categories/add", element: <AddCategory /> },
+      { path: "varients", element: <Varients /> },
+      { path: "varients/add", element: <AddVarient /> },
       {
         path: "sellerProfile",
         element: <SellerProfile />,
