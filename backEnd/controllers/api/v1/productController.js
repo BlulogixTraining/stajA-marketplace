@@ -30,17 +30,21 @@ exports.createProduct = async (req, res) => {
       }
     }
 
-    const variants = req.body.variants || [];
-
-    const product = await Product.create({
+    const productData = {
       ...req.body,
       image: imagePaths.length ? imagePaths : undefined,
       user_id: req.userId,
-      variants: variants.map((variant) => ({
+    };
+
+    // Handle existing variants
+    if (req.body.variants) {
+      productData.variants = req.body.variants.map((variant) => ({
         category_id: variant.category_id,
         values: variant.values,
-      })),
-    });
+      }));
+    }
+
+    const product = await Product.create(productData);
 
     res.status(201).json({
       status: "Product has been created successfully!",
