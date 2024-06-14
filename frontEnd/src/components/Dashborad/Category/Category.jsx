@@ -30,13 +30,15 @@ const Category = () => {
   };
 
   return (
-    <div className="container py-3 px-2">
-      <h2>Categories</h2>
-      <div className="mb-3">
+    <div className="container p-5">
+      <div className="d-flex justify-content-between">
+        <h2>Categories</h2>
+
         <Link className="btn btn-dark mt-2" to="./add">
           Add Category
         </Link>
       </div>
+
       <table className="table table-hover">
         <thead>
           <tr>
