@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
 import axios from "../../api/axios";
+import Select from "react-select";
 
 const AddProduct = () => {
   const {
@@ -8,24 +9,61 @@ const AddProduct = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
+    control,
+    watch,
+  } = useForm({
+    defaultValues: {
+      name: "",
+      description: "",
+      price: 0,
+      discount: 0,
+      stock: 0,
+      category: "",
+      variants: [],
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "variants",
+  });
+
   const [imageFiles, setImageFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [variants, setVariants] = useState([]);
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchCategoriesAndVariants = async () => {
       try {
-        const response = await axios.get("categories");
-        setCategories(response.data.categories);
-        console.log(response.data.categories);
+        const categoriesResponse = await axios.get("categories");
+        setCategories(categoriesResponse.data.categories);
+        console.log("Categories Response:", categoriesResponse.data.categories);
+
+        const variantsResponse = await axios.get("variants/get");
+        if (Array.isArray(variantsResponse.data.variants)) {
+          setVariants(variantsResponse.data.variants);
+          console.log("Variants Response:", variantsResponse.data.variants);
+        } else {
+          console.error(
+            "Variants data is not an array:",
+            variantsResponse.data.variants
+          );
+        }
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error("Error fetching categories and variants:", error);
       }
     };
-    fetchCategories();
+
+    fetchCategoriesAndVariants();
   }, []);
+  const printFormData = (formData) => {
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+  };
   const onSubmit = async (data) => {
+    console.log("before submiyt:", data);
     try {
       const formData = new FormData();
       formData.append("name", data.name);
@@ -38,13 +76,23 @@ const AddProduct = () => {
         formData.append("images", file);
       });
 
-      console.log(formData);
+      const productVariants = data.variants.map((variant) => ({
+        category_id: variant.category_id,
+        values: variant.values.map((v) => v.value),
+      }));
 
+      formData.append("variants", JSON.stringify(productVariants));
+
+      const cool = formData;
+      console.log("sss entries:");
+      printFormData(cool);
       const response = await axios.post("products", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
+
+      console.log("Response Data:", response.data);
 
       reset();
       setImageFiles([]);
@@ -60,7 +108,6 @@ const AddProduct = () => {
       const preview = URL.createObjectURL(file);
       setImageFiles((prev) => [...prev, file]);
       setImagePreviews((prev) => [...prev, preview]);
-      // Clear the file input
       event.target.value = null;
     }
   };
@@ -162,7 +209,7 @@ const AddProduct = () => {
             {...register("category", { required: true })}
           >
             <option value="">Select a category</option>
-            {categories?.map((category) => (
+            {categories.map((category) => (
               <option key={category._id} value={category._id}>
                 {category.name}
               </option>
@@ -216,8 +263,72 @@ const AddProduct = () => {
           )}
         </div>
 
-        <button type="submit" className="btn btn-dark">
-          Add Product
+        <div className="mb-3">
+          <label htmlFor="variants" className="form-label">
+            Product Variants
+          </label>
+          {fields.map((field, index) => (
+            <div key={field.id} className="row mb-2">
+              <div className="col-md-5">
+                <select
+                  className="form-select"
+                  {...register(`variants[${index}].category_id`, {
+                    required: true,
+                  })}
+                >
+                  <option value="">Select Variant</option>
+                  {variants.map((variant) => (
+                    <option key={variant._id} value={variant._id}>
+                      {variant.category}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-5">
+                <Controller
+                  name={`variants[${index}].values`}
+                  control={control}
+                  defaultValue={[]}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      isMulti
+                      options={
+                        variants
+                          .find(
+                            (v) =>
+                              v._id === watch(`variants[${index}].category_id`)
+                          )
+                          ?.values.map((value) => ({ value, label: value })) ||
+                        []
+                      }
+                      onChange={(selected) => field.onChange(selected)}
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-md-2 d-flex align-items-center">
+                <button
+                  type="button"
+                  className="btn btn-danger btn-sm"
+                  onClick={() => remove(index)}
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="btn btn-primary btn-sm"
+            onClick={() => append({ category_id: "", values: [] })}
+          >
+            Add Variant
+          </button>
+        </div>
+
+        <button type="submit" className="btn btn-success">
+          Submit
         </button>
       </form>
     </div>
