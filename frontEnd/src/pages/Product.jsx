@@ -1,28 +1,23 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
-import ProductDetailNav from "../components/ProDetailNav/ProDetailNav";
-const url = "https://staja-marketplace.onrender.com";
-import classes from "./proudctDetail.module.css";
 import Slider from "react-slick";
+import ProductDetailNav from "../components/ProDetailNav/ProDetailNav";
 import RatingStarts from "../components/ui/RatingStarts";
 import CustomButton from "../components/ui/CustomButton";
 import Breadcrumbs from "../components/ui/Breadcrumb";
 import axios from "../api/axios";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
+import { CartContext } from "../context/CartContext";
+import classes from "./proudctDetail.module.css";
 
 const Product = () => {
-  // is authenticated
   const isAuthenticated = useIsAuthenticated();
+  const { addToCart, errorCart, successCart } = useContext(CartContext);
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
-
   const [reviews, setReviews] = useState([]);
-  let sliderRef1 = useRef(null);
-  let sliderRef2 = useRef(null);
-  useEffect(() => {
-    setNav1(sliderRef1);
-    setNav2(sliderRef2);
-  }, []);
+  const sliderRef1 = useRef(null);
+  const sliderRef2 = useRef(null);
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [rateId, setRateId] = useState(null);
@@ -34,12 +29,18 @@ const Product = () => {
   const [variants, Setvariants] = useState(null);
   const [selectedVariants, setSelectedVariants] = useState({});
 
+  const url = "https://staja-marketplace.onrender.com";
+
+  useEffect(() => {
+    setNav1(sliderRef1);
+    setNav2(sliderRef2);
+  }, []);
+
   useEffect(() => {
     const fetchProductById = async () => {
       try {
         setIsLoading(true);
         const response = await fetch(`${url}/products/${productId}`);
-
         if (!response.ok) {
           throw new Error("Failed to fetch product");
         }
@@ -59,45 +60,12 @@ const Product = () => {
     fetchProductById();
   }, [productId]);
 
-  const handleButtonClick = async () => {
-    try {
-      const response = await axios.post(`/cart/add`, {
-        product_id: rateId,
-      });
-      console.log("response", response);
-      setSuccess("Product added to cart successfully");
-      setTimeout(() => {
-        setSuccess(null);
-      }, 5000);
-    } catch (error) {
-      setError(error.response.data.message);
-
-      console.error("Error fetching product:", error.response.data.message);
-      setTimeout(() => {
-        setError(null);
-      }, 3000);
-    }
-  };
-
   const handleAddToCart = async () => {
-    try {
-      const response = await axios.post(`/favorite/add`, {
-        product_id: rateId,
-      });
-      setSuccess("Product added to wishlist successfully");
-      console.log("response", response);
-      setTimeout(() => {
-        setSuccess(null);
-      }, 3000);
-    } catch (error) {
-      setError(error.response.data.message);
-
-      console.error("Error fetching product:", error.response.data.message);
-      setTimeout(() => {
-        setError(null);
-      }, 5000); // 5000 milliseconds = 5 seconds
-    }
+    await addToCart(rateId);
   };
+  console.log(error);
+  console.log(success);
+  // handleAddToWishlist function remains unchanged
 
   const handleVariantSelection = (key, variant) => {
     setSelectedVariants((prevState) => ({
@@ -105,7 +73,7 @@ const Product = () => {
       [key]: prevState[key] === variant ? null : variant,
     }));
   };
-  console.log("setSelectedVariants", selectedVariants);
+
   return (
     <>
       <div className="container mb-4">
@@ -113,7 +81,10 @@ const Product = () => {
         <div className="row  align-content-start gap-1 pt-2">
           <div className="col-md-5  ">
             <div className={`${classes.slider_container} slider-container `}>
-              <Slider asNavFor={nav2} ref={(slider) => (sliderRef1 = slider)}>
+              <Slider
+                asNavFor={nav2}
+                ref={(slider) => (sliderRef1.current = slider)}
+              >
                 {product?.product.image.map((imageUrl, index) => (
                   <div key={index} className={classes.big_detail_img}>
                     <img
@@ -125,7 +96,7 @@ const Product = () => {
               </Slider>
               <Slider
                 asNavFor={nav1}
-                ref={(slider) => (sliderRef2 = slider)}
+                ref={(slider) => (sliderRef2.current = slider)}
                 slidesToShow={3}
                 swipeToSlide={true}
                 focusOnSelect={true}
@@ -227,29 +198,25 @@ const Product = () => {
               <div className="d-flex gap-2 pt-3 ">
                 <CustomButton
                   width={"100%"}
-                  // isActive={true}
                   title="Add to cart"
-                  color="black"
-                  onClick={handleButtonClick}
-                />
-                <CustomButton
-                  width={"40%"}
-                  // isActive={true}
-
-                  title="Add to wishlist"
                   color="black"
                   onClick={handleAddToCart}
                 />
+                <CustomButton
+                  width={"40%"}
+                  title="Add to wishlist"
+                  color="black"
+                />
               </div>
 
-              {success && (
+              {successCart && (
                 <div className="alert alert-success mt-2" role="alert">
-                  {success}
+                  {successCart}
                 </div>
               )}
-              {error && (
+              {errorCart && (
                 <div className="alert alert-danger mt-2" role="alert">
-                  {error}
+                  {errorCart}
                 </div>
               )}
             </div>

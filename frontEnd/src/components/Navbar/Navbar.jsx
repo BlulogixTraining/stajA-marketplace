@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import classes from "./Navbar.module.css";
 import { BsCartDash } from "react-icons/bs";
 import { FaUser } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import axios from "../../api/axios";
+import { CartContext } from "../../context/CartContext";
 const TobNav = ({ isAuthenticated }) => {
+  const { totalProducts } = useContext(CartContext);
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container">
@@ -112,9 +115,9 @@ const TobNav = ({ isAuthenticated }) => {
 
           <li className="list-group-item mx-3  d-flex gap-3">
             {" "}
-            <NavLink to="/cart">
+            <NavLink className="position-relative" to="/cart">
               <BsCartDash className={classes.shop} />
-              {/* <span className={classes.cart_count}>{cart?.totalItems}</span> */}
+              <span className={classes.cart_count}>{totalProducts}</span>
             </NavLink>
             {isAuthenticated && (
               <Link to="/userProfile">

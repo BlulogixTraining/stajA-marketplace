@@ -30,6 +30,7 @@ import Adresses from "./pages/UserProfile/Adresses.jsx";
 import Store from "./pages/store/StoreSeller.jsx";
 import Varients from "./components/Dashborad/Varients/Varients.jsx";
 import AddVarient from "./components/Dashborad/Varients/AddVarient.jsx";
+import { CartProvider } from "./context/CartContext.jsx";
 // import loader
 const router = createBrowserRouter([
   {
@@ -112,7 +113,9 @@ const store = createStore({
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
   <AuthProvider store={store}>
-    <RouterProvider router={router} />
+    <CartProvider>
+      <RouterProvider router={router} />
+    </CartProvider>
   </AuthProvider>
   // </React.StrictMode>
 );

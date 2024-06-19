@@ -70,3 +70,14 @@
     -o-transform: scale(1.2);
   }
 }
+.cart_count {
+  position: absolute;
+  top: -28%;
+  right: -23%;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 0 5px;
+  font-size: 12px;
+  font-weight: bold;
+}

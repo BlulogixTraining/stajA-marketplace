@@ -1,5 +1,10 @@
 .contanier_height {
-  height: 100dvh;
+  height: 70dvh;
+}
+@media (max-width: 768px) {
+  .contanier_height {
+    height: 100dvh;
+  }
 }
 .glass_button {
   /* Base styles for the input field */
