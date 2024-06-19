@@ -30,17 +30,25 @@ exports.createProduct = async (req, res) => {
       }
     }
 
+    // Parse the variants field if it is a string
+    let variants = req.body.variants;
+    if (typeof variants === "string") {
+      variants = JSON.parse(variants);
+    }
+
     const productData = {
       ...req.body,
       image: imagePaths.length ? imagePaths : undefined,
       seller: req.userId,
+      variants,
     };
+    //console.log("Product Data:", productData);
 
     // Handling variants
-    if (req.body.variants && Array.isArray(req.body.variants)) {
+    if (variants && Array.isArray(variants)) {
       const variantsData = [];
 
-      for (const variant of req.body.variants) {
+      for (const variant of variants) {
         const variantRecord = await Variant.findById(variant.category_id);
         if (!variantRecord) {
           return res.status(400).json({
@@ -67,6 +75,7 @@ exports.createProduct = async (req, res) => {
 
       productData.variants = variantsData;
     }
+
     const product = await Product.create(productData);
 
     res.status(201).json({
@@ -74,6 +83,7 @@ exports.createProduct = async (req, res) => {
       product,
     });
   } catch (error) {
+    console.error("Error creating product:", error);
     res.status(500).json({
       status: "Fail",
       error: error.message,
@@ -172,8 +182,6 @@ exports.getProductDetails = async (req, res) => {
     const Productdetails = await ProductDetails.find({
       product_id: product._id,
     });
-
-    
 
     res.status(200).json({
       status: "Success",
