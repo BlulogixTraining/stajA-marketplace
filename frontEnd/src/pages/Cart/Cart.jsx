@@ -1,44 +1,14 @@
-import classes from "./Cart.module.css";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import Breadcrumbs from "../../components/ui/Breadcrumb";
 import Summary from "../../components/ShopCart/Summary";
 import ShopCart from "../../components/ShopCart/ShopCart";
-import { useEffect, useState } from "react";
-import axios from "../../api/axios";
-import Breadcrumbs from "../../components/ui/Breadcrumb";
-import { Link } from "react-router-dom";
+import { CartContext } from "../../context/CartContext";
+import classes from "./Cart.module.css";
 
-const url = "https://staja-marketplace.onrender.com";
 const Cart = () => {
-  const [cart, setCart] = useState([]);
-  const [error, setError] = useState(null);
-  const [cartTotal, setCartTotal] = useState(0);
+  const { cart, cartTotal, handleRemoveClick } = useContext(CartContext);
 
-  const fetchCart = async () => {
-    try {
-      const response = await axios.get(`${url}/cart/get`);
-      setCart(response.data.cart);
-      setCartTotal(response.data.orderSummary);
-      console.log("cart", response.data.orderSummary);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  useEffect(() => {
-    fetchCart();
-  }, []);
-
-  const handleRemoveClick = async (id) => {
-    try {
-      const response = await axios.post(`/cart/remove`, {
-        product_id: id,
-      });
-      fetchCart();
-      const newCart = cart.filter((product) => product._id !== id);
-      setCart(newCart);
-    } catch (error) {
-      setError(error.response.data.message);
-      console.error("Error fetching product:", error.response.data.message);
-    }
-  };
   if (!cart || cart.length === 0) {
     return (
       <div className="container py-3 ">
@@ -47,7 +17,6 @@ const Cart = () => {
         <div className="row d-flex justify-content-between mt-3">
           <div className="col d-flex flex-column gap-2  ">
             <h3 className="text-center">Your cart is empty</h3>
-
             <div className="d-flex justify-content-center">
               <Link to="/products" className="btn btn-secondary">
                 Shop Now
@@ -69,7 +38,7 @@ const Cart = () => {
         <div className="col-md-4">
           <Summary CartSummary={cartTotal} />
         </div>
-      </div>{" "}
+      </div>
     </div>
   );
 };
