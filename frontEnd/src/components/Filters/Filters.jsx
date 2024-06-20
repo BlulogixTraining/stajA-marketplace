@@ -56,10 +56,11 @@ const Filters = ({ onSelectedValuesChange }) => {
         {variants.map((variant) => (
           <div key={variant._id}>
             <div className={classes[variant.category]}>
-              <div className="d-flex justify-content-between">
-                <h4 onClick={() => toggleSection(variant.category)}>
-                  {variant.category}
-                </h4>
+              <div
+                className="d-flex justify-content-between"
+                onClick={() => toggleSection(variant.category)}
+              >
+                <h4>{variant.category}</h4>
                 <IoIosArrowForward size={20} className={classes.closedarrow} />
               </div>
               <Collapse in={showSections[variant.category]}>
