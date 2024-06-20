@@ -26,11 +26,11 @@ const Products = () => {
         let productsUrl = `${url}/products`;
         const params = new URLSearchParams();
         if (selectedValues.length > 0) {
-          params.append("categories", selectedValues.join(","));
+          params.append("variants", selectedValues.join(","));
         }
         params.append("page", currentPage);
         productsUrl += `?${params.toString()}`;
-
+        console.log(productsUrl);
         const response = await axios.get(productsUrl);
 
         setProducts(response.data.products);
