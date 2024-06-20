@@ -11,12 +11,10 @@ const cartRoute = require("./routes/cartRoute");
 const favoriteRoute = require("./routes/favoriteRoute");
 const productDetailsRoute = require("./routes/productDetailsRoute");
 const sellerRoute = require("./routes/sellerRoute");
-const storeRoute = require("./routes/storeRoute");
 const orderRoute = require("./routes/orderRoute");
 const addressRoute = require("./routes/addressRoute");
 const paymentRoute = require("./routes/paymentRoute");
 const variantRoute = require("./routes/variantRoute");
-
 
 const cors = require("cors");
 
@@ -55,7 +53,6 @@ app.use("/cart", cartRoute);
 app.use("/favorite", favoriteRoute);
 app.use("/productdetails", productDetailsRoute);
 app.use("/seller", sellerRoute);
-app.use("/stores", storeRoute);
 app.use("/orders", orderRoute);
 app.use("/addresses", addressRoute);
 app.use("/payments", paymentRoute);
