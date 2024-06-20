@@ -48,6 +48,7 @@ const FillExampleAddresses = ({
     >
       <Tab
         eventKey="address"
+        className="sub-tab"
         title={<span className="tab-title">Address</span>}
       >
         <p className="choosing">Choose Your Address Please:</p>
@@ -61,6 +62,7 @@ const FillExampleAddresses = ({
       </Tab>
       <Tab
         eventKey="payment"
+        className="sub-tab"
         title={<span className="tab-title">Payment</span>}
       >
         <p className="choosing">Choose Your Payment Method:</p>

@@ -45,7 +45,7 @@ const AddressTabs = ({ refetchAddresses, onSelectAddress, addresses }) => {
             </Nav>
           </Col>
           <Col sm={8}>
-            <Tab.Content>
+            <Tab.Content className="sub-tab">
               {addresses.map((address) => (
                 <Tab.Pane key={address._id} eventKey={`address-${address._id}`}>
                   {address.addressline1}, {address.addressline2}.{" "}

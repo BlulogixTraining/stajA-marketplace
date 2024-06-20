@@ -1,12 +1,18 @@
 import { FaCircleCheck } from "react-icons/fa6";
 import classes from "./StoreSeller.module.css";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
+import { FaStoreAlt } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
+import { FaMoneyBills } from "react-icons/fa6";
+
 const StoreSeller = () => {
   return (
     <div className="container-fluid">
       <div className="container mt-3 ">
         <div className={`row  ${classes.storeHero}  `}>
           <div
-            className={`bg col-lg-4 py-4 d-flex align-items-center gap-3  ${classes.content}`}
+            className={`bg col-lg-4 py-2 d-flex align-items-center gap-3  ${classes.content}`}
           >
             <div className=" w-25  overflow-hidden">
               <img
@@ -21,6 +27,171 @@ const StoreSeller = () => {
               <FaCircleCheck className="text-primary" />
             </div>
           </div>
+        </div>
+
+        <div className="row">
+          <Tabs
+            defaultActiveKey="profile"
+            id="uncontrolled-tab-example"
+            className="mb-3"
+          >
+            <Tab eventKey="home" title="Home"></Tab>
+            <Tab eventKey="profile" title="Profile">
+              <div className="row d-flex ">
+                <div className="col-lg-4 d-flex gap-4 p-3 border border-1 rounded-3  align-items-center">
+                  <span
+                    style={{
+                      backgroundColor: "#d9dac7a8",
+                      color: "var(--light)",
+                      padding: "1rem",
+                      borderRadius: "50%",
+                    }}
+                  >
+                    <FaStoreAlt
+                      style={{
+                        fontSize: "2rem",
+                        color: "var(--primary)",
+                        // backgroundColor: "",
+                      }}
+                    />
+                  </span>
+
+                  <div className="d-flex flex-column justify-content-center align-items-center">
+                    <h5 className="text-center">Duration at Shopcoo </h5>
+                    <h6>2 years</h6>
+                  </div>
+                </div>{" "}
+                <div className="col-lg-4 d-flex gap-4 p-3 border border-1 rounded-3  align-items-center">
+                  <span
+                    style={{
+                      backgroundColor: "#d9dac7a8",
+                      color: "var(--light)",
+                      padding: "1rem",
+                      borderRadius: "50%",
+                    }}
+                  >
+                    <FaLocationDot
+                      style={{
+                        fontSize: "2rem",
+                        color: "var(--primary)",
+                        // backgroundColor: "",
+                      }}
+                    />
+                  </span>
+
+                  <div className="d-flex flex-column justify-content-center align-items-center">
+                    <h5 className="text-center">Location</h5>
+                    <h6>Istanbul</h6>
+                  </div>
+                </div>{" "}
+                <div className="col-lg-4 d-flex gap-4 p-3 border border-1 rounded-3  align-items-center">
+                  <span
+                    style={{
+                      backgroundColor: "#d9dac7a8",
+                      color: "var(--light)",
+                      padding: "1rem",
+                      borderRadius: "50%",
+                    }}
+                  >
+                    <FaMoneyBills
+                      style={{
+                        fontSize: "2rem",
+                      }}
+                    />
+                  </span>
+
+                  <div className="d-flex flex-column justify-content-center align-items-center">
+                    <h5 className="text-center">Corporate Invoice</h5>
+                    <h6>Suitable</h6>
+                  </div>
+                </div>{" "}
+                <div className="col-lg-4 d-flex gap-4 p-3 border border-1 rounded-3  align-items-center">
+                  <span
+                    style={{
+                      backgroundColor: "#d9dac7a8",
+                      color: "var(--light)",
+                      padding: "1rem",
+                      borderRadius: "50%",
+                    }}
+                  >
+                    <FaMoneyBills
+                      style={{
+                        fontSize: "2rem",
+                      }}
+                    />
+                  </span>
+
+                  <div className="d-flex flex-column justify-content-center align-items-center">
+                    <h5 className="text-center">Corporate Invoice</h5>
+                    <h6>Suitable</h6>
+                  </div>
+                </div>{" "}
+              </div>
+            </Tab>
+            <Tab eventKey="contact" title="Contact">
+              <div className="row">
+                <div className="location">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d385398.7255790423!2d28.731987!3d41.0054958!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cabaecdea9e0b1%3A0xfce55e0d7c39a6cf!2sIstanbul%2C%20Turkey!5e0!3m2!1sen!2sus!4v1628535694579!5m2!1sen!2sus"
+                    width="100%"
+                    height="500"
+                    style={{ border: 0 }}
+                    allowFullScreen=""
+                    loading="lazy"
+                    title="Google Map"
+                  ></iframe>
+                </div>
+
+                <div className="col-12 mt-4">
+                  <h5 className="text-center">Contact Us</h5>
+                  <form className=" col-8 mx-auto">
+                    <div className="form-group mb-3">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="name"
+                        placeholder="Enter your name"
+                        required
+                      />
+                    </div>
+                    <div className="form-group mb-3">
+                      <input
+                        type="email"
+                        className="form-control"
+                        id="email"
+                        placeholder="Enter your email"
+                        required
+                      />
+                    </div>
+                    <div className="form-group mb-3">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="subject"
+                        placeholder="Enter subject"
+                        required
+                      />
+                    </div>
+                    <div className="form-group mb-3">
+                      <textarea
+                        className="form-control"
+                        id="message"
+                        rows="5"
+                        placeholder="Enter your message"
+                        required
+                      ></textarea>
+                    </div>
+                    <button
+                      type="submit"
+                      className={`btn btn-dark btn-block mt-2 py-2 fs-5 ${classes.btnDarkCustom}`}
+                    >
+                      Submit
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </Tab>
+          </Tabs>
         </div>
       </div>
     </div>

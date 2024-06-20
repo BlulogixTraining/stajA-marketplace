@@ -41,7 +41,7 @@ const PaymentTabs = ({ onSelectPayment, refreshPayments, payments }) => {
             </Nav>
           </Col>
           <Col sm={8}>
-            <Tab.Content>
+            <Tab.Content className="sub-tab">
               {payments.map((payment, index) => (
                 <Tab.Pane key={index} eventKey={`payment-${index}`}>
                   Card Type: {payment.NameOnCard}
