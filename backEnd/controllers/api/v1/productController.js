@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { v4: uuidv4 } = require('uuid');
 const faker = require("faker");
 const mongoose = require("mongoose");
 const path = require("path");
@@ -7,6 +8,7 @@ const Category = require("../../../models/Category");
 const ProductReview = require("../../../models/ProductReview");
 const ProductDetails = require("../../../models/ProductDetails");
 const Variant = require("../../../models/Variant");
+const User = require("../../../models/User");
 
 exports.createProduct = async (req, res) => {
   const uploadDir = path.join(__dirname, "../../../public/images/");
@@ -24,9 +26,10 @@ exports.createProduct = async (req, res) => {
         : [req.files.images];
 
       for (const file of files) {
-        const uploadPath = path.join(uploadDir, file.name);
+        const uniqueName = uuidv4() + path.extname(file.name);
+        const uploadPath = path.join(uploadDir, uniqueName);
         await file.mv(uploadPath);
-        imagePaths.push("/images/" + file.name);
+        imagePaths.push("/images/" + uniqueName);
       }
     }
 
@@ -166,7 +169,7 @@ exports.getProductDetails = async (req, res) => {
         path: "variants.category_id",
         select: "category",
       })
-      .populate("seller", "name");
+      .populate("seller", "name sellerSlug",);
     const reviews = await ProductReview.find({
       product_id: product._id,
     }).populate("user_id", "name");
@@ -182,6 +185,7 @@ exports.getProductDetails = async (req, res) => {
     const Productdetails = await ProductDetails.find({
       product_id: product._id,
     });
+   
 
     res.status(200).json({
       status: "Success",
