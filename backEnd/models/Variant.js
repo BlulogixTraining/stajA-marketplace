@@ -3,6 +3,12 @@ const slugify = require("slugify");
 const Schema = mongoose.Schema;
 
 const VariantSchema = new Schema({
+  seller: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+
   category: {
     type: String,
     required: true,

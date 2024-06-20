@@ -115,10 +115,13 @@ exports.deleteCategory = async (req, res) => {
 
 exports.createVariant = async (req, res) => {
   try {
-    const variant = await Variant.create(req.body);
+    const variant = await Variant.create({
+      ...req.body,
+      seller: req.userId,
+    });
 
     res.status(201).json({
-      status: "Categoty has been created successfuly!",
+      status: "Variant has been created successfuly!",
       variant,
     });
   } catch (error) {
@@ -136,6 +139,86 @@ exports.getAllVariants = async (req, res) => {
       status: "Success",
       variants,
     });
+  } catch (error) {
+    res.status(400).json({
+      status: "Fail",
+      error,
+    });
+  }
+};
+
+exports.deleteVariant = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({
+        status: "fail",
+        message: "User not found",
+      });
+    }
+
+    const variant = await Variant.findById(req.params.id);
+    if (!variant) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Variant not found",
+      });
+    }
+
+    if (user._id.toString() === variant.seller.toString()) {
+      await Variant.deleteOne({ _id: req.params.id });
+      res.status(200).json({
+        status: "Success",
+        message: "Variant deleted",
+      });
+    } else {
+      res.status(403).json({
+        status: "fail",
+        message: "Unauthorized action",
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      status: "Fail",
+      error,
+    });
+  }
+};
+
+exports.editVariant = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({
+        status: "fail",
+        message: "User not found",
+      });
+    }
+
+    const variant = await Variant.findById(req.params.id);
+    if (!variant) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Variant not found",
+      });
+    }
+
+    if (user._id.toString() === variant.seller.toString()) {
+      await Variant.findById({ _id: req.params.id });
+      variant.category = req.body.category;
+      variant.values = req.body.values;
+      await variant.save();
+
+      res.status(200).json({
+        status: "Success",
+        message: "Variant edited",
+      });
+    } else {
+      res.status(403).json({
+        status: "fail",
+        message: "Unauthorized action",
+      });
+    }
   } catch (error) {
     res.status(400).json({
       status: "Fail",

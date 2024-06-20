@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.route("/").get(verifyToken, sellerDashboardController.getProductsRelatedToSeller);
 router.route("/details/:slug").get( sellerDashboardController.getSellerDetails);
-
+router.route("/all").get( sellerDashboardController.getAllSellers);
 
 module.exports = router;

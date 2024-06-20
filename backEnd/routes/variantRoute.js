@@ -8,5 +8,7 @@ const router = express.Router();
 
 router.route("/get").get(categoryController.getAllVariants);
 router.route("/create").post(verifyToken, checkRole(['seller','admin']),categoryController.createVariant);
+router.route("/delete/:id").delete(verifyToken, checkRole(['seller','admin']),categoryController.deleteVariant);
+router.route("/edit/:id").put(verifyToken, checkRole(['seller','admin']),categoryController.editVariant);
 
 module.exports = router;

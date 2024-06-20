@@ -6,5 +6,7 @@ const router = express.Router();
 
 router.route("/").get(productReviewController.getAllReviews);
 router.route("/:id").post(verifyToken,checkRole(['customer']), productReviewController.createReview);
+router.route("/delete/:id").delete(verifyToken,checkRole(['customer','admin']), productReviewController.deleteReview);
+
 
 module.exports = router;
