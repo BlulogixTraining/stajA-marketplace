@@ -9,6 +9,8 @@ import axios from "../api/axios";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import { CartContext } from "../context/CartContext";
 import classes from "./proudctDetail.module.css";
+import { FaExclamationCircle } from "react-icons/fa";
+import Card from "../components/Card/Card";
 
 const Product = () => {
   const isAuthenticated = useIsAuthenticated();
@@ -25,7 +27,8 @@ const Product = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [variants, setVariants] = useState([]);
   const [selectedVariants, setSelectedVariants] = useState({});
-
+  const [seller, setSeller] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const url = "https://staja-marketplace.onrender.com";
 
   useEffect(() => {
@@ -35,7 +38,8 @@ const Product = () => {
         const response = await fetch(`${url}/products/${productId}`);
 
         const data = await response.json();
-        console.log("variants", data.product.variants);
+        console.log("variants", data.product.seller.name);
+        setSeller(data.product.seller);
         setVariants(data.product.variants);
         setProduct(data);
         setIsLoading(false);
@@ -49,6 +53,26 @@ const Product = () => {
     fetchProductById();
   }, [productId]);
 
+  useEffect(() => {
+    const fetchRealtedProdcuts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(`/products`);
+        //shafle the products
+        response.data.products.sort(() => Math.random() - 0.5);
+        //splice the first 4 products
+        response.data.products.splice(4);
+        setRelatedProducts(response.data.products);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    };
+
+    fetchRealtedProdcuts();
+  }, [productId]);
+
+  console.log("relatedProducts", relatedProducts);
   const handleAddToCart = async () => {
     await addToCart(productId);
   };
@@ -99,14 +123,25 @@ const Product = () => {
           <div className="col-12 col-md-6">
             <div className={classes.product_detail}>
               <h2>{product?.product.name}</h2>
-              <div className="d-flex justify-content-between">
+              <div className="d-flex justify-content-between ">
                 <RatingStarts star={rating} />
-                <Link
-                  className="fs-5 text-black"
-                  to={`/store/${product?.product.slug}`}
+                <span
+                  style={{
+                    color: "#4279eb",
+                    cursor: "pointer",
+                  }}
+                  className="border border-1 p-2 d-flex align-items-center gap-2"
                 >
-                  Store: {product?.product.stock}
-                </Link>
+                  <Link
+                    className="fs-5 "
+                    to={`/store/${product?.product?.seller?.name}`}
+                  >
+                    <h6 className="m-0">
+                      Store: {product?.product?.seller?.name}
+                    </h6>
+                  </Link>
+                  <FaExclamationCircle />
+                </span>
               </div>
               <div className={classes.detail_price}>
                 <h4 className={classes.orignal_price}>
@@ -214,6 +249,32 @@ const Product = () => {
 
       <section className="container mt-3 justify-content-center">
         <ProductDetailNav reviews={reviews} ratedId={productId} />
+      </section>
+
+      {/* relavent products */}
+
+      <section className="container mt-3 text-center">
+        <h2>Related Products</h2>
+
+        <div className="row">
+          <div className="col d-flex flex-wrap justify-content-center justify-content-lg-start mt-3 mt-md-0 gap-4 gap-md-0   ">
+            {relatedProducts.map((product) => (
+              <div
+                key={product._id}
+                className={`col col-md-5 gap-md-6 col-lg-3 mt-3 mb-5 position-relative `}
+              >
+                <Card
+                  productSlug={product.slug}
+                  name={product.name}
+                  rating={product.averagerating}
+                  img={`${url}${product.image[0]}`}
+                  price={product.price}
+                  discount={product.discount}
+                />{" "}
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
     </>
   );
