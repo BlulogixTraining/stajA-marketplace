@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const slugify = require("slugify");
 
 const Schema = mongoose.Schema;
 
@@ -57,6 +58,10 @@ const UserSchema = new Schema({
       ref: "Product",
     },
   ],
+  sellerSlug: {
+    type: String,
+    unique: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -75,6 +80,14 @@ UserSchema.pre("save", function (next) {
       next();
     });
   });
+});
+
+UserSchema.pre("validate", function (next) {
+  this.sellerSlug = slugify(this.name, {
+    lower: true,
+    strict: true,
+  });
+  next();
 });
 
 const User = mongoose.model("User", UserSchema);
