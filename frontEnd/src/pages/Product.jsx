@@ -9,49 +9,42 @@ import axios from "../api/axios";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import { CartContext } from "../context/CartContext";
 import classes from "./proudctDetail.module.css";
+import { FaExclamationCircle } from "react-icons/fa";
+import Card from "../components/Card/Card";
 
 const Product = () => {
   const isAuthenticated = useIsAuthenticated();
   const { addToCart, errorCart, successCart } = useContext(CartContext);
-  const [nav1, setNav1] = useState(null);
-  const [nav2, setNav2] = useState(null);
-  const [reviews, setReviews] = useState([]);
   const sliderRef1 = useRef(null);
   const sliderRef2 = useRef(null);
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
-  const [rateId, setRateId] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [variants, Setvariants] = useState(null);
+  const [variants, setVariants] = useState([]);
   const [selectedVariants, setSelectedVariants] = useState({});
-
+  const [seller, setSeller] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const url = "https://staja-marketplace.onrender.com";
-
-  useEffect(() => {
-    setNav1(sliderRef1);
-    setNav2(sliderRef2);
-  }, []);
 
   useEffect(() => {
     const fetchProductById = async () => {
       try {
         setIsLoading(true);
         const response = await fetch(`${url}/products/${productId}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch product");
-        }
+
         const data = await response.json();
-        Setvariants(data.variants_available);
-        console.log("data.productvariant", data);
+        console.log("variants", data.product.seller.name);
+        setSeller(data.product.seller);
+        setVariants(data.product.variants);
         setProduct(data);
         setIsLoading(false);
         setRating(data.averagerating);
         setReviews(data.reviews);
-        setRateId(data.product._id);
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -60,12 +53,29 @@ const Product = () => {
     fetchProductById();
   }, [productId]);
 
+  useEffect(() => {
+    const fetchRealtedProdcuts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(`/products`);
+        //shafle the products
+        response.data.products.sort(() => Math.random() - 0.5);
+        //splice the first 4 products
+        response.data.products.splice(4);
+        setRelatedProducts(response.data.products);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    };
+
+    fetchRealtedProdcuts();
+  }, [productId]);
+
+  console.log("relatedProducts", relatedProducts);
   const handleAddToCart = async () => {
-    await addToCart(rateId);
+    await addToCart(productId);
   };
-  console.log(error);
-  console.log(success);
-  // handleAddToWishlist function remains unchanged
 
   const handleVariantSelection = (key, variant) => {
     setSelectedVariants((prevState) => ({
@@ -78,13 +88,10 @@ const Product = () => {
     <>
       <div className="container mb-4">
         <Breadcrumbs />
-        <div className="row  align-content-start gap-1 pt-2">
-          <div className="col-md-5  ">
-            <div className={`${classes.slider_container} slider-container `}>
-              <Slider
-                asNavFor={nav2}
-                ref={(slider) => (sliderRef1.current = slider)}
-              >
+        <div className="row align-content-start gap-1 pt-2">
+          <div className="col-md-5">
+            <div className={`${classes.slider_container} slider-container`}>
+              <Slider asNavFor={sliderRef2.current} ref={sliderRef1}>
                 {product?.product.image.map((imageUrl, index) => (
                   <div key={index} className={classes.big_detail_img}>
                     <img
@@ -95,8 +102,8 @@ const Product = () => {
                 ))}
               </Slider>
               <Slider
-                asNavFor={nav1}
-                ref={(slider) => (sliderRef2.current = slider)}
+                asNavFor={sliderRef1.current}
+                ref={sliderRef2}
                 slidesToShow={3}
                 swipeToSlide={true}
                 focusOnSelect={true}
@@ -116,14 +123,25 @@ const Product = () => {
           <div className="col-12 col-md-6">
             <div className={classes.product_detail}>
               <h2>{product?.product.name}</h2>
-              <div className=" d-flex justify-content-between">
+              <div className="d-flex justify-content-between ">
                 <RatingStarts star={rating} />
-                <Link
-                  className=" fs-5 text-black"
-                  to={`/store/${product?.product.slug}`}
+                <span
+                  style={{
+                    color: "#4279eb",
+                    cursor: "pointer",
+                  }}
+                  className="border border-1 p-2 d-flex align-items-center gap-2"
                 >
-                  Store: {product?.product.stock}
-                </Link>
+                  <Link
+                    className="fs-5 "
+                    to={`/store/${product?.product?.seller?.name}`}
+                  >
+                    <h6 className="m-0">
+                      Store: {product?.product?.seller?.name}
+                    </h6>
+                  </Link>
+                  <FaExclamationCircle />
+                </span>
               </div>
               <div className={classes.detail_price}>
                 <h4 className={classes.orignal_price}>
@@ -132,7 +150,7 @@ const Product = () => {
                 <h4 className={classes.desc_price}>
                   ${product?.product.discount}
                 </h4>
-                <p className=" m-0">%50</p>
+                <p className="m-0">%50</p>
               </div>
               <p>{product?.product.description}</p>
               <h5>Stock: {product?.product.stock}</h5>
@@ -140,26 +158,31 @@ const Product = () => {
             <div className={classes.add_to_cart}>
               <div className="d-flex gap-2 ps-2 mt-3">
                 {variants &&
-                  Object.entries(variants).map(([key, value]) => {
-                    if (value.length > 0) {
-                      if (key === "Colors") {
+                  variants.map((variantObj) => {
+                    const category = variantObj.category_id.category;
+                    const values = variantObj.values;
+
+                    if (values.length > 0) {
+                      if (category === "Colors") {
                         return (
-                          <div key={key} className="">
-                            <h5>{key}</h5>
+                          <div key={category} className="">
+                            <h5>{category}</h5>
                             <div className="btn-group d-flex gap-2">
-                              {value.map((variant) => (
+                              {values.map((variant) => (
                                 <button
                                   key={variant}
                                   type="button"
                                   className={`rounded-5 p-3 btn ${
-                                    selectedVariants[key] === variant
+                                    selectedVariants[category] === variant
                                       ? "btn-dark"
                                       : "btn-outline-warning"
                                   }`}
                                   onClick={() =>
-                                    handleVariantSelection(key, variant)
+                                    handleVariantSelection(category, variant)
                                   }
-                                  style={{ backgroundColor: variant || "blue" }}
+                                  style={{
+                                    backgroundColor: variant || "blue",
+                                  }}
                                 ></button>
                               ))}
                             </div>
@@ -167,20 +190,20 @@ const Product = () => {
                         );
                       } else {
                         return (
-                          <div key={key} className="mx-2">
-                            <h5>{key}</h5>
+                          <div key={category} className="mx-2">
+                            <h5>{category}</h5>
                             <div className="btn-group d-flex gap-2">
-                              {value.map((variant) => (
+                              {values.map((variant) => (
                                 <button
                                   key={variant}
                                   type="button"
-                                  className={`rounded-5  btn ${
-                                    selectedVariants[key] === variant
+                                  className={`rounded-5 btn ${
+                                    selectedVariants[category] === variant
                                       ? "btn-dark"
                                       : "btn-outline-dark"
                                   }`}
                                   onClick={() =>
-                                    handleVariantSelection(key, variant)
+                                    handleVariantSelection(category, variant)
                                   }
                                 >
                                   {variant}
@@ -195,7 +218,7 @@ const Product = () => {
                   })}
               </div>
 
-              <div className="d-flex gap-2 pt-3 ">
+              <div className="d-flex gap-2 pt-3">
                 <CustomButton
                   width={"100%"}
                   title="Add to cart"
@@ -224,8 +247,34 @@ const Product = () => {
         </div>
       </div>
 
-      <section className="container mt-3 justify-content-center ">
-        <ProductDetailNav reviews={reviews} ratedId={rateId} />
+      <section className="container mt-3 justify-content-center">
+        <ProductDetailNav reviews={reviews} ratedId={productId} />
+      </section>
+
+      {/* relavent products */}
+
+      <section className="container mt-3 text-center">
+        <h2>Related Products</h2>
+
+        <div className="row">
+          <div className="col d-flex flex-wrap justify-content-center justify-content-lg-start mt-3 mt-md-0 gap-4 gap-md-0   ">
+            {relatedProducts.map((product) => (
+              <div
+                key={product._id}
+                className={`col col-md-5 gap-md-6 col-lg-3 mt-3 mb-5 position-relative `}
+              >
+                <Card
+                  productSlug={product.slug}
+                  name={product.name}
+                  rating={product.averagerating}
+                  img={`${url}${product.image[0]}`}
+                  price={product.price}
+                  discount={product.discount}
+                />{" "}
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
     </>
   );
