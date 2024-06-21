@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
 const path = require("path");
 const User = require("../../../models/User");
@@ -11,75 +12,72 @@ exports.createUser = async (req, res) => {
     fs.mkdirSync(uploadDir, { recursive: true });
   }
 
+  let userData = { ...req.body };
+
   if (req.files && req.files.image) {
     let sampleFile = req.files.image;
-    let uploadPath = path.join(uploadDir, sampleFile.name);
+    let uniqueFilename = uuidv4() + path.extname(sampleFile.name);
+    let uploadPath = path.join(uploadDir, uniqueFilename);
 
-    sampleFile.mv(uploadPath, async (err) => {
+    sampleFile.mv(uploadPath, (err) => {
       if (err) {
         return res.status(500).json({
           status: "Fail",
           error: err.message,
         });
       }
-
-      try {
-        const user = await User.create({
-          ...req.body,
-          image: "/images/" + sampleFile.name,
-        });
-
-        const token = createToken(user._id);
-        const sanitizedUser = {
-          _id: user._id,
-          name: user.name,
-          lastname: user.lastname,
-          email: user.email,
-          image: user.image,
-          role: user.role,
-          phone: user.phone,
-        };
-        res.status(201).json({
-          status: "User has been created successfully!",
-          user: sanitizedUser,
-          token: token,
-        });
-      } catch (error) {
-        res.status(400).json({
-          status: "Fail",
-          error,
-        });
-      }
+      userData.image = "/images/" + uniqueFilename;
     });
   } else {
-    try {
-      const user = await User.create({
-        ...req.body,
-        image: "",
-      });
+    userData.image = "";
+  }
 
-      const token = createToken(user._id);
+  if (req.files && req.files.storeImage) {
+    let storeImageFile = req.files.storeImage;
+    let uniqueStoreImageFilename = uuidv4() + path.extname(storeImageFile.name);
+    let storeImagePath = path.join(uploadDir, uniqueStoreImageFilename);
 
-      const sanitizedUser = {
-        _id: user._id,
-        name: user.name,
-        lastname: user.lastname,
-        email: user.email,
-        image: user.image,
-        role: user.role,
-        phone: user.phone,
-      };
-      res.status(201).json({
-        status: "User has been created successfully!",
-        user: sanitizedUser,
-        token: token,
-      });
-    } catch (error) {
-      res.status(400).json({
-        status: "Fail",
-        error,
-      });
-    }
+    storeImageFile.mv(storeImagePath, (err) => {
+      if (err) {
+        return res.status(500).json({
+          status: "Fail",
+          error: err.message,
+        });
+      }
+      userData.storeImage = "/images/" + uniqueStoreImageFilename;
+    });
+  } else {
+    userData.storeImage = "";
+  }
+
+  try {
+    
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    const user = await User.create(userData);
+    const token = createToken(user._id);
+
+    const sanitizedUser = {
+      _id: user._id,
+      name: user.name,
+      lastname: user.lastname,
+      email: user.email,
+      image: user.image,
+      storeImage: user.storeImage,
+      role: user.role,
+      phone: user.phone,
+    };
+
+    res.status(201).json({
+      status: "User has been created successfully!",
+      user: sanitizedUser,
+      token: token,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "Fail",
+      error,
+    });
   }
 };
 
