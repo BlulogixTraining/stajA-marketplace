@@ -27,6 +27,9 @@ const UserSchema = new Schema({
   image: {
     type: String,
   },
+  storeImage: {
+    type: String,
+  },
 
   role: {
     type: String,

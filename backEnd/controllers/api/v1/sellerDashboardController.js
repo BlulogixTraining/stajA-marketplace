@@ -37,6 +37,29 @@ exports.getSellerDetails = async (req, res) => {
 
     const reviews = await ProductReview.find({
       product_id: { $in: productIds },
+    }).populate("user_id", "name");
+
+    const productRatings = {};
+    reviews.forEach((review) => {
+      if (!productRatings[review.product_id]) {
+        productRatings[review.product_id] = { totalRating: 0, count: 0 };
+      }
+      productRatings[review.product_id].totalRating += review.rating;
+      productRatings[review.product_id].count += 1;
+    });
+
+    const averageRatings = {};
+    for (const productId in productRatings) {
+      const { totalRating, count } = productRatings[productId];
+      averageRatings[productId] = Math.round(totalRating / count);
+    }
+
+    const productsWithRatings = productsOfSeller.map((product) => {
+      const avgRating = averageRatings[product._id] || 0;
+      return {
+        ...product.toObject(),
+        averageRating: avgRating,
+      };
     });
 
     const sanitizedSeller = {
@@ -52,7 +75,7 @@ exports.getSellerDetails = async (req, res) => {
     res.status(200).json({
       status: "Success",
       seller: sanitizedSeller,
-      productsOfSeller,
+      productsOfSeller: productsWithRatings,
       reviews: reviews,
     });
   } catch (error) {
@@ -73,6 +96,7 @@ exports.getAllSellers = async (req, res) => {
       lastname: seller.lastname,
       email: seller.email,
       image: seller.image,
+      storeImage: seller.storeImage,
       role: seller.role,
       sellerSlug: seller.sellerSlug,
     }));
