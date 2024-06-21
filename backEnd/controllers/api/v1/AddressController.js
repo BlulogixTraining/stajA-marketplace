@@ -65,16 +65,30 @@ exports.editAddress = async (req, res) => {
 
 exports.deleteAddress = async (req, res) => {
   try {
-    const address = await Address.deleteOne({ _id: req.params.id });
+    const address = await Address.findById(req.params.id);
+    if (!address) {
+      return res.status(404).json({
+        status: "Fail",
+        message: "Address not found",
+      });
+    }
 
-    res.status(201).json({
+    await Address.deleteOne({ _id: req.params.id });
+
+    // Update the user to remove the address reference
+    await User.updateOne(
+      { _id: address.user_id },
+      { $pull: { addresses: req.params.id } }
+    );
+
+    res.status(200).json({
       status: "Success",
-      address,
+      message: "Address deleted and removed from user",
     });
   } catch (error) {
     res.status(400).json({
       status: "Fail",
-      error,
+      error: error.message,
     });
   }
 };
