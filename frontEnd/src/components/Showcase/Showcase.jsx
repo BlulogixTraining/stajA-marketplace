@@ -6,11 +6,12 @@ const Showcase = ({ products, Showtitle }) => {
   if (!products) {
     return <h1>Loading...</h1>;
   }
+  const slicedProducts = products?.sort(() => Math.random() - 0.5).slice(0, 4);
   return (
     <div className="container text-center mt-5  ">
       <h1 className={classes.title}>{Showtitle}</h1>
       <div className="row justify-content-center gap-5 gap-lg-3 mt-5">
-        {products.map((product) => (
+        {slicedProducts.map((product) => (
           <Card
             rating={product.averagerating}
             productSlug={product.slug}

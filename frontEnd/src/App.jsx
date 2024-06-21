@@ -9,6 +9,7 @@ import GridCase from "./components/GridCase/GridCase";
 import Testmonial from "./components/Testmonials/Testmonials";
 import { useEffect, useState } from "react";
 import axios from "./api/axios";
+import Stores from "./components/ui/Stores";
 function App() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,17 +31,15 @@ function App() {
     fetchFeaturedProducts();
   }, []);
 
-  const slicedProducts = featuredProducts.slice(0, 4);
-
-  console.log("slicedProducts", slicedProducts);
   return (
     <>
       <Hero />
       <HeroSlider />
-      <Showcase Showtitle="New Arrivals" products={slicedProducts} />
+      <Showcase Showtitle="New Arrivals" products={featuredProducts} />
 
-      <Showcase Showtitle="Hot Products" products={slicedProducts} />
+      <Showcase Showtitle="Hot Products" products={featuredProducts} />
       <GridCase />
+      <Stores></Stores>
       <Testmonial />
     </>
   );

@@ -154,7 +154,7 @@ const Product = () => {
                 >
                   <Link
                     className="fs-5 "
-                    to={`/store/${product?.product?.seller?.name}`}
+                    to={`/store/${product?.product?.seller?.sellerSlug}`}
                   >
                     <h6 className="m-0">
                       Store: {product?.product?.seller?.name}
@@ -284,7 +284,7 @@ const Product = () => {
         <ProductDetailNav reviews={reviews} ratedId={productId} />
       </section>
 
-      <section className="container mt-3 text-center">
+      <section className="container mt-3 text-center p-4 border border-top-1 ">
         <h2>Related Products</h2>
 
         <div className="row">
