@@ -24,13 +24,13 @@ const Product = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [variants, setVariants] = useState([]);
   const [selectedVariants, setSelectedVariants] = useState({});
   const [seller, setSeller] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const url = "https://staja-marketplace.onrender.com";
 
+  console.log("product", product);
   useEffect(() => {
     const fetchProductById = async () => {
       try {
@@ -58,9 +58,7 @@ const Product = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(`/products`);
-        //shafle the products
         response.data.products.sort(() => Math.random() - 0.5);
-        //splice the first 4 products
         response.data.products.splice(4);
         setRelatedProducts(response.data.products);
         setIsLoading(false);
@@ -73,8 +71,30 @@ const Product = () => {
   }, [productId]);
 
   console.log("relatedProducts", relatedProducts);
-  const handleAddToCart = async () => {
-    await addToCart(productId);
+  const handleAddToCart = async (id) => {
+    await addToCart(id);
+  };
+
+  const handleAddToWishlist = async (id) => {
+    if (isAuthenticated) {
+      try {
+        const response = await axios.post(`/favorite/add/`, {
+          product_id: id,
+        });
+        setSuccess(response.data.message);
+        console.log("response.data.message", response.data.message);
+        setTimeout(() => {
+          setSuccess(null);
+        }, 2000);
+      } catch (error) {
+        setError(error.response.data.message);
+        setTimeout(() => {
+          setError(null);
+        }, 2000);
+      }
+    } else {
+      setError("Please login to add to wishlist");
+    }
   };
 
   const handleVariantSelection = (key, variant) => {
@@ -223,12 +243,13 @@ const Product = () => {
                   width={"100%"}
                   title="Add to cart"
                   color="black"
-                  onClick={handleAddToCart}
+                  onClick={() => handleAddToCart(product.product?._id)}
                 />
                 <CustomButton
                   width={"40%"}
                   title="Add to wishlist"
                   color="black"
+                  onClick={() => handleAddToWishlist(product.product?._id)}
                 />
               </div>
 
@@ -242,6 +263,18 @@ const Product = () => {
                   {errorCart}
                 </div>
               )}
+
+              {success && (
+                <div className="alert alert-success mt-2" role="alert">
+                  {success}
+                </div>
+              )}
+
+              {error && (
+                <div className="alert alert-danger mt-2" role="alert">
+                  {error}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -250,8 +283,6 @@ const Product = () => {
       <section className="container mt-3 justify-content-center">
         <ProductDetailNav reviews={reviews} ratedId={productId} />
       </section>
-
-      {/* relavent products */}
 
       <section className="container mt-3 text-center">
         <h2>Related Products</h2>
