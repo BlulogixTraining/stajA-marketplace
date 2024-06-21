@@ -1,14 +1,14 @@
 const fs = require("fs");
-const { v4: uuidv4 } = require('uuid');
-const faker = require("faker");
-const mongoose = require("mongoose");
+const { v4: uuidv4 } = require("uuid");
+//const faker = require("faker");
+//const mongoose = require("mongoose");
 const path = require("path");
 const Product = require("../../../models/Product");
 const Category = require("../../../models/Category");
 const ProductReview = require("../../../models/ProductReview");
 const ProductDetails = require("../../../models/ProductDetails");
 const Variant = require("../../../models/Variant");
-const User = require("../../../models/User");
+//const User = require("../../../models/User");
 
 exports.createProduct = async (req, res) => {
   const uploadDir = path.join(__dirname, "../../../public/images/");
@@ -39,13 +39,18 @@ exports.createProduct = async (req, res) => {
       variants = JSON.parse(variants);
     }
 
+    let details = req.body.details;
+    if (typeof details === "string") {
+      details = JSON.parse(details);
+    }
+
     const productData = {
       ...req.body,
       image: imagePaths.length ? imagePaths : undefined,
       seller: req.userId,
       variants,
+      details,
     };
-    //console.log("Product Data:", productData);
 
     // Handling variants
     if (variants && Array.isArray(variants)) {
@@ -77,6 +82,26 @@ exports.createProduct = async (req, res) => {
       }
 
       productData.variants = variantsData;
+    }
+
+    if (details && Array.isArray(details)) {
+      const detailsData = [];
+
+      for (const detail of details) {
+        const detailRecord = await ProductDetails.findById(detail.key);
+        if (!detailRecord) {
+          return res.status(400).json({
+            status: "Fail",
+            message: `Detail with ID ${detail.key} does not exist.`,
+          });
+        }
+        detailsData.push({
+          key: detail.key,
+          value: detail.value,
+        });
+      }
+
+      productData.details = detailsData;
     }
 
     const product = await Product.create(productData);
@@ -169,7 +194,8 @@ exports.getProductDetails = async (req, res) => {
         path: "variants.category_id",
         select: "category",
       })
-      .populate("seller", "name sellerSlug",);
+      .populate("seller", "name sellerSlug")
+      .populate("details.key", "key");
     const reviews = await ProductReview.find({
       product_id: product._id,
     }).populate("user_id", "name");
@@ -182,17 +208,11 @@ exports.getProductDetails = async (req, res) => {
     const averagerating =
       reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
 
-    const Productdetails = await ProductDetails.find({
-      product_id: product._id,
-    });
-   
-
     res.status(200).json({
       status: "Success",
       product,
       averagerating,
       reviews,
-      Productdetails,
     });
   } catch (error) {
     res.status(400).json({

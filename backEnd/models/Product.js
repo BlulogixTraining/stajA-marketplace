@@ -14,7 +14,7 @@ const ProductSchema = new Schema({
     ref: "User",
     required: true,
   },
-  
+
   name: {
     type: String,
     required: true,
@@ -55,6 +55,20 @@ const ProductSchema = new Schema({
           required: true,
         },
       ],
+    },
+  ],
+
+  details: [
+    {
+      key: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ProductDetails",
+        required: true,
+      },
+      value: {
+        type: String,
+        required: true,
+      },
     },
   ],
 

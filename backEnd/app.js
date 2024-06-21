@@ -51,7 +51,7 @@ app.use("/products", productRoute);
 app.use("/reviews", ProductReviewRoute);
 app.use("/cart", cartRoute);
 app.use("/favorite", favoriteRoute);
-app.use("/productdetails", productDetailsRoute);
+app.use("/product", productDetailsRoute);
 app.use("/seller", sellerRoute);
 app.use("/orders", orderRoute);
 app.use("/addresses", addressRoute);

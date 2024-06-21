@@ -4,7 +4,7 @@ const productDetailsController = require("../controllers/api/v1/productDetailsCo
 const verifyToken = require("../middleware/api/v1/verifytoken");
 const router = express.Router();
 
-router.route("/").post(verifyToken, productDetailsController.createDetails);
-router.route("/").get(productDetailsController.getDetails);
-
+router.route("/details").post(verifyToken, productDetailsController.createDetails);
+router.route("/details").get(productDetailsController.getDetails);
+router.route("/details/:id").delete(productDetailsController.deleteDetails);
 module.exports = router;
