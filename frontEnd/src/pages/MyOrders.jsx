@@ -130,7 +130,7 @@ const MyOrders = () => {
                   href="/orderdetails
                 "
                 >
-                  Order detail
+                  d Order detail
                 </a>
               </div>
             </div>
