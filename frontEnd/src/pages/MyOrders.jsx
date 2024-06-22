@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../api/axios";
 const url = "https://staja-marketplace.onrender.com";
+
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
@@ -123,19 +124,19 @@ const MyOrders = () => {
                   {order.totalDiscount}
                 </p>
               </div>
-              <div className="col">
-                <a
-                  type="button"
-                  className="btn btn-dark m-3"
-                  href="/orderdetails
-                "
+              <div className="col d-flex align-items-center">
+                <Link
+                  to="/orderDetails"
+                  className="btn btn-dark p-2"
+                  state={{
+                    orderID: order._id,
+                  }}
                 >
-                  d Order detail
-                </a>
+                  View Details
+                </Link>
               </div>
             </div>
           </div>
-          {/* Delivery Status */}
           <div className=" container text-center border">
             <div className="row">
               <div className="col ">
