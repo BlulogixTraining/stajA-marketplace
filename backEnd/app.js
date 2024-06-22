@@ -2,7 +2,6 @@ const express = require("express");
 const connectDB = require("./config/db");
 const methodOverride = require("method-override");
 const fileUpload = require("express-fileupload");
-const path = require("path");
 const userRoute = require("./routes/userRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const productRoute = require("./routes/productRoute");
@@ -20,8 +19,7 @@ const variantRoute = require("./routes/variantRoute");
 const cors = require("cors");
 
 const app = express();
-//app.use(express.static("public"));
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static("public"));
 
 app.use(cors({ origin: "*" }));
 
