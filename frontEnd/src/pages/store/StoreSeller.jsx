@@ -36,7 +36,8 @@ const StoreSeller = () => {
       console.log(error);
     }
   }, [slug]);
-  console.log("prossduct", product);
+  console.log("prossdssssssuct", review);
+
   const sellerimg = sellerData?.image
     ? `https://staja-marketplace.onrender.com/${sellerData.image}`
     : "https://via.placeholder.com/150";
@@ -98,7 +99,7 @@ const StoreSeller = () => {
                     <Card
                       productSlug={product.slug}
                       name={product.name}
-                      rating={product.averagerating}
+                      rating={product.averageRating}
                       img={`${url}${product.image[0]}`}
                       price={product.price}
                       discount={product.discount}
@@ -198,7 +199,7 @@ const StoreSeller = () => {
 
               <div className="row mt-5">
                 <div className="col-12">
-                  <h4 className="text-center border-top pt-4">Reviews</h4>
+                  <h4 className="text-center border-top pt-4">Store Reviews</h4>
                   <div className="row">
                     {review.map((review) => (
                       <div key={review._id} className="col-12 col-md-6  mt-3">
@@ -210,6 +211,20 @@ const StoreSeller = () => {
                                   <FaCircleCheck className="text-primary" />
                                   <RatingStarts star={review.rating} />
                                 </span>
+
+                                <p className="fs-5">
+                                  {" "}
+                                  {review.user_id.name &&
+                                    review.user_id.name
+                                      .split("")
+                                      .map((letter, index) => {
+                                        if (index < 3) {
+                                          return letter;
+                                        } else {
+                                          return "*";
+                                        }
+                                      })}
+                                </p>
                                 <p>{review.createdAt}</p>
                               </span>
 

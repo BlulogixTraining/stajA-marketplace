@@ -60,7 +60,7 @@ const Filters = ({ onSelectedValuesChange }) => {
                 className="d-flex justify-content-between"
                 onClick={() => toggleSection(variant.category)}
               >
-                <h4>{variant.category}</h4>
+                <h5>{variant.category}</h5>
                 <IoIosArrowForward size={20} className={classes.closedarrow} />
               </div>
               <Collapse in={showSections[variant.category]}>
