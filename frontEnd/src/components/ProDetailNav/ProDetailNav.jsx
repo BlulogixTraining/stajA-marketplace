@@ -7,8 +7,10 @@ import ProductReview from "../ProductReview/ProductReview";
 import Button from "../Button/Button";
 import Addreviw from "../ui/Addreviw";
 
-const ProDetailNav = ({ reviews, ratedId }) => {
+const ProDetailNav = ({ reviews, ratedId, productDetails }) => {
   const [key, setKey] = useState("Product Details");
+  const detailsArray = Array.isArray(productDetails) ? productDetails : [];
+
   return (
     <Tabs
       id="controlled-tab-example"
@@ -18,8 +20,18 @@ const ProDetailNav = ({ reviews, ratedId }) => {
     >
       <Tab eventKey="Product Details" title="Product Details">
         <div className="d-flex justify-content-between">
-          <h3>Hello Product Detail</h3>
-          <Button Name="Buy Now" width="33px"></Button>
+          <h3>Product Detail</h3>
+        </div>
+        <div className="col-12 ">
+          {detailsArray?.map((detail) => (
+            <div
+              key={detail._id}
+              className="d-flex justify-content-between bg-body-secondary py-2 px-3 mt-2 rounded-3"
+            >
+              <h5 className="m-0 py-1">- {detail.key.key}</h5>
+              <h6 className="m-0 py-1">{detail.value}</h6>
+            </div>
+          ))}
         </div>
       </Tab>
       <Tab eventKey="Rating & Reviews" title="Rating & Reviews">

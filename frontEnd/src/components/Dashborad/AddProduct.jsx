@@ -131,7 +131,7 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="container-fluid mt-2">
+    <div className="container-fluid mt-2 p-5">
       <h2 className="text-center">Add New Product</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-3">
@@ -333,7 +333,7 @@ const AddProduct = () => {
           ))}
           <button
             type="button"
-            className="btn btn-primary btn-sm"
+            className="btn btn-dark btn-sm mx-3"
             onClick={() => append({ category_id: "", values: [] })}
           >
             Add Variant
@@ -379,7 +379,7 @@ const AddProduct = () => {
           ))}
           <button
             type="button"
-            className="btn btn-primary btn-sm"
+            className="btn btn-dark btn-sm mx-3"
             onClick={() => appendDetail({ key: "", value: "" })}
           >
             Add Detail

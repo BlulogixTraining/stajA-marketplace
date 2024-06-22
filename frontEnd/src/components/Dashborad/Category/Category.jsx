@@ -2,23 +2,35 @@ import { useEffect, useState } from "react";
 import axios from "../../../api/axios";
 import { Link } from "react-router-dom";
 import AddCategory from "./AddCategory";
+import { CircularProgress } from "@mui/material";
 const Category = () => {
   const [categories, setCategories] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetchCategories();
   }, []);
 
   const fetchCategories = async () => {
     try {
+      setLoading(true);
       const response = await axios.get("categories");
       setCategories(response.data.categories);
+      setLoading(false);
       console.log("Categories fetched successfully:", response.data);
     } catch (error) {
+      setLoading(false);
       console.error("Error fetching categories:", error);
     }
   };
-
+  if (loading) {
+    return (
+      <div className="container d-flex gap-2 justify-content-center p-5">
+        {" "}
+        <CircularProgress />
+        {loading && <h2>Loading...</h2>}
+      </div>
+    );
+  }
   const handleDeleteCategory = async (categoryId) => {
     try {
       const response = await axios.delete(`categories/delete/${categoryId}`);
