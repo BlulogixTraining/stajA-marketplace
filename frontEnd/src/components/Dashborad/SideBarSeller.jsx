@@ -15,7 +15,7 @@ export const SideBarSeller = () => {
       <div className={`mb-4 ${classes.brand}`}>
         <img
           src="https://via.placeholder.com/100"
-          alt="Groth Logo"
+          alt="shopcoo logo"
           className="mb-2"
           id="logo"
         />

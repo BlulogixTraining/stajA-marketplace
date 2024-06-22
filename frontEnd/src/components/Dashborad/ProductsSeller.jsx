@@ -40,7 +40,7 @@ const ProductsSeller = () => {
     }
   };
   return (
-    <div className="container-fluid mt-1 mx-2">
+    <div className="container-fluid p-5 mt-1 mx-2">
       <h2 className="mb-4">Products</h2>
       <Link to="/dashboard/add-product" className="btn btn-dark mb-4">
         Add Product
@@ -75,12 +75,12 @@ const ProductsSeller = () => {
               <td>{product.category_id.name}</td>
               <td>{product.discount}%</td>
               <td className="d-flex flex-column">
-                <Link
+                {/* <Link
                   to={`/dashboard/edit-product/${product.slug}`}
                   className="btn btn-primary mt-2"
                 >
                   Edit Product
-                </Link>
+                </Link> */}
                 <button
                   className="btn btn-danger mt-2"
                   onClick={() => removeProduct(product._id)}

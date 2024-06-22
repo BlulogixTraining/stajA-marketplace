@@ -11,6 +11,7 @@ import { CartContext } from "../context/CartContext";
 import classes from "./proudctDetail.module.css";
 import { FaExclamationCircle } from "react-icons/fa";
 import Card from "../components/Card/Card";
+import { set } from "react-hook-form";
 
 const Product = () => {
   const isAuthenticated = useIsAuthenticated();
@@ -28,6 +29,7 @@ const Product = () => {
   const [selectedVariants, setSelectedVariants] = useState({});
   const [seller, setSeller] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const [productDetails, setProductDetails] = useState({});
   const url = "https://staja-marketplace.onrender.com";
 
   console.log("product", product);
@@ -38,13 +40,14 @@ const Product = () => {
         const response = await fetch(`${url}/products/${productId}`);
 
         const data = await response.json();
-        console.log("variants", data.product.seller.name);
+        console.log("variants1", data);
         setSeller(data.product.seller);
         setVariants(data.product.variants);
         setProduct(data);
         setIsLoading(false);
         setRating(data.averagerating);
         setReviews(data.reviews);
+        setProductDetails(data.product.details);
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -103,7 +106,7 @@ const Product = () => {
       [key]: prevState[key] === variant ? null : variant,
     }));
   };
-
+  console.log("details", productDetails);
   return (
     <>
       <div className="container mb-4">
@@ -281,7 +284,11 @@ const Product = () => {
       </div>
 
       <section className="container mt-3 justify-content-center">
-        <ProductDetailNav reviews={reviews} ratedId={productId} />
+        <ProductDetailNav
+          productDetails={productDetails}
+          reviews={reviews}
+          ratedId={productId}
+        />
       </section>
 
       <section className="container mt-3 text-center p-4 border border-top-1 ">

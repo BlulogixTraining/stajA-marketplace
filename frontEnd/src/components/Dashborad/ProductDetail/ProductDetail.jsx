@@ -42,7 +42,13 @@ const ProductDetail = () => {
   };
 
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <div className="container d-flex gap-2 justify-content-center p-5">
+        {" "}
+        <CircularProgress />
+        {loading && <h2>Loading...</h2>}
+      </div>
+    );
   }
 
   return (
