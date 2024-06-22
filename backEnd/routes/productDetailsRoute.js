@@ -6,5 +6,5 @@ const router = express.Router();
 
 router.route("/details").post(verifyToken, productDetailsController.createDetails);
 router.route("/details").get(productDetailsController.getDetails);
-router.route("/details/:id").delete(productDetailsController.deleteDetails);
+router.route("/details/:id").delete(verifyToken,productDetailsController.deleteDetails);
 module.exports = router;
