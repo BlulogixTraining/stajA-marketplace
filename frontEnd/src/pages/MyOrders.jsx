@@ -4,6 +4,7 @@ import { GoCheck } from "react-icons/go";
 import { IoSearchOutline } from "react-icons/io5";
 import { GrFormClose } from "react-icons/gr";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "../api/axios";
 const url = "https://staja-marketplace.onrender.com";
 const MyOrders = () => {
@@ -123,9 +124,14 @@ const MyOrders = () => {
                 </p>
               </div>
               <div className="col">
-                <button type="button" className="btn btn-dark m-3 ">
-                  Order detail
-                </button>
+                <a
+                  type="button"
+                  className="btn btn-dark m-3"
+                  href="/orderdetails
+                "
+                >
+                  d Order detail
+                </a>
               </div>
             </div>
           </div>

@@ -32,7 +32,6 @@ const Product = () => {
   const [productDetails, setProductDetails] = useState({});
   const url = "https://staja-marketplace.onrender.com";
 
-  console.log("product", product);
   useEffect(() => {
     const fetchProductById = async () => {
       try {
@@ -73,7 +72,6 @@ const Product = () => {
     fetchRealtedProdcuts();
   }, [productId]);
 
-  console.log("relatedProducts", relatedProducts);
   const handleAddToCart = async (id) => {
     await addToCart(id);
   };
