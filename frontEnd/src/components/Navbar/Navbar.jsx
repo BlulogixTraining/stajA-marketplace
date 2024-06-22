@@ -115,10 +115,18 @@ const TobNav = ({ isAuthenticated }) => {
 
           <li className="list-group-item mx-3  d-flex gap-3">
             {" "}
-            <NavLink className="position-relative" to="/cart">
+            {isAuthenticated && (
+              <NavLink className="position-relative" to="/cart">
+                <BsCartDash className={classes.shop} />
+                {totalProducts > 0 && (
+                  <span className={classes.cart_count}>{totalProducts}</span>
+                )}
+              </NavLink>
+            )}
+            {/* <NavLink className="position-relative" to="/cart">
               <BsCartDash className={classes.shop} />
               <span className={classes.cart_count}>{totalProducts}</span>
-            </NavLink>
+            </NavLink> */}
             {isAuthenticated && (
               <Link to="/userProfile">
                 <FaUser className={classes.profile} />
