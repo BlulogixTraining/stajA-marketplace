@@ -8,6 +8,8 @@ const router = express.Router();
 
 router.route("/").post(verifyToken,checkRole(["customer"]), orderController.createOrder);
 router.route("/").get(verifyToken, orderController.getAllOrders);
+router.route("/details/:id").get(verifyToken, orderController.orderDetails);
+
 router.route("/:id").delete(verifyToken,checkRole(["customer"]), orderController.deleteOrder);
 
 
