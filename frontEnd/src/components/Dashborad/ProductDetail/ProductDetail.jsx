@@ -15,29 +15,27 @@ import {
 import { blue, grey } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 
-const Varients = () => {
-  const [varients, setVarients] = useState();
+const ProductDetail = () => {
+  const [details, setDetails] = useState();
   const [loading, setLoading] = useState(true);
-
+  const fetchVarients = async () => {
+    try {
+      const response = await axios.get("/product/details");
+      setDetails(response.data.details);
+      console.log("response:", response.data.details);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching Varients:", error);
+    }
+  };
   useEffect(() => {
-    const fetchVarients = async () => {
-      try {
-        const response = await axios.get("/variants/get");
-        setVarients(response.data.variants);
-        console.log("Varients:", response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching Varients:", error);
-      }
-    };
     fetchVarients();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (key) => {
     try {
-      await axios.delete(`/variants/delete/${id}`);
-      const response = await axios.get("/variants/get");
-      setVarients(response.data.variants);
+      await axios.delete(`/product/details/${key}`);
+      fetchVarients();
     } catch (error) {
       console.error("Error deleting variant:", error);
     }
@@ -50,9 +48,9 @@ const Varients = () => {
   return (
     <div className="container p-5">
       <div className="d-flex justify-content-between">
-        <h2>Variants</h2>
+        <h2>Product details</h2>
         <Link className="btn btn-dark mt-2" to="./add">
-          Add Variant
+          Add Product detail Key
         </Link>
       </div>
 
@@ -60,21 +58,19 @@ const Varients = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Category</TableCell>
-              <TableCell>Values</TableCell>
+              <TableCell>Key</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {varients.map((variant) => (
-              <TableRow key={variant._id}>
-                <TableCell>{variant.category}</TableCell>
-                <TableCell>{variant.values.join(", ")}</TableCell>
+            {details.map((details) => (
+              <TableRow key={details._id}>
+                <TableCell>{details.key}</TableCell>
                 <TableCell>
                   <Button
                     variant="contained"
                     style={{ backgroundColor: grey[800] }}
-                    onClick={() => handleDelete(variant._id)}
+                    onClick={() => handleDelete(details._id)}
                   >
                     Delete
                   </Button>
@@ -88,4 +84,4 @@ const Varients = () => {
   );
 };
 
-export default Varients;
+export default ProductDetail;

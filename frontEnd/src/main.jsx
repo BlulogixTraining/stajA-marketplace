@@ -31,6 +31,8 @@ import Store from "./pages/store/StoreSeller.jsx";
 import Varients from "./components/Dashborad/Varients/Varients.jsx";
 import AddVarient from "./components/Dashborad/Varients/AddVarient.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
+import ProductDetail from "./components/Dashborad/ProductDetail/ProductDetail.jsx";
+import AddProductDetail from "./components/Dashborad/ProductDetail/AddProductDetail.jsx";
 // import loader
 const router = createBrowserRouter([
   {
@@ -94,7 +96,11 @@ const router = createBrowserRouter([
       { path: "categories", element: <Category /> },
       { path: "categories/add", element: <AddCategory /> },
       { path: "varients", element: <Varients /> },
+
       { path: "varients/add", element: <AddVarient /> },
+      { path: "product-details", element: <ProductDetail /> },
+      { path: "product-details/add", element: <AddProductDetail /> },
+
       {
         path: "sellerProfile",
         element: <SellerProfile />,

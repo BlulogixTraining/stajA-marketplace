@@ -20,6 +20,7 @@ const AddProduct = () => {
       stock: 0,
       category: "",
       variants: [],
+      details: [],
     },
   });
 
@@ -28,10 +29,20 @@ const AddProduct = () => {
     name: "variants",
   });
 
+  const {
+    fields: detailFields,
+    append: appendDetail,
+    remove: removeDetail,
+  } = useFieldArray({
+    control,
+    name: "details",
+  });
+
   const [imageFiles, setImageFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [categories, setCategories] = useState([]);
   const [variants, setVariants] = useState([]);
+  const [productDetails, setProductDetails] = useState([]);
 
   useEffect(() => {
     const fetchCategoriesAndVariants = async () => {
@@ -50,6 +61,9 @@ const AddProduct = () => {
             variantsResponse.data.variants
           );
         }
+
+        const productDetailsResponse = await axios.get("/product/details");
+        setProductDetails(productDetailsResponse.data.details);
       } catch (error) {
         console.error("Error fetching categories and variants:", error);
       }
@@ -57,13 +71,9 @@ const AddProduct = () => {
 
     fetchCategoriesAndVariants();
   }, []);
-  const printFormData = (formData) => {
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-  };
+
   const onSubmit = async (data) => {
-    console.log("before submiyt:", data);
+    console.log("before submit:", data);
     try {
       const formData = new FormData();
       formData.append("name", data.name);
@@ -81,11 +91,14 @@ const AddProduct = () => {
         values: variant.values.map((v) => v.value),
       }));
 
-      formData.append("variants", JSON.stringify(productVariants));
+      const productDetails = data.details.map((detail) => ({
+        key: detail.key,
+        value: detail.value,
+      }));
 
-      const cool = formData;
-      console.log("sss entries:");
-      printFormData(cool);
+      formData.append("variants", JSON.stringify(productVariants));
+      formData.append("details", JSON.stringify(productDetails));
+
       const response = await axios.post("products", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -324,6 +337,52 @@ const AddProduct = () => {
             onClick={() => append({ category_id: "", values: [] })}
           >
             Add Variant
+          </button>
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="details" className="form-label">
+            Product Details
+          </label>
+          {detailFields.map((field, index) => (
+            <div key={field.id} className="row mb-2">
+              <div className="col-md-5">
+                <select
+                  className="form-select"
+                  {...register(`details[${index}].key`, { required: true })}
+                >
+                  <option value="">Select Detail Key</option>
+                  {productDetails.map((detail) => (
+                    <option key={detail._id} value={detail._id}>
+                      {detail.key}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-5">
+                <input
+                  type="text"
+                  className="form-control m-0"
+                  {...register(`details[${index}].value`, { required: true })}
+                />
+              </div>
+              <div className="col-md-2 d-flex align-items-center">
+                <button
+                  type="button"
+                  className="btn btn-danger btn-sm"
+                  onClick={() => removeDetail(index)}
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="btn btn-primary btn-sm"
+            onClick={() => appendDetail({ key: "", value: "" })}
+          >
+            Add Detail
           </button>
         </div>
 

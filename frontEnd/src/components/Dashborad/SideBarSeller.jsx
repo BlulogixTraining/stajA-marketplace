@@ -94,6 +94,24 @@ export const SideBarSeller = () => {
           >
             <BsClipboardData /> Variants
           </NavLink>
+        </li>{" "}
+        <li className="nav-item">
+          <NavLink
+            style={({ isActive }) => {
+              return {
+                fontWeight: isActive ? "bold" : "",
+                backgroundColor: isActive ? "white" : "",
+                color: isActive ? "black" : "",
+                border: isActive ? "1px solid black" : "",
+                borderRadius: isActive ? "5px" : "",
+              };
+            }}
+            className={`nav-link ${classes.nav_item}`}
+            aria-current="page"
+            to="./product-details"
+          >
+            <BsClipboardData /> Product details
+          </NavLink>
         </li>
         <li className="nav-item mb-2">
           <a className={`nav-link ${classes.nav_item}`} href="#">
