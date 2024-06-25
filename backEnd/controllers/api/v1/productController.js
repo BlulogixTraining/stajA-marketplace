@@ -221,9 +221,12 @@ exports.getProductDetails = async (req, res) => {
     const averagerating =
       reviews.length > 0 ? Math.round(totalRating / reviews.length) : 0;
 
+    // Calculate discounted price
+    const discountedPrice =
+      product.discount > 0 ? product.price - product.discount : product.price;
     res.status(200).json({
       status: "Success",
-      product,
+      product: { ...product.toObject(), discountedPrice },
       averagerating,
       reviews,
     });
