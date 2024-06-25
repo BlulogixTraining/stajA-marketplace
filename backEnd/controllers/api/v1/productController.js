@@ -158,6 +158,19 @@ exports.getAllProducts = async (req, res) => {
           averagerating: { $ceil: { $avg: "$reviews.rating" } },
         },
       },
+      // Calculate the price minus the discount
+
+      {
+        $addFields: {
+          discountedPrice: {
+            $cond: {
+              if: { $gt: ["$discount", 0] },
+              then: { $subtract: ["$price", "$discount"] },
+              else: "$price",
+            },
+          },
+        },
+      },
       // To obscure the array of reviews
       {
         $project: {
