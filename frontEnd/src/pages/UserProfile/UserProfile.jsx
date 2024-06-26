@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Breadcrumbs from "../../components/ui/Breadcrumb";
 import Adresses from "./Adresses";
+import { CircularProgress } from "@mui/material";
 
 const UserProfile = () => {
   const { register, handleSubmit } = useForm({});
@@ -46,11 +47,19 @@ const UserProfile = () => {
       console.error(error);
     }
   };
+  console.log("responsssse", showAddress);
+
   useEffect(() => {
     fetchUserProfile();
   }, []);
   if (!userData || !userData.addresses) {
-    return <p>loading</p>;
+    return (
+      <div className="container d-flex gap-2 justify-content-center p-5">
+        {" "}
+        <CircularProgress />
+        <h2>Loading...</h2>
+      </div>
+    );
   }
   const address1 =
     userData.addresses.length > 0 ? userData.addresses[0].addressline1 : "";
@@ -174,7 +183,6 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
-        {/* on toggle dissplay the addreess below */}
         <div className="container mt-5 p-0 d-flex gap-3">
           <div>
             {showAddressCards && <h2>My Address</h2>}
@@ -191,7 +199,6 @@ const UserProfile = () => {
                     <p className="card-text">Country: {address.country}</p>
                     <p className="card-text">State: {address.addressline1}</p>
                     <p className="card-text">Street: {address.addressline2}</p>
-                    <p className="card-text">Email: {address.email}</p>
                     <button
                       className="btn btn-danger"
                       onClick={() => handleDelete(address._id)}

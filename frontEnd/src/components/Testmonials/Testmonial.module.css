@@ -31,3 +31,9 @@
   width: 100%;
   height: 100%;
 }
+.test_Text {
+  font-size: 1.2rem;
+  font-family: "IntegralCF ", sans-serif;
+  color: #000;
+  margin-bottom: 1rem;
+}

@@ -89,7 +89,7 @@ const Footer = () => {
           <div className="row justify-content-between align-items-center">
             <div className="col-lg-6">
               <p className={classes.footer__copy}>
-                &copy; 2021 Shop.co. All rights reserved.
+                &copy; 2024 Shop.co. All rights reserved.
               </p>
             </div>
             <div className="col-lg-6 d-flex justify-content-end">

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "../../api/axios";
-import storeimg from "../../assets/store.webp";
+import storeimg from "../../assets/store2.webp";
 import { Link } from "react-router-dom";
 const Stores = () => {
   const [stores, setStores] = useState([]);
@@ -19,7 +19,7 @@ const Stores = () => {
     <div className="container">
       <div className="row">
         <h1 className="text-center mt-5">Stores</h1>
-        <div className="row justify-content-center gap-3 mt-5">
+        <div className="row justify-content-center gap-3 mt-3">
           {stores.map((store) => (
             <div className="col-12 col-md-5 col-lg-5 p-0" key={store._id}>
               <Link to={`/store/${store.sellerSlug}`}>
@@ -30,18 +30,17 @@ const Stores = () => {
                     alt={store.name}
                   />
                   <div
-                    className="card-body d-flex justify-content-center align-items-center text-center position-absolute  "
+                    className="card-body rounded-end-3 d-flex justify-content-center align-items-center text-center position-absolute  "
                     style={{
                       bottom: "0",
-                      top: "0",
                       left: "0",
                       backgroundColor: "rgba(0,0,0,0.8)",
                       color: "white",
                       padding: "0.6rem",
                     }}
                   >
-                    <h5 className="card-title text-center store-title  ">
-                      {store.name}
+                    <h5 className="card-title text-center store-title p-2  ">
+                      {`${store.name}'s Store`}
                     </h5>
                   </div>
                 </div>
