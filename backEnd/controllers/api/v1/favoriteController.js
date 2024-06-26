@@ -2,7 +2,6 @@ const User = require("../../../models/User");
 const Product = require("../../../models/Product");
 const ProductReview = require("../../../models/ProductReview");
 
-
 exports.addToFavorite = async (req, res) => {
   try {
     const user = await User.findById(req.userId);
@@ -90,26 +89,26 @@ exports.getAllProductsExistsInFavorite = async (req, res) => {
 
     const productsInFavorite = user.favorite;
 
-   
-    const favoriteProductIds = productsInFavorite.map(product => product._id);
+    const favoriteProductIds = productsInFavorite.map((product) => product._id);
 
-    
     const averageRatings = await ProductReview.aggregate([
       { $match: { product_id: { $in: favoriteProductIds } } },
-      { 
+      {
         $group: {
           _id: "$product_id",
-          averagerating: { $avg: "$rating" }
-        }
-      }
+          averagerating: { $avg: "$rating" },
+        },
+      },
     ]);
 
-   
-    const favoriteProductsWithRatings = productsInFavorite.map(product => {
-      const rating = averageRatings.find(r => r._id.equals(product._id));
+    const favoriteProductsWithRatings = productsInFavorite.map((product) => {
+      const rating = averageRatings.find((r) => r._id.equals(product._id));
+      const discount = product.discount || 0;
+      const discountedPrice = product.price - discount;
       return {
         ...product.toObject(),
-        averagerating: rating ? rating.averagerating : null
+        averagerating: rating ? rating.averagerating : null,
+        discountedPrice,
       };
     });
 
@@ -124,4 +123,3 @@ exports.getAllProductsExistsInFavorite = async (req, res) => {
     });
   }
 };
-
