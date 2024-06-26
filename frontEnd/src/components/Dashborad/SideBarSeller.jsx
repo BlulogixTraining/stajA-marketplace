@@ -5,11 +5,20 @@ import { BsClipboardData } from "react-icons/bs";
 import { FaShippingFast } from "react-icons/fa";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { IoIosLogOut } from "react-icons/io";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import useSignOut from "react-auth-kit/hooks/useSignOut";
 export const SideBarSeller = () => {
+  const signOut = useSignOut();
+  const redict = useNavigate();
+
+  const loggout = () => {
+    signOut();
+    redict("/login");
+    window.location.reload();
+  };
   return (
     <div
-      className={`d-flex flex-column vh-100 text-white p-3 ${classes.sideBar} shadow-sm   `}
+      className={`d-flex flex-column  text-white p-3 ${classes.sideBar} shadow-sm   `}
       id="sidebar"
     >
       <div className={`mb-4 ${classes.brand}`}>
@@ -124,28 +133,13 @@ export const SideBarSeller = () => {
             <FaRegCircleUser /> Profile
           </a>
         </li>
-        <li className="nav-item mb-2">
-          <a className={`nav-link ${classes.nav_item}`} href="#">
-            <i className="bi bi-megaphone"></i> Marketing
-          </a>
-        </li>
-        <li className="nav-item mb-2">
-          <a className={`nav-link ${classes.nav_item}`} href="#">
-            <i className="bi bi-gear"></i> Setting
-          </a>
-        </li>
       </ul>
       <div className="mt-auto border-top border-dark-subtle ">
         <ul className="nav flex-column">
-          <li className="nav-item mb-2">
-            <a className={`nav-link ${classes.nav_item}`} href="#">
-              <FaRegCircleUser /> User
-            </a>
-          </li>
-          <li className="nav-item mb-2">
-            <a className={`nav-link ${classes.nav_item}`} href="#">
+          <li className="nav-item pt-1">
+            <button className={`  btn btn-dark `} onClick={loggout}>
               <IoIosLogOut /> Logout
-            </a>
+            </button>
           </li>
         </ul>
       </div>
