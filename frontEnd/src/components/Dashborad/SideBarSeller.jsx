@@ -18,7 +18,10 @@ export const SideBarSeller = () => {
   };
   return (
     <div
-      className={`d-flex flex-column  text-white p-3 ${classes.sideBar} shadow-sm   `}
+      className={`d-flex flex-column   text-white p-3 ${classes.sideBar} shadow-sm   `}
+      style={{
+        height: "100vh",
+      }}
       id="sidebar"
     >
       <div className={`mb-4 ${classes.brand}`}>

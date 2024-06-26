@@ -8,7 +8,7 @@ const Layout = () => {
   const isAuthenticated = useIsAuthenticated();
 
   return (
-    <div>
+    <div className="100-vh">
       {!isAuthenticated && <Ad />}
       <TobNav isAuthenticated={isAuthenticated} />
       <Outlet />
