@@ -7,7 +7,7 @@
   padding-bottom: 21px;
   border: 1px solid lightgray;
   /* max-width: 400px; */
-  height: 100vh;
+  height: 75vh;
   overflow: scroll;
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;

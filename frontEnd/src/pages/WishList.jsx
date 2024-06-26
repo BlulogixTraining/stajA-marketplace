@@ -87,7 +87,7 @@ const WishList = () => {
                 name={product.name}
                 img={`${url}${product.image[0]}`}
                 price={product.price}
-                discount={product.discount}
+                discount={product.discountedPrice}
               />{" "}
             </div>
           ))}

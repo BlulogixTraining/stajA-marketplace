@@ -102,7 +102,7 @@ const StoreSeller = () => {
                       rating={product.averageRating}
                       img={`${url}${product.image[0]}`}
                       price={product.price}
-                      discount={product.discount}
+                      discount={product.discountedPrice}
                     />{" "}
                   </div>
                 ))}
@@ -199,7 +199,7 @@ const StoreSeller = () => {
 
               <div className="row mt-5">
                 <div className="col-12">
-                  <h4 className="text-center border-top pt-4">Store Reviews</h4>
+                  <h4 className="text-center border-top pt-4"> Reviews</h4>
                   <div className="row">
                     {review.map((review) => (
                       <div key={review._id} className="col-12 col-md-6  mt-3">

@@ -57,6 +57,7 @@
   display: flex;
   margin-top: 1em;
   gap: 20px;
+  align-items: baseline;
 }
 .detail_price .orignal_price {
   font-size: 1.5rem;
@@ -72,7 +73,8 @@
 .detail_price p {
   font-weight: 600;
   color: #ff3636;
-  background-color: #ff33333b;
+  text-decoration: underline;
+  /* background-color: #ff33333b; */
   padding: 5px 5px;
   border-radius: 50%;
   -webkit-border-radius: 50%;

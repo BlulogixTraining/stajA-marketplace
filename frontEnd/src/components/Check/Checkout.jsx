@@ -63,7 +63,7 @@ const Checkout = () => {
 
   return (
     <div className="container">
-      <div className="row container mt-3 m-0 m-lg-1 p-0 p-lg-1">
+      <div className="row container mt-3 m-0 m-lg-5 p-0 p-lg-1">
         <div className="col-12 col-lg-8">
           <FillExampleAddresses
             addresses={addresses}
@@ -73,11 +73,39 @@ const Checkout = () => {
             OrderData={handleOrderData}
           />
         </div>
-        <div className="col-12 col-lg-4 mt-5">
-          <div className="d-flex flex-column justify-content-center align-items-center">
-            <h4>Order Summary</h4>
-            <button className="verification-button" onClick={makeOrder}>
-              Save & continue
+        <div className="col-12 col-lg-4 ">
+          <div className="d-flex border p-3 rounded-2 flex-column justify-content-center align-items-center">
+            <h4
+              className="text-center
+text-dark
+            fw-bold
+            border-bottom border-2 border-dark
+            p-2
+            rounded-2
+            w-100
+            mb-3       
+            "
+            >
+              Confirm Order
+            </h4>
+            <p
+              className=" 
+            text-center
+            text-dark
+            fw-light
+            p-2
+             "
+            >
+              By proceeding with the payment, you agree to our Terms and
+              Conditions and Privacy Policy. Your personal and payment
+              information will be securely processed, ensuring a safe and
+              seamless transaction. Thank you for your purchase
+            </p>
+            <button
+              className="verification-button btn btn-dark w-100 rounded-5           "
+              onClick={makeOrder}
+            >
+              Confirm Order
             </button>
           </div>
         </div>

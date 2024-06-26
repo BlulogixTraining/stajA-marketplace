@@ -149,7 +149,7 @@ const OrderDetails = () => {
                 <span className="d-flex align-items-center">
                   <b className="me-2">Sales person:</b>
                   <a href="#" className="me-3">
-                    APPLE
+                    Shopcoo
                   </a>
                   <button
                     type="button"
@@ -174,7 +174,7 @@ const OrderDetails = () => {
                         <TiArrowBack className="fs-5" />
                         {order.status}
                       </>
-                    ) : order.status === "Delivered" ? (
+                    ) : order.status === "completed" ? (
                       <>
                         <GoCheck className="fs-5" />
                         {order.status}

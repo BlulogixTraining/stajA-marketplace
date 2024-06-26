@@ -21,8 +21,8 @@ const Card = ({ img, name, price, discount, productSlug, rating }) => {
           <RatingStarts star={rating} />
           <h5>{name}</h5>
           <div className={classes.prices}>
-            <span>{`$${price}`}</span>
-            <span className={classes.discount}> {`$${discount}`}</span>
+            <span className={classes.discount}>{`$${price}`}</span>
+            <span> {`$${discount}`}</span>
           </div>
         </div>
       </Link>

@@ -39,7 +39,7 @@ const Product = () => {
         const response = await fetch(`${url}/products/${productId}`);
 
         const data = await response.json();
-        console.log("variants1", data);
+        console.log("dcdffdfd", data);
         setSeller(data.product.seller);
         setVariants(data.product.variants);
         setProduct(data);
@@ -165,13 +165,16 @@ const Product = () => {
                 </span>
               </div>
               <div className={classes.detail_price}>
-                <h4 className={classes.orignal_price}>
+                <h4 className={classes.desc_price}>
                   ${product?.product.price}
                 </h4>
-                <h4 className={classes.desc_price}>
-                  ${product?.product.discount}
+                <h4 className={classes.orignal_price}>
+                  ${product?.product.discountedPrice}
                 </h4>
-                <p className="m-0">%50</p>
+                <p className="m-0">
+                  {product?.product.discountedPrice &&
+                    `Save $${product?.product.discount}`}
+                </p>
               </div>
               <p>{product?.product.description}</p>
               <h5>Stock: {product?.product.stock}</h5>

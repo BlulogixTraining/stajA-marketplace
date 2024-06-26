@@ -124,7 +124,31 @@ const MyOrders = () => {
                   {order.totalDiscount}
                 </p>
               </div>
-              <div className="col d-flex align-items-center">
+              <div className="col ">
+                <p className="p-3">
+                  <span
+                    className={`fs-5 me-2 ${
+                      order.status === "Returned"
+                        ? "text-warning"
+                        : order.status === "completed"
+                        ? "text-success"
+                        : "text-danger"
+                    }`}
+                  >
+                    {order.status === "Returned" ? (
+                      <TiArrowBack className="fs-2" />
+                    ) : order.status === "completed" ? (
+                      <GoCheck className="fs-2" />
+                    ) : (
+                      <GrFormClose className="fs-2" />
+                    )}{" "}
+                    {order.status}
+                  </span>
+                  <br />
+                  <b>{order.deliveryStatus}</b>
+                </p>
+              </div>
+              <div className="col mt-4 ">
                 <Link
                   to="/orderDetails"
                   className="btn btn-dark p-2"
@@ -137,7 +161,7 @@ const MyOrders = () => {
               </div>
             </div>
           </div>
-          <div className=" container text-center border">
+          {/* <div className=" container text-center border">
             <div className="row">
               <div className="col ">
                 <p className="p-3">
@@ -173,7 +197,7 @@ const MyOrders = () => {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       ))}
     </div>
