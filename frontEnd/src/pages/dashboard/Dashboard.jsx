@@ -13,7 +13,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className={`container-fluid m-0 p-0 d-flex  `}>
+    <div className={`container-fluid d-flex  `}>
       <SideBarSeller />
       <div className={`container-fluid m-0 p-0 flex-grow-1  `}>
         <NavSeller />

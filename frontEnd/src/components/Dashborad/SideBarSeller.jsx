@@ -133,10 +133,20 @@ export const SideBarSeller = () => {
             <FaRegCircleUser /> Profile
           </a>
         </li>
+        <li className="nav-item mb-2">
+          <a className={`nav-link ${classes.nav_item}`} href="#">
+            <i className="bi bi-megaphone"></i> Marketing
+          </a>
+        </li>
+        <li className="nav-item mb-2">
+          <a className={`nav-link ${classes.nav_item}`} href="#">
+            <i className="bi bi-gear"></i> Setting
+          </a>
+        </li>
       </ul>
       <div className="mt-auto border-top border-dark-subtle ">
         <ul className="nav flex-column">
-          <li className="nav-item pt-1">
+          <li className="nav-item ">
             <button className={`  btn btn-dark `} onClick={loggout}>
               <IoIosLogOut /> Logout
             </button>
