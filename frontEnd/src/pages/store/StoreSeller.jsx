@@ -102,7 +102,7 @@ const StoreSeller = () => {
                       rating={product.averageRating}
                       img={`${url}${product.image[0]}`}
                       price={product.price}
-                      discount={product.discount}
+                      discount={product.discountedPrice}
                     />{" "}
                   </div>
                 ))}
