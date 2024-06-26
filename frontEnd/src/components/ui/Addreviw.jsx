@@ -67,7 +67,7 @@ const Addreviw = ({ ratedId }) => {
               onChange={handleRatingChange}
               isWritable="true"
             />
-            <input {...register("review", { required: true, maxLength: 20 })} />
+            <input {...register("review", { required: true })} />
             <input
               type="submit"
               value={submitting ? "Submitting..." : "Submit"}
