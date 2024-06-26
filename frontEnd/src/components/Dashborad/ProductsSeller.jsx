@@ -75,12 +75,12 @@ const ProductsSeller = () => {
               <td>{product.category_id.name}</td>
               <td>{product.discount}%</td>
               <td className="d-flex flex-column">
-                {/* <Link
+                <Link
                   to={`/dashboard/edit-product/${product.slug}`}
-                  className="btn btn-primary mt-2"
+                  className="btn btn-dark mt-2"
                 >
                   Edit Product
-                </Link> */}
+                </Link>
                 <button
                   className="btn btn-danger mt-2"
                   onClick={() => removeProduct(product._id)}

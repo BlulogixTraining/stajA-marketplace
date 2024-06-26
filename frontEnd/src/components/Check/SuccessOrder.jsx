@@ -7,6 +7,7 @@ const SuccessOrder = ({ onClose }) => {
 
   const handleNavigate = () => {
     navigate("/myorders");
+    window.location.reload();
     onClose();
   };
 
@@ -17,7 +18,7 @@ const SuccessOrder = ({ onClose }) => {
       </Modal.Header>
       <Modal.Body>Your order has been successfully placed.</Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleNavigate}>
+        <Button variant="dark" onClick={handleNavigate}>
           My Orders
         </Button>
       </Modal.Footer>
