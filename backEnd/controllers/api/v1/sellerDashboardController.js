@@ -8,9 +8,18 @@ exports.getProductsRelatedToSeller = async (req, res) => {
       seller: req.userId,
     }).populate("category_id", "name");
 
+    // Calculate the discounted price for each product
+    const productsWithDiscountedPrice = products.map((product) => {
+      const discountedPrice = product.price - product.discount;
+      return {
+        ...product.toObject(), // Convert Mongoose document to plain JavaScript object
+        discountedPrice,
+      };
+    });
+
     res.status(200).json({
       status: "Success",
-      products,
+      products: productsWithDiscountedPrice,
     });
   } catch (error) {
     res.status(400).json({
