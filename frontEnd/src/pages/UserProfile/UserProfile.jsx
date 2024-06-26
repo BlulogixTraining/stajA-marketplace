@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import Breadcrumbs from "../../components/ui/Breadcrumb";
 import Adresses from "./Adresses";
 import { CircularProgress } from "@mui/material";
+import DropdownAddress from "../../components/Check/DropdownAddress";
 
 const UserProfile = () => {
   const { register, handleSubmit } = useForm({});
@@ -72,6 +73,13 @@ const UserProfile = () => {
       console.error(error);
     }
   };
+  const addressadd = showAddressCards && showAddress.length === 0 && (
+    <>
+      <div className="alert alert-info">You have no address saved</div>
+      <DropdownAddress onSubmit={fetchUserProfile()} />
+    </>
+  );
+
   return (
     <div className="user-profile">
       {" "}
@@ -183,22 +191,30 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
-        <div className="container mt-5 p-0 d-flex gap-3">
-          <div>
-            {showAddressCards && <h2>My Address</h2>}
+        <div className="container mt-5 p-0  gap-3">
+          <div>{showAddressCards && <h2>My Address</h2>}</div>
+
+          {addressadd}
+          <div className="d-flex gap-2">
             {showAddressCards &&
-              showAddress?.map((address) => (
+              showAddress.length > 0 &&
+              showAddress.map((address) => (
                 <div
                   className="card mb-3 py-2 px-3"
-                  key={address.name}
+                  key={address._id}
                   style={{ width: "18em" }}
                 >
                   <div className="card-body">
                     <h5 className="card-title">Name: {address.name}</h5>
-                    <p className="card-text">lastName: {address.lastname}</p>
+                    <p className="card-text">
+                      Addressline1: {address.addressline1}
+                    </p>
+                    <p className="card-text">
+                      Addressline2: {address.addressline2}
+                    </p>{" "}
                     <p className="card-text">Country: {address.country}</p>
-                    <p className="card-text">State: {address.addressline1}</p>
-                    <p className="card-text">Street: {address.addressline2}</p>
+                    <p className="card-text">City: {address.state}</p>
+                    <p className="card-text">zipcode: {address.zipcode}</p>
                     <button
                       className="btn btn-danger"
                       onClick={() => handleDelete(address._id)}
