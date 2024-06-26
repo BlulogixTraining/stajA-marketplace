@@ -45,8 +45,8 @@ const AddressForm = ({ toggle, refetchAddresses }) => {
 
       <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridCity">
-          <Form.Label>City</Form.Label>
-          <Form.Control {...register("city")} />
+          <Form.Label>Country</Form.Label>
+          <Form.Control {...register("country")} />
         </Form.Group>
 
         <Form.Group as={Col} controlId="formGridState">
