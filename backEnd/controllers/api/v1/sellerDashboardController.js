@@ -12,7 +12,7 @@ exports.getProductsRelatedToSeller = async (req, res) => {
     const productsWithDiscountedPrice = products.map((product) => {
       const discountedPrice = product.price - product.discount;
       return {
-        ...product.toObject(), // Convert Mongoose document to plain JavaScript object
+        ...product.toObject(),
         discountedPrice,
       };
     });
@@ -65,9 +65,11 @@ exports.getSellerDetails = async (req, res) => {
 
     const productsWithRatings = productsOfSeller.map((product) => {
       const avgRating = averageRatings[product._id] || 0;
+      const discountedPrice = product.price - product.discount;
       return {
         ...product.toObject(),
         averageRating: avgRating,
+        discountedPrice,
       };
     });
 
